@@ -1,39 +1,74 @@
 import React, {FC} from 'react';
-import {Page, Text, Grid, Card, Image} from "@geist-ui/react";
-import {Link} from 'react-router-dom';
+import {Page, Text, Grid, Card, Spacer} from "@geist-ui/react";
+import {useNavigate} from 'react-router-dom';
+import {BarChart, Code, Figma} from "@geist-ui/react-icons";
+import styled from "styled-components";
 
 const Home: FC = () => {
+    let navigate = useNavigate();
+
     return (
         <Page.Content>
             <Text h1>Направления</Text>
-            <Grid.Container gap={2} justify="flex-start">
-                <Grid xs={6}>
-                    <Link to="/programming">
-                        <Card shadow>
-                            <Image
-                                src="https://cdn.pixabay.com/photo/2016/11/19/14/00/code-1839406_960_720.jpg"
-                                draggable={false}
-                            />
-                            <Text h4 mb={0}>Программирование</Text>
-                            <Text type="secondary" small>3 курса.</Text>
-                        </Card>
-                    </Link>
+            <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
+            <Spacer/>
+            <Grid.Container gap={2}>
+                <Grid xs={24} md={8}>
+                    <Card onClick={() => navigate('/programming')} width="100%" hoverable>
+                        <StyledCardContent>
+                            <Code color={"#1482ff"}/>
+                            <Text h4 mb={0} mt={0}> Программирование</Text>
+                        </StyledCardContent>
+                        <Card.Footer>
+                            <Text>5 курсов</Text>
+                        </Card.Footer>
+                    </Card>
                 </Grid>
-                <Grid xs={6}>
-                    <Link to="/design">
-                        <Card shadow>
-                            <Image
-                                src="https://cdn.pixabay.com/photo/2018/03/30/15/11/deer-3275594_960_720.jpg"
-                                draggable={false}
-                            />
-                            <Text h4 mb={0}>Дизайн</Text>
-                            <Text type="secondary" small>1 курс.</Text>
-                        </Card>
-                    </Link>
+                <Grid xs={24} md={8}>
+                    <Card onClick={() => navigate('/design') } width="100%" hoverable>
+                        <StyledCardContent>
+                            <Figma  color={"#c50000"}/>
+                            <Text h4 mb={0} mt={0}>Дизайн</Text>
+                        </StyledCardContent>
+                        <Card.Footer>
+                            <Text>2 курса</Text>
+                        </Card.Footer>
+                    </Card>
+                </Grid>
+                <Grid xs={24} md={8}>
+                    <Card onClick={() => navigate('/marketing') } width="100%" hoverable>
+                        <StyledCardContent>
+                            <BarChart color={"#ab570a"}/>
+                            <Text h4 mb={0} mt={0}>Маркетинг</Text>
+                        </StyledCardContent>
+                        <Card.Footer>
+                            <Text>6 курсов</Text>
+                        </Card.Footer>
+                    </Card>
+                </Grid>
+                <Grid xs={24} md={8}>
+                    <Card onClick={() => navigate('/marketing') } width="100%" hoverable>
+                        <StyledCardContent>
+                            <BarChart color={"#29bc9b"}/>
+                            <Text h4 mb={0} mt={0}>Управление</Text>
+                        </StyledCardContent>
+                        <Card.Footer>
+                            <Text>1 курс</Text>
+                        </Card.Footer>
+                    </Card>
                 </Grid>
             </Grid.Container>
         </Page.Content>
     );
 };
+
+export const StyledCardContent = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 10px;
+  }
+`
 
 export default Home;

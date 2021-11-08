@@ -1,14 +1,16 @@
 import React from 'react';
-import {Outlet} from "react-router-dom";
-import Header from "../../shared/components/Header";
+import {Outlet, useLocation} from "react-router-dom";
 import {Page} from "@geist-ui/react";
-import Footer from "../../shared/components/Footer";
+import {Breadcrumbs, Footer, Header} from "../index";
 
 const Layout = () => {
+    const location = useLocation();
+
     return (
         <>
             <Header/>
             <Page width={'1048px'} >
+                {location.pathname !== "/" && <Breadcrumbs/>}
                 <Outlet/>
                 <Footer/>
             </Page>

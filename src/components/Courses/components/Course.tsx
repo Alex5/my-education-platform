@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {Button} from "@geist-ui/react";
 
 const Course = () => {
-    let { id } = useParams<"id">();
+    let { courseId } = useParams<"courseId">();
 
     function capitalizeString(s: string): string {
         return s.charAt(0).toUpperCase() + s.slice(1);
@@ -12,7 +12,7 @@ const Course = () => {
     return (
         <div>
             <h2>
-                Welcome to the {id!.split("-").map(capitalizeString).join(" ")} course!
+                Welcome to the {courseId!.split("-").map(capitalizeString).join(" ")} course!
             </h2>
 
             <p>This is a great course. You're gonna love it!</p>
