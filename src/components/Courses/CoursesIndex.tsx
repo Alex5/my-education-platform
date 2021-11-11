@@ -1,40 +1,39 @@
 import React from 'react';
-import {Avatar, Card, Description, Divider, Grid, Rating, Spacer, Tag, Text, User} from "@geist-ui/react";
-import {useNavigate} from "react-router-dom";
+import {Avatar, Card, Description, Divider, Grid, Image, Rating, Spacer, Tag, Text, User} from "@geist-ui/react";
+import {useNavigate, useParams} from "react-router-dom";
 import {Github} from "@geist-ui/react-icons";
 import styled from "styled-components";
 
 const CoursesIndex = () => {
     const navigate = useNavigate()
+    const {course} = useParams<"course">();
     return (
         <>
             <Text h3>2 курса по программированию</Text>
             <Grid.Container gap={2} justify="flex-start">
                 <Grid xs={24} md={8}>
-                    <Card onClick={() => navigate('/marketing/1')} width="100%" hoverable>
+                    <Card onClick={() => navigate(`/${course}/1`)} width="100%" hoverable>
                         <StyledCourseCardHeader>
                             <div>
-                                <Text h3 mb={0} mt={0}>JS Junior</Text>
-                                <Avatar
-                                    ml={0}
-                                    mr={0}
-                                    scale={1}
-                                    src="https://cdn.pixabay.com/photo/2015/04/23/17/41/javascript-736400_960_720.png"/>
+                                <Text mt={0} mb={0} h5>JavaScript для начинающих</Text>
+                                <Text small type="secondary">Базовый курс</Text>
                             </div>
-                            <Text type="secondary" small>Начальные знания по JavaScript</Text>
+
+                            <Image
+                                src="https://cdn.pixabay.com/photo/2015/04/23/17/41/javascript-736400_960_720.png"
+                                alt="javascript"
+                                mr={0}
+                                width={'50px'}
+                            />
+
                         </StyledCourseCardHeader>
+                        <Spacer/>
                         <Divider/>
+                        <Spacer/>
                         <Description title="Автор" content={
-                            <User src="https://unix.bio/assets/avatar.png" name="Заболоцкий Роман">
+                            <User src="" name="Заболоцкий Роман">
                                 Senior JavaScript engineer
                             </User>
-                        }/>
-                        <Spacer/>
-                        <Description title="О курсе" content={
-                            <Text>
-                                Вы научитесь создавать сайты и приложения, проектировать
-                                интерфейсы и работать со сложными инструментами frontend-разработчика.
-                            </Text>
                         }/>
                         <Spacer/>
                         <Description title="Доступные услуги" content={
@@ -59,15 +58,9 @@ const CoursesIndex = () => {
 };
 
 const StyledCourseCardHeader = styled.div`
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
 `
+
 
 export default CoursesIndex;

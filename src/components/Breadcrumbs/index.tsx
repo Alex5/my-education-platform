@@ -1,23 +1,23 @@
 import React from 'react';
 import {NavLink, useLocation} from "react-router-dom";
-import {Breadcrumbs} from "@geist-ui/react";
+import {Breadcrumbs as GBreadcrumbs} from "@geist-ui/react";
 
-const Breadcrums = () => {
+const Breadcrumbs = () => {
     const location = useLocation();
     const links = location.pathname.split('/');
 
     return (
-        <Breadcrumbs>
+        <GBreadcrumbs>
             {links.map((link, index) =>
                 <NavLink
                     to={links.indexOf(links[links.length - 1]) === index ? location.pathname : link.length === 0 ? '/' : `/${link}`}
                     style={() => links.indexOf(links[links.length - 1]) === index ? {color: 'black'} : {color: 'gray'}}
                 >
-                    <Breadcrumbs.Item>{link.length === 0 ? 'Направления' : link}</Breadcrumbs.Item>
+                    <GBreadcrumbs.Item>{link.length === 0 ? 'Направления' : link}</GBreadcrumbs.Item>
                 </NavLink>
             )}
-        </Breadcrumbs>
+        </GBreadcrumbs>
     );
 };
 
-export default Breadcrums;
+export default Breadcrumbs;
