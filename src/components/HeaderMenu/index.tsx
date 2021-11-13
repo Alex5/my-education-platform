@@ -13,7 +13,7 @@ const HeaderMenu: FC<HeaderMenuProps> = ({isAuthor}) => {
 
     return (
         <div>
-            <Popover.Item children="Панель автора" onClick={() => navigate("/author/courses")}/>
+            <Popover.Item children="Панель автора" onClick={() => navigate("/author")}/>
             <Popover.Item line/>
             <Popover.Item children="Выйти" onClick={() => auth.signOut()}/>
         </div>

@@ -1,9 +1,10 @@
 import React, {useContext} from 'react';
 import {Routes, Route, Outlet, Navigate} from 'react-router-dom';
 import {Courses, Home, Layout, Course, CoursesIndex, ForAuthor, NoMatch} from "./components";
-import {AuthorActivity, AuthorCourse, AuthorCourses, AuthorHome} from "./components/Author";
+import {AuthorCourse, AuthorCourses, AuthorHome} from "./components/Author";
 import {AuthContext} from "./index";
 import General from "./components/Author/components/AuthorCourses/components/AuthorCourse/components/General";
+import Edit from "./components/Author/components/AuthorCourses/components/AuthorCourse/components/Edit";
 
 function App() {
     const {isAuthor} = useContext(AuthContext);
@@ -24,6 +25,7 @@ function App() {
                         <Route index element={<AuthorCourses/>}/>
                         <Route path="/author/courses/:authorCourseId" element={<AuthorCourse/>}>
                             <Route path="/author/courses/:authorCourseId/general" element={<General/>}/>
+                            <Route path="/author/courses/:authorCourseId/edit" element={<Edit/>}/>
                             <Route path="*" element={<NoMatch/>}/>
                         </Route>
                     </Route>

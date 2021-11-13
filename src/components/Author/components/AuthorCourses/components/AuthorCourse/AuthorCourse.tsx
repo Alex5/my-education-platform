@@ -14,10 +14,9 @@ const AuthorCourse = () => {
     return (
         <>
             <StyledInfoHeader>
-                <Text mt={0} mb={0} h2 children={"JavaScript для начинающих"}/>
+                <Text mt={0} mb={0} h3 children={"JavaScript для начинающих"}/>
                 <Button auto type={"success"} children={"Опубликовать"}/>
             </StyledInfoHeader>
-
             <Divider/>
             <Spacer h={3}/>
             <Grid.Container gap={2} justify="center" height="100px">
@@ -57,8 +56,8 @@ const StyledInfoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `
 
 const StyledSidebar = styled.div`
