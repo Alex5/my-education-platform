@@ -54,7 +54,7 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                                     <Button disabled icon={<img height={"17px"} src={yandexLogo} alt="Yandex Logo"/>}/>
                                 </ButtonGroup>
                                 <Spacer/>
-                                <Link to="/author/courses">Авторам</Link>
+                                <Link to="/author">Авторам</Link>
                             </StyledActions>
                     }
                 </StyledHeaderContent>

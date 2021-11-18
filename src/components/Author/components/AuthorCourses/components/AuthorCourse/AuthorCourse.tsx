@@ -1,15 +1,20 @@
-import React, {useEffect} from 'react';
-import {NavLink, Outlet, useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
 import {Button, Divider, Grid, Spacer, Text} from "@geist-ui/react";
 import styled from "styled-components";
 
 const AuthorCourse = () => {
     const {authorCourseId} = useParams<"authorCourseId">();
+    const [courseId, setCourseId] = useState<string>('')
     const navigate = useNavigate();
+    const location = useLocation();
 
-    useEffect(() => {
-        navigate(`/author/courses/${authorCourseId}/general`);
-    }, [])
+    debugger
+
+    // useEffect(() => {
+    //     location.pathname === `/author/courses/${authorCourseId}` && navigate(`/author/courses/${authorCourseId}/general`)
+    //     setCourseId(authorCourseId || '');
+    // }, [authorCourseId, location.pathname, navigate])
 
     return (
         <>

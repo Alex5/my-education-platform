@@ -4,9 +4,12 @@ import App from './App';
 import {GeistProvider, CssBaseline} from '@geist-ui/react'
 import {BrowserRouter as Router} from "react-router-dom";
 import {initializeApp} from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 import {getAuth, Auth} from "firebase/auth";
+import { store } from './redux/store';
+import { Provider } from 'react-redux'
 
-initializeApp({
+const firebaseApp = initializeApp({
     apiKey: "AIzaSyDCatacUWWMPhMj2H7r3liwbBEk_Gz9Rmk",
     authDomain: "my-education-platform.firebaseapp.com",
     projectId: "my-education-platform",
@@ -14,6 +17,9 @@ initializeApp({
     messagingSenderId: "856755604690",
     appId: "1:856755604690:web:2a661047252ffdd488b10b"
 });
+
+export const db = getFirestore(firebaseApp);
+
 const auth: Auth = getAuth();
 const isAuthor = true;
 
@@ -24,7 +30,9 @@ ReactDOM.render(
         <GeistProvider>
             <CssBaseline/>
             <AuthContext.Provider value={{auth, isAuthor}}>
-                <App/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </AuthContext.Provider>
         </GeistProvider>
     </Router>,

@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import {Routes, Route, Outlet, Navigate} from 'react-router-dom';
 import {Courses, Home, Layout, Course, CoursesIndex, ForAuthor, NoMatch} from "./components";
-import {AuthorCourse, AuthorCourses, AuthorHome} from "./components/Author";
+import {AuthorCourse, AuthorCourses, AuthorHome, CreateCourse, EditCourse, General} from "./components/Author";
 import {AuthContext} from "./index";
-import General from "./components/Author/components/AuthorCourses/components/AuthorCourse/components/General";
-import Edit from "./components/Author/components/AuthorCourses/components/AuthorCourse/components/Edit";
+import AuthorCoursesLayout from "./components/Author/components/AuthorCourses/AuthorCoursesLayout";
 
 function App() {
     const {isAuthor} = useContext(AuthContext);
@@ -21,13 +20,14 @@ function App() {
                 <Route path={"/for-author"} element={<ForAuthor/>}/>
                 <Route path="/author">
                     <Route index element={isAuthor ? <AuthorHome/> : <Navigate to={"/for-author"}/>}/>
-                    <Route path="/author/courses" element={<><Outlet/></>}>
+                    <Route path="courses" element={<AuthorCoursesLayout/>}>
                         <Route index element={<AuthorCourses/>}/>
-                        <Route path="/author/courses/:authorCourseId" element={<AuthorCourse/>}>
-                            <Route path="/author/courses/:authorCourseId/general" element={<General/>}/>
-                            <Route path="/author/courses/:authorCourseId/edit" element={<Edit/>}/>
+                        <Route path=":authorCourseId" element={<AuthorCourse/>}>
+                            <Route path="general" element={<General/>}/>
+                            <Route path="edit" element={<EditCourse/>}/>
                             <Route path="*" element={<NoMatch/>}/>
                         </Route>
+                        <Route path="*" element={<NoMatch/>}/>
                     </Route>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
