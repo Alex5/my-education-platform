@@ -2,30 +2,33 @@ import React, {useEffect, useState} from 'react';
 import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
 import {Button, Divider, Grid, Spacer, Text} from "@geist-ui/react";
 import styled from "styled-components";
+import {useSelector} from "react-redux";
+import {getCourses} from "../../../../../../redux/slices/coursesSlice";
+import {ArrowLeft} from "@geist-ui/react-icons";
 
 const AuthorCourse = () => {
     const {authorCourseId} = useParams<"authorCourseId">();
-    const [courseId, setCourseId] = useState<string>('')
     const navigate = useNavigate();
     const location = useLocation();
+    const courses = useSelector(getCourses);
 
-    debugger
-
-    // useEffect(() => {
-    //     location.pathname === `/author/courses/${authorCourseId}` && navigate(`/author/courses/${authorCourseId}/general`)
-    //     setCourseId(authorCourseId || '');
-    // }, [authorCourseId, location.pathname, navigate])
+    useEffect(() => {
+        location.pathname === `/author/courses/${authorCourseId}` && navigate(`/author/courses/${authorCourseId}/general`)
+    }, [authorCourseId, location.pathname, navigate])
 
     return (
         <>
             <StyledInfoHeader>
-                <Text mt={0} mb={0} h3 children={"JavaScript для начинающих"}/>
+                <Text
+                    style={{fontWeight: 500, fontSize: '2rem'}}
+                    h1
+                    children={courses.find(course => course.courseId === authorCourseId)?.name}
+                />
                 <Button auto type={"success"} children={"Опубликовать"}/>
             </StyledInfoHeader>
-            <Divider/>
             <Spacer h={3}/>
             <Grid.Container gap={2} justify="center" height="100px">
-                <Grid xs={4}>
+                <Grid xs={24} md={4}>
                     <StyledSidebar>
                         <NavLink
                             style={({isActive}) => isActive ? selectedStyle : {}}
@@ -35,19 +38,13 @@ const AuthorCourse = () => {
                         </NavLink>
                         <NavLink
                             style={({isActive}) => isActive ? selectedStyle : {}}
-                            to={`/author/courses/${authorCourseId}/contact`}
+                            to={`/author/courses/${authorCourseId}/settings`}
                         >
-                            Общение
-                        </NavLink>
-                        <NavLink
-                            style={({isActive}) => isActive ? selectedStyle : {}}
-                            to={`/author/courses/${authorCourseId}/analytics`}
-                        >
-                            Аналитика
+                            Настройки
                         </NavLink>
                     </StyledSidebar>
                 </Grid>
-                <Grid xs={20}>
+                <Grid xs={24} md={20}>
                     <StyledContent>
                         <Outlet/>
                     </StyledContent>
@@ -61,8 +58,10 @@ const StyledInfoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  background-color: #f5f5f5;
+  padding: 10px 20px 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ebebeb;
 `
 
 const StyledSidebar = styled.div`

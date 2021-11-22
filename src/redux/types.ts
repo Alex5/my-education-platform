@@ -1,7 +1,9 @@
 export interface ICourse {
     name: string,
     courseId: string,
-    ownerId: string
+    ownerId: string,
+    publicationStatus: string,
+    description?: string
 }
 
 export interface IHomeWork {
@@ -10,10 +12,12 @@ export interface IHomeWork {
 }
 
 export interface ILessonInfo {
+    lessonId: string;
     courseId: string
     description: string
-    homeWork: IHomeWork[]
-    videoLink: string
+    homeWorks: IHomeWork[]
+    videoLink: string,
+    name: string
 }
 
 export interface ILesson {
@@ -22,6 +26,7 @@ export interface ILesson {
 }
 
 export interface ICourseInfo {
+    courseId: string
     description: string
     lessons: ILesson[]
 }

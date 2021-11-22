@@ -4,14 +4,14 @@ import {RootState} from "../store";
 
 export interface CoursesState {
     courses: ICourse[],
-    courseInfo: ICourseInfo
-    lessonInfo: ILessonInfo
+    selectedCourse: ICourse
+    lessons: ILessonInfo[]
 }
 
 const initialState: CoursesState = {
     courses: [],
-    courseInfo: {} as ICourseInfo,
-    lessonInfo: {} as ILessonInfo
+    selectedCourse: {} as ICourse,
+    lessons: []
 }
 
 export const coursesSlice = createSlice({
@@ -21,11 +21,11 @@ export const coursesSlice = createSlice({
         setCourses(state, action: PayloadAction<ICourse[]>){
             state.courses = action.payload;
         },
-        setCourseInfo(state, action: PayloadAction<ICourseInfo>){
-            state.courseInfo = action.payload;
+        setLessons(state, action: PayloadAction<ILessonInfo[]>){
+            state.lessons = action.payload;
         },
-        setLessonInfo(state, action: PayloadAction<ILessonInfo>){
-            state.lessonInfo = action.payload;
+        setSelectedCourse(state, action: PayloadAction<ICourse>) {
+            state.selectedCourse = action.payload;
         }
     },
 })
@@ -35,10 +35,10 @@ export const getCourses = createSelector(
     selectSelf,
     (state) => state.courses
 )
-export const getCourseInfo = createDraftSafeSelector(selectSelf, (state) => state.courseInfo)
-export const getLessonInfo = createDraftSafeSelector(selectSelf, (state) => state.lessonInfo)
+export const getSelectedCourse = createDraftSafeSelector(selectSelf, (state) => state.selectedCourse)
+export const getLessons = createDraftSafeSelector(selectSelf, (state) => state.lessons)
 
 // Action creators are generated for each case reducer function
-export const { setCourses, setCourseInfo, setLessonInfo } = coursesSlice.actions
+export const { setCourses, setSelectedCourse, setLessons } = coursesSlice.actions
 
 export default coursesSlice.reducer

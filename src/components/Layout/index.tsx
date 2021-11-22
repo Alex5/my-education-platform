@@ -11,7 +11,7 @@ const Layout = ({author}: { author: boolean }) => {
     const {isAuthor} = useContext(AuthContext);
 
     return (
-        <Page width={"1000px"}>
+        <Page width={"1048px"}>
             <Page.Header>
                 <Header isAuthor={isAuthor}/>
             </Page.Header>

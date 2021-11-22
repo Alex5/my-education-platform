@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {Button, Fieldset, Spacer, Textarea, Note} from "@geist-ui/react";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getCourseInfo, setCourseInfo} from "../../../../../../../redux/slices/coursesSlice";
+import {getLessons, setLessons, getSelectedCourse} from "../../../../../../../redux/slices/coursesSlice";
 import {FirestoreQueries} from "../../../../../../../services/firestore";
 import styled from "styled-components";
 
@@ -10,13 +10,16 @@ const General = () => {
     const navigate = useNavigate();
     const {authorCourseId} = useParams<"authorCourseId">();
     const dispatch = useDispatch();
-    const courseInfo = useSelector(getCourseInfo);
+    const lessons = useSelector(getLessons)
+    const selectedCourse = useSelector(getSelectedCourse);
+
+    const handleGetLessons = async () => {
+        const lessons = await FirestoreQueries.getLessons(authorCourseId || '')
+        dispatch(setLessons(lessons));
+    }
 
     useEffect(() => {
-        (async () => {
-            const courseInfo = await FirestoreQueries.getCourseInfo(authorCourseId || '')
-            dispatch(setCourseInfo(courseInfo));
-        })()
+        handleGetLessons()
     }, [authorCourseId])
 
     return (
@@ -24,7 +27,11 @@ const General = () => {
             <Fieldset>
                 <Fieldset.Title>Описание курса</Fieldset.Title>
                 <Fieldset.Subtitle>
-                    <Textarea resize={"vertical"} value={courseInfo.description} width="100%" placeholder={"Поле не заполнено"}/>
+                    <Textarea
+                        resize={"vertical"}
+                        value={selectedCourse.description}
+                        width="100%"
+                        placeholder={"Поле не заполнено"}/>
                 </Fieldset.Subtitle>
                 <Fieldset.Footer>
                     Пожалуйста, используйте максимум 148 символов.
@@ -35,15 +42,15 @@ const General = () => {
             <Fieldset>
                 <Fieldset.Title>Содержание</Fieldset.Title>
                 <Fieldset.Subtitle>
-                    {courseInfo.lessons
-                        ? courseInfo.lessons.map(lesson =>
-                                <StyledLessonItem
-                                    key={lesson.lessonId}
-                                    onClick={() => navigate(`/author/courses/${authorCourseId}/edit`)}
-                                >
-                                    &#8226; {lesson.name}
-                                </StyledLessonItem>
-                            )
+                    {lessons.length > 0
+                        ? lessons && lessons.map((lesson, index) =>
+                        <StyledLessonItem
+                            key={index}
+                            onClick={() => navigate(`/author/courses/${authorCourseId}/edit`)}
+                        >
+                            &#8226; {lesson.name}
+                        </StyledLessonItem>
+                    )
                         : <Note style={{display: 'flex', justifyContent: 'space-between'}} type="warning" label={false}>
                             В курсе пока что нет ни одного урока.
                             <Button auto type="warning" children="Добавить" scale={1 / 3}/>
@@ -52,7 +59,8 @@ const General = () => {
                 </Fieldset.Subtitle>
                 <Fieldset.Footer>
                     <span></span>
-                    <Button onClick={() => navigate(`/author/courses/${authorCourseId}/edit`)} auto scale={1 / 3}>Редактировать</Button>
+                    <Button onClick={() => navigate(`/author/courses/${authorCourseId}/edit`)} auto
+                            scale={1 / 3}>Редактировать</Button>
                 </Fieldset.Footer>
             </Fieldset>
         </>

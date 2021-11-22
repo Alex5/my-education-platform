@@ -8,6 +8,7 @@ import { getFirestore } from "firebase/firestore";
 import {getAuth, Auth} from "firebase/auth";
 import { store } from './redux/store';
 import { Provider } from 'react-redux'
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyDCatacUWWMPhMj2H7r3liwbBEk_Gz9Rmk",
@@ -19,6 +20,7 @@ const firebaseApp = initializeApp({
 });
 
 export const db = getFirestore(firebaseApp);
+export const analytics = getAnalytics(firebaseApp);
 
 const auth: Auth = getAuth();
 const isAuthor = true;
