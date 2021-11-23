@@ -1,5 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {Button, ButtonGroup, Loading, Page, Popover, Spacer, Text, User, useToasts} from "@geist-ui/react";
+import {Button, ButtonGroup, Loading, Popover, Spacer, Text, User, useToasts} from "@geist-ui/react";
 import styled from "styled-components";
 import yandexLogo from "../../assets/YandexLogo.svg";
 import googleLogo from "../../assets/GoogleLogo.svg";
@@ -26,12 +26,13 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                     text: `Вход выполнен`,
                     type: 'success'
                 })
-            }).catch(err => {
-            setToast({
-                text: `Ошибка входа: ${err}`,
-                type: 'error'
             })
-        });
+            .catch(err => {
+                setToast({
+                    text: `Ошибка входа: ${err}`,
+                    type: 'error'
+                })
+            });
 
     }
 
