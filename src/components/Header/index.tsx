@@ -21,9 +21,9 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
     const login = () => {
         GoogleAuth
             .signIn(auth)
-            .then(user => {
+            .then(() => {
                 setToast({
-                    text: `Вход выполнен: ${user.metadata.lastSignInTime}`,
+                    text: `Вход выполнен`,
                     type: 'success'
                 })
             }).catch(err => {
@@ -36,29 +36,29 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
     }
 
     return (
-            <StyledHeader>
-                <StyledHeaderContent>
-                    <Link to={"/"}><Text mb={0} mt={0} h4>Education Platform</Text></Link>
-                    {loading
-                        ? <Loading mr={0} ml={0} width={10}/>
-                        : user
-                            ? <Popover style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
-                                <User src={user.photoURL != null ? user.photoURL : ''} name={user.displayName}>
-                                    {user.email}
-                                </User>
-                            </Popover>
-                            : <StyledActions>
-                                <ButtonGroup>
-                                    <Button onClick={login}
-                                            icon={<img height={"17px"} src={googleLogo} alt="Google Logo"/>}/>
-                                    <Button disabled icon={<img height={"17px"} src={yandexLogo} alt="Yandex Logo"/>}/>
-                                </ButtonGroup>
-                                <Spacer/>
-                                <Link to="/author">Авторам</Link>
-                            </StyledActions>
-                    }
-                </StyledHeaderContent>
-            </StyledHeader>
+        <StyledHeader>
+            <StyledHeaderContent>
+                <Link to={"/"}><Text mb={0} mt={0} h4>Education Platform</Text></Link>
+                {loading
+                    ? <Loading mr={0} ml={0} width={10}/>
+                    : user
+                        ? <Popover style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
+                            <User src={user.photoURL != null ? user.photoURL : ''} name={user.displayName}>
+                                {user.email}
+                            </User>
+                        </Popover>
+                        : <StyledActions>
+                            <ButtonGroup>
+                                <Button onClick={login}
+                                        icon={<img height={"17px"} src={googleLogo} alt="Google Logo"/>}/>
+                                <Button disabled icon={<img height={"17px"} src={yandexLogo} alt="Yandex Logo"/>}/>
+                            </ButtonGroup>
+                            <Spacer/>
+                            <Link to="/author">Авторам</Link>
+                        </StyledActions>
+                }
+            </StyledHeaderContent>
+        </StyledHeader>
     );
 };
 
