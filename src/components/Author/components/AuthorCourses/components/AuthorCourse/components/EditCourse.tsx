@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Input, Spacer, Fieldset, Text, Textarea, Grid, useToasts} from "@geist-ui/react";
+import {Button, Text, Grid, useToasts} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../redux/slices/coursesSlice";
 import {XCircle} from "@geist-ui/react-icons";
-import {ILessonInfo} from "../../../../../../../redux/types";
-import HomeWork from "./HomeWork";
 import {nanoid} from "nanoid";
 import Lesson from "./Lesson";
-import {FirestoreQueries} from "../../../../../../../services/firestore";
+import {AuthorRequests} from "../../../../../../../services/authorRequests";
+import {ILesson} from "../../../../../../../redux/types";
 
 const EditCourse = () => {
     const dispatch = useDispatch();
-    const [selectedLesson, setSelectedLesson] = useState<ILessonInfo | undefined>(undefined)
+    const [selectedLesson, setSelectedLesson] = useState<ILesson | undefined>(undefined)
     const [load, setLoad] = useState<boolean>(false)
     const [, setToast] = useToasts()
     const lessons = useSelector(getLessons);
@@ -41,7 +40,7 @@ const EditCourse = () => {
 
     const handleLessonsSave = async () => {
         setLoad(true);
-        await FirestoreQueries.addLessons(lessons, selectedCourse.courseId)
+        await AuthorRequests.addLessons(lessons, selectedCourse.courseId)
         setLoad(false);
         setToast({
             text: 'Уроки успешно обновлены',
@@ -68,10 +67,10 @@ const EditCourse = () => {
                 </Button>
             </StyledEditLessonsHeader>
             <Grid.Container gap={2}>
-                <Grid xs={24} md={16} direction={'column'}>
+                <Grid xs={24} md={18} direction={'column'}>
                     <Lesson selectedLesson={selectedLesson}/>
                 </Grid>
-                <Grid direction="column" xs={24} md={8}>
+                <Grid direction="column" xs={24} md={6}>
                     {lessons.map(lesson =>
                         <StyledLessonItem
                             lessonId={lesson.lessonId || ''}
@@ -80,12 +79,12 @@ const EditCourse = () => {
                         >
                             <span style={{fontWeight: 500, fontSize: '1rem'}}
                                   children={
-                                      lesson.name.length > 20
-                                          ? `${lesson.name.slice(0, 20)}...`
+                                      lesson.name.length > 15
+                                          ? `${lesson.name.slice(0, 13)}...`
                                           : lesson.name
                                   }
                             />
-                            <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>
+                            {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>}
                         </StyledLessonItem>
                     )}
                     <Button onClick={handleAddLesson} scale={1 / 2} children="Добавить урок"/>

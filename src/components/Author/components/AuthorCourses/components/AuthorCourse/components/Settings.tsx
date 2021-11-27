@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Fieldset, Text} from "@geist-ui/react";
-import {FirestoreQueries} from "../../../../../../../services/firestore";
+import {AuthorRequests} from "../../../../../../../services/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setCourses} from "../../../../../../../redux/slices/coursesSlice";
@@ -13,7 +13,7 @@ const Settings = () => {
 
     const handleDeleteCourse = async () => {
         setLoad(true)
-        const courses = await FirestoreQueries.deleteCourse(authorCourseId || '')
+        const courses = await AuthorRequests.deleteCourse(authorCourseId || '')
         dispatch(setCourses(courses))
         setLoad(false)
         navigate('/author/courses');

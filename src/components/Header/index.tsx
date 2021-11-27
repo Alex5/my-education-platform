@@ -1,27 +1,42 @@
-import React, {FC, useContext} from 'react';
-import {Button, ButtonGroup, Loading, Popover, Spacer, Text, User, useToasts} from "@geist-ui/react";
+import React, {FC, useContext, useState} from 'react';
+import {Button, ButtonGroup, Loading, Popover, Spacer, Tag, Text, User, useToasts} from "@geist-ui/react";
 import styled from "styled-components";
 import yandexLogo from "../../assets/YandexLogo.svg";
 import googleLogo from "../../assets/GoogleLogo.svg";
 import {AuthContext} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";
-import GoogleAuth from "../../services/googleAuth"
-import {Link} from "react-router-dom";
-import HeaderMenu from "../HeaderMenu";
+import {AuthRequests} from "../../services/authRequests"
+import {Link, useNavigate} from "react-router-dom";
+import HeaderMenu from "./HeaderMenu";
+import {useDispatch, useSelector} from "react-redux";
+import {getUser, setUser} from "../../redux/slices/userSlice";
+import {Github} from "@geist-ui/react-icons";
+import {PublicRequests} from "../../services/publicRequests";
+import {AuthProvider, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
 
 interface HeaderProps {
     isAuthor: boolean;
 }
 
 const Header: FC<HeaderProps> = ({isAuthor}) => {
-    const [, setToast] = useToasts()
+    const [load, setLoad] = useState(false);
+
+    const dispatch = useDispatch();
+    const {author} = useSelector(getUser);
+
     const {auth} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const [, setToast] = useToasts()
     const [user, loading] = useAuthState(auth);
 
-    const login = () => {
-        GoogleAuth
-            .signIn(auth)
-            .then(() => {
+
+
+    const login = (providerName: 'google' | 'github') => {
+        AuthRequests
+            .signIn(auth, providerName)
+            .then((user) => {
+                dispatch(setUser(user))
                 setToast({
                     text: `Вход выполнен`,
                     type: 'success'
@@ -33,29 +48,46 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                     type: 'error'
                 })
             });
+    }
 
+    const transformToAuthor = async () => {
+        setLoad(true)
+        const updatedUser = await PublicRequests.transformToAuthor(user?.uid || '');
+        dispatch(setUser(updatedUser));
+        setLoad(false)
     }
 
     return (
         <StyledHeader>
             <StyledHeaderContent>
-                <Link to={"/"}><Text mb={0} mt={0} h4>Education Platform</Text></Link>
+                <Link to={"/"}>
+                    <Text style={{fontFamily: 'TTNormsBold'}} mb={0} mt={0} h4>
+                        My Education Platform
+                    </Text>
+                </Link>
                 {loading
                     ? <Loading mr={0} ml={0} width={10}/>
                     : user
-                        ? <Popover style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
-                            <User src={user.photoURL != null ? user.photoURL : ''} name={user.displayName}>
-                                {user.email}
-                            </User>
-                        </Popover>
+                        ? <div style={{display: 'flex', alignItems: 'center'}}>
+                            {author
+                                ? <Button scale={1 / 2} onClick={() => navigate('/author')} auto
+                                          children="Панель автора"/>
+                                : <Button loading={load} onClick={transformToAuthor} scale={1 / 2} type="secondary"
+                                          children="Стать автором"/>
+                            }
+                            <Popover style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
+                                <User scale={1.8} src={user.photoURL != null ? user.photoURL : ''} name=""/>
+                            </Popover>
+                        </div>
                         : <StyledActions>
                             <ButtonGroup>
-                                <Button onClick={login}
+                                <Button onClick={() => login('google')}
                                         icon={<img height={"17px"} src={googleLogo} alt="Google Logo"/>}/>
-                                <Button disabled icon={<img height={"17px"} src={yandexLogo} alt="Yandex Logo"/>}/>
+                                <Button onClick={() => login('github')}
+                                        icon={<Github/>}
+                                />
                             </ButtonGroup>
                             <Spacer/>
-                            <Link to="/author">Авторам</Link>
                         </StyledActions>
                 }
             </StyledHeaderContent>
@@ -64,7 +96,6 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
 };
 
 const StyledHeader = styled.div`
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.02);
   height: 60px;
   display: flex;
 `

@@ -1,0 +1,4 @@
+@font-face {
+    font-family: 'TTNormsBold';
+    src: local('TTNormsBold'), url(./assets/fonts/TTNorms-Bold.woff) format('woff');
+}

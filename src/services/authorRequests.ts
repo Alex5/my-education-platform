@@ -1,24 +1,20 @@
 import {
     collection,
     doc,
-    getDoc,
     getDocs,
     query,
     where,
-    setDoc,
     deleteDoc,
     addDoc,
     updateDoc,
-    writeBatch
+    writeBatch, getDoc
 } from "firebase/firestore";
 import {db} from "../index";
-import {ICourse, ICourseInfo, IHomeWork, ILessonInfo} from "../redux/types";
+import {ICourse, ILesson, IUser} from "../redux/types";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'
-import {getLessons} from "../redux/slices/coursesSlice";
 
-
-export class FirestoreQueries {
+export class AuthorRequests {
     public static async getAuth() {
         const {currentUser} = await getAuth();
         return currentUser;
@@ -36,23 +32,32 @@ export class FirestoreQueries {
                 docs.push(doc.data() as ICourse);
             });
             return docs;
-        } else {
-            // No user is signed in.
+        }  else {
             return [];
         }
+        // else {
+        //     const q = query(collection(db, "courses"), where("published", "==", true));
+        //
+        //     const querySnapshot = await getDocs(q);
+        //     const docs: ICourse[] = [];
+        //     querySnapshot.forEach((doc) => {
+        //         docs.push(doc.data() as ICourse);
+        //     });
+        //     return docs;
+        // }
     }
 
-    public static async getLessons(courseId: string): Promise<ILessonInfo[]> {
+    public static async getLessons(courseId: string): Promise<ILesson[]> {
         const user = await this.getAuth()
 
         if (user) {
             const q = query(collection(db, "lessons"), where("courseId", "==", courseId));
             const querySnapshot = await getDocs(q);
 
-            const docs: ILessonInfo[] = [];
+            const docs: ILesson[] = [];
 
             querySnapshot.forEach((doc) => {
-                docs.push(doc.data() as ILessonInfo);
+                docs.push(doc.data() as ILesson);
             });
             return docs;
         } else {
@@ -61,7 +66,7 @@ export class FirestoreQueries {
         }
     }
 
-    public static async addLessons(lessons: ILessonInfo[], courseId: string) {
+    public static async addLessons(lessons: ILesson[], courseId: string) {
         const q = query(collection(db, "lessons"), where("courseId", "==", courseId));
         const querySnapshot = await getDocs(q);
 
@@ -83,10 +88,6 @@ export class FirestoreQueries {
         return this.getLessons(lessons[0].courseId).then((lessons) => {
             return lessons;
         })
-    }
-
-    public static async saveLessons() {
-
     }
 
     public static async addCourse(course: ICourse): Promise<ICourse[]> {
@@ -124,5 +125,21 @@ export class FirestoreQueries {
         return this.getCourses().then((courses) => {
             return courses;
         })
+    }
+
+    public static async updateCourse(courseId: string, key: string, data: string | boolean | number | {}): Promise<ICourse> {
+        const courseRef = doc(db, "courses", courseId);
+
+        await updateDoc(courseRef, {
+            [key]: data
+        });
+
+        const docSnap = await getDoc(courseRef)
+
+        if (docSnap.exists()) {
+            return docSnap.data() as ICourse
+        } else {
+            return {} as ICourse;
+        }
     }
 }

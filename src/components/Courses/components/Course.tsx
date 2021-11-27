@@ -1,78 +1,133 @@
-import React from 'react';
-import {useParams} from "react-router-dom";
-import {Avatar, Button, Card, Collapse, Description, Divider, Fieldset, Grid, Note, Spacer, Text, User} from "@geist-ui/react";
-import {Info} from "@geist-ui/react-icons";
+import React, {useEffect, useState} from 'react';
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Button, Description, Fieldset, Grid, Image, Loading, Modal, Spacer, Text, useModal} from "@geist-ui/react";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    getLessons,
+    getSelectedCourse,
+    setLessons,
+    setSelectedCourse,
+    setCourseStatus,
+    getCourseStatus
+} from "../../../redux/slices/coursesSlice";
+import {PublicRequests} from "../../../services/publicRequests";
+import {getLoggedIn} from "../../../redux/slices/userSlice";
+import {UserRequests} from "../../../services/userRequests";
+import {AnalyticsLogs} from "../../../services/analytics";
 
 const Course = () => {
+    const [load, setLoad] = useState(false);
+    const [startLoad, setStartLoad] = useState(false);
+
+    const dispatch = useDispatch();
+    const selectedCourse = useSelector(getSelectedCourse);
+    const lessons = useSelector(getLessons);
+    const loggedIn = useSelector(getLoggedIn);
+    const courseStatus = useSelector(getCourseStatus);
+
     let {courseId} = useParams<"courseId">();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const {visible, setVisible, bindings} = useModal()
+
+    const handleStartCourse = async () => {
+        setStartLoad(true)
+
+        try {
+            const courseStatus = await UserRequests.startCourse(courseId || '')
+            dispatch(setCourseStatus(courseStatus));
+            setStartLoad(false)
+            navigate(`${location.pathname}/lessons`)
+        } catch (e) {
+            setStartLoad(false)
+            setVisible(true)
+        }
+    }
+
+    const getData = (courseId: string) => {
+        const courseStatus = UserRequests.getCourseStatus(courseId);
+        const lessons = PublicRequests.getLessons(courseId);
+
+        Promise.all([courseStatus, lessons]).then(values => {
+            dispatch(setCourseStatus(values[0]));
+            dispatch(setLessons(values[1]));
+            setLoad(false)
+        }, reason => {
+            reason === 'not_authorized' &&
+            PublicRequests.getLessons(courseId).then(lessons => {
+                dispatch(setLessons(lessons));
+                setLoad(false)
+            })
+        });
+    }
+
+    useEffect(() => {
+        setLoad(true)
+        getData(courseId || '')
+
+        if (Object.keys(selectedCourse).length === 0) {
+            PublicRequests
+                .getCourse(courseId || '')
+                .then(course => {
+                    dispatch(setSelectedCourse(course));
+                    setLoad(false)
+                })
+        }
+
+        AnalyticsLogs.pageView(location.pathname, selectedCourse.name)
+    }, [courseId, dispatch, selectedCourse])
 
     return (
-        <Grid.Container gap={2} justify="center" height="100px">
-            <Grid direction="column" xs={18}>
-                <Text h2 mb={0} mt={0}>
-                    JavaScript для начинающих
-                </Text>
-                {/*<Text mt={0} type="secondary">В данном курсе рассмотрены основы программирования на JavaScript а также*/}
-                {/*    некоторые инструменты и*/}
-                {/*    модели данных, необходимые для практического использования JavaScript.</Text>*/}
-                <Spacer h={3}/>
-                <Fieldset>
-                    <Fieldset.Title>О курсе</Fieldset.Title>
-                    <Fieldset.Subtitle>Цель данного курса - познакомить слушателей с основами программирования на
-                        JavaScript
-                        и подготовить их
-                        для практического применения данного инструмента.
-                    </Fieldset.Subtitle>
-                </Fieldset>
-                <Spacer/>
-                <Fieldset>
-                    <Fieldset.Title>Для кого этот курс</Fieldset.Title>
-                    <Fieldset.Subtitle> Фактически особых требований нет. Достаточно желания, некоторой внимательности и
-                        общей компьютерной
-                        грамотности, например в рамках школьного курса информатики.</Fieldset.Subtitle>
-                </Fieldset>
-                <Spacer/>
-                <Fieldset>
-                    <Fieldset.Title>Автор курса</Fieldset.Title>
-                    <Fieldset.Subtitle>
-                        <User name={"Roman"}/>
-                    </Fieldset.Subtitle>
-                </Fieldset>
-                <Spacer/>
-                <Fieldset>
-                    <Fieldset.Title children="Программа курса"/>
-                    <Fieldset.Subtitle>
-                        <Collapse.Group>
-                            <Collapse title="Введение в JavaScript" initialVisible>
-                                <ul>
-                                    <li>В двух словах о JavaScript.</li>
-                                    <li>Внедрение кода, структура программы, комментарии.</li>
-                                    <li>Переменные, типы данных.</li>
-                                    <li>Простейшие операции.</li>
-                                    <li>Ветвление.</li>
-                                    <li>Циклы.</li>
+        <>
+            <Grid.Container gap={2} justify="center" height="100px">
+                <Grid direction="column" xs={18}>
+                    <Text h1 mb={0} mt={0}>
+                        {load ? <Loading/> : selectedCourse.name}
+                    </Text>
+                    <Spacer/>
+                    <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
+                    <Spacer h={3}/>
+                    <Fieldset>
+                        <Fieldset.Title>О курсе</Fieldset.Title>
+                        <Spacer/>
+                        <Fieldset.Subtitle>
+                            {load ? <Loading/> : selectedCourse.description}
+                        </Fieldset.Subtitle>
+                    </Fieldset>
+                    <Spacer/>
+                    <Fieldset>
+                        <Fieldset.Title children="Уроки"/>
+                        <Fieldset.Subtitle>
+                            {load
+                                ? <Loading/>
+                                : <ul>
+                                    {lessons.map(lesson =>
+                                        <li>{lesson.name}</li>
+                                    )}
                                 </ul>
-                            </Collapse>
-                            <Collapse title="Стандартные объекты">
-                                <ul>
-                                    <li>Функции</li>
-                                </ul>
-                            </Collapse>
-                        </Collapse.Group>
-                    </Fieldset.Subtitle>
-                </Fieldset>
-                <Fieldset>
-                    <Fieldset.Title>Отзывы</Fieldset.Title>
-                    <Fieldset.Subtitle>
-                        <User name={"Roman"}/>
-                    </Fieldset.Subtitle>
-                </Fieldset>
-                <Spacer/>
-            </Grid>
-            <Grid xs={6}>
-                <Button type="secondary" children="Начать"/>
-            </Grid>
-        </Grid.Container>
+                            }
+                        </Fieldset.Subtitle>
+                    </Fieldset>
+                </Grid>
+                <Grid xs={6}>
+                    {load
+                        ? <Loading/>
+                        : courseStatus && courseStatus.start
+                            ? <Button onClick={() => navigate(`${location.pathname}/lessons`)} children="Продолжить"/>
+                            : <Button loading={startLoad} onClick={handleStartCourse} type="secondary" children="Начать"/>
+                    }
+                </Grid>
+            </Grid.Container>
+            <Modal {...bindings}>
+                <Modal.Content>
+                    <p>Для сохранения прогресса пожалуйста авторизуйтесь</p>
+                </Modal.Content>
+
+                <Modal.Action passive onClick={() => setVisible(false)}>Отменить</Modal.Action>
+                <Modal.Action onClick={() => navigate(`${location.pathname}/lessons`)}>Продолжить без сохранения</Modal.Action>
+            </Modal>
+        </>
     );
 };
 

@@ -9,6 +9,7 @@ import {getAuth, Auth} from "firebase/auth";
 import { store } from './redux/store';
 import { Provider } from 'react-redux'
 import { getAnalytics } from "firebase/analytics";
+import './index.css'
 
 const firebaseApp = initializeApp({
     apiKey: "AIzaSyDCatacUWWMPhMj2H7r3liwbBEk_Gz9Rmk",
@@ -23,15 +24,14 @@ export const db = getFirestore(firebaseApp);
 export const analytics = getAnalytics(firebaseApp);
 
 const auth: Auth = getAuth();
-const isAuthor = true;
+export const AuthContext = createContext({} as {auth: Auth});
 
-export const AuthContext = createContext({} as {auth: Auth, isAuthor: boolean});
 
 ReactDOM.render(
     <Router>
         <GeistProvider>
             <CssBaseline/>
-            <AuthContext.Provider value={{auth, isAuthor}}>
+            <AuthContext.Provider value={{auth}}>
                 <Provider store={store}>
                     <App/>
                 </Provider>

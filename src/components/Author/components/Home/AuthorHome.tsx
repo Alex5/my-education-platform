@@ -1,18 +1,16 @@
-import {Button, Card, Description, Divider, Grid, Input, Spacer, Text, User} from '@geist-ui/react';
-import React, {useContext, useEffect} from 'react';
-import {Search, UserPlus} from "@geist-ui/react-icons";
-import styled from "styled-components";
-import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
-import {AuthContext} from "../../../../index";
+import {Image, Spacer, Text, Display} from '@geist-ui/react';
+import React from 'react';
+import dev from "../../../../assets/developer.svg"
 
 const AuthorHome = () => {
     return (
-            <>
-                <Spacer/>
-                <Grid.Container gap={2} height="100px">
-                    <p>Какие-то карточки с показателями</p>
-                </Grid.Container>
-            </>
+        <>
+            <Text h2 b children={"Dashboard"}/>
+            <Spacer/>
+            <Display caption="Страница находится в разработке.">
+                <Image width="435px" src={dev}/>
+            </Display>
+        </>
     );
 };
 

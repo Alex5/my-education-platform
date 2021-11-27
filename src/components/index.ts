@@ -5,6 +5,6 @@ export {default as NoMatch} from './NoMatch';
 export {default as Header} from './Header';
 export {default as Footer} from './Footer';
 export {default as ForAuthor} from './ForAuthor';
-export {default as Courses} from './Courses';
+export {default as Courses} from './Courses/Layout';
 export {default as Course} from './Courses/components/Course';
-export {default as CoursesIndex} from './Courses/CoursesIndex';
+export {default as CoursesIndex} from './Courses/Courses';

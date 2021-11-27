@@ -1,11 +1,28 @@
-import React, {FC} from 'react';
-import {Page, Text, Grid, Card, Spacer} from "@geist-ui/react";
+import React, {FC, useEffect, useState} from 'react';
+import {Card, Grid, Loading, Page, Spacer, Text} from "@geist-ui/react";
 import {useNavigate} from 'react-router-dom';
-import {BarChart, Code, Figma} from "@geist-ui/react-icons";
+import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
+import {PublicRequests} from "../../services/publicRequests";
 
 const Home: FC = () => {
     let navigate = useNavigate();
+
+    const CourseSize = ({direction}: any) => {
+        const [size, setSize] = useState(0);
+        const [load, setLoad] = useState(false);
+
+        useEffect(() => {
+            (async () => {
+                setLoad(true)
+                const number = await PublicRequests.getCoursesSize(direction);
+                setLoad(false);
+                setSize(number);
+            })()
+        }, [direction])
+
+        return load ? <Loading/> : <Text>{size} курса</Text>
+    }
 
     return (
         <Page.Content>
@@ -20,7 +37,7 @@ const Home: FC = () => {
                             <Text h4 mb={0} mt={0}> Программирование</Text>
                         </StyledCardContent>
                         <Card.Footer>
-                            <Text>5 курсов</Text>
+                            <CourseSize direction={"programming"}/>
                         </Card.Footer>
                     </Card>
                 </Grid>

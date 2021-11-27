@@ -5,4 +5,3 @@ export {default as AuthorCourse} from './components/AuthorCourses/components/Aut
 export {default as AuthorActivity} from './components/Activity';
 export {default as General} from './components/AuthorCourses/components/AuthorCourse/components/General';
 export {default as EditCourse} from './components/AuthorCourses/components/AuthorCourse/components/EditCourse';
-export {default as CreateCourse} from './components/AuthorCourses/components/CreateCourse';

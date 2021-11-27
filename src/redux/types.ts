@@ -2,8 +2,21 @@ export interface ICourse {
     name: string,
     courseId: string,
     ownerId: string,
-    publicationStatus: string,
-    description?: string
+    published: boolean,
+    description?: string,
+    author?: IAuthor,
+    direction: string,
+}
+
+export interface ICourseStatus {
+    start: boolean,
+    viewedLessons: string[]
+}
+
+export interface IAuthor {
+    name: string,
+    appointment: string,
+    avatar: string
 }
 
 export interface IHomeWork {
@@ -11,7 +24,7 @@ export interface IHomeWork {
     code: string
 }
 
-export interface ILessonInfo {
+export interface ILesson {
     lessonId: string;
     courseId: string
     description: string
@@ -20,14 +33,10 @@ export interface ILessonInfo {
     name: string
 }
 
-export interface ILesson {
-    lessonId: string,
-    name: string
+export interface IUser {
+    author: boolean,
+    appointment: string,
+    loggedIn: boolean
 }
 
-export interface ICourseInfo {
-    courseId: string
-    description: string
-    lessons: ILesson[]
-}
 
