@@ -13,9 +13,18 @@ const Lesson: FC<LessonProps> = ({selectedLesson}) => {
     const lessons = useSelector(getLessons);
 
     const handleLessonEdit = (value: string, key: string) => {
+        const getEmbedLink = (iframeTag: string) => {
+            if (!iframeTag.startsWith('<iframe')) {
+                return ''
+            } else {
+                // @ts-ignore
+                return iframeTag.replace("<iframe", "").trim().match(/src="(.*?)"/)[1];
+            }
+        }
+
         const newLessons = lessons.map(lesson =>
             lesson.lessonId === selectedLesson?.lessonId
-                ? {...lesson, [`${key}`]: value}
+                ? {...lesson, [`${key}`]: key === 'videoLink' ? getEmbedLink(value) : value}
                 : lesson)
         dispatch(setLessons(newLessons));
     }
@@ -49,6 +58,7 @@ const Lesson: FC<LessonProps> = ({selectedLesson}) => {
                     width={"100%"}
                     value={selectedLesson?.videoLink}
                     onChange={(e) => handleLessonEdit(e.target.value, 'videoLink')}
+                    placeholder='<iframe width="560" height="315" src="https://www.youtube.com/embed/...'
                 />
                 <Spacer/>
                 {selectedLesson?.videoLink &&

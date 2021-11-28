@@ -40,7 +40,7 @@ const EditCourse = () => {
 
     const handleLessonsSave = async () => {
         setLoad(true);
-        await AuthorRequests.addLessons(lessons, selectedCourse.courseId)
+        await AuthorRequests.saveLessons(lessons, selectedCourse.courseId)
         setLoad(false);
         setToast({
             text: 'Уроки успешно обновлены',

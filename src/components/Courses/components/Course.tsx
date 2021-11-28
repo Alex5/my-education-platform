@@ -21,8 +21,6 @@ const Course = () => {
 
     const dispatch = useDispatch();
     const selectedCourse = useSelector(getSelectedCourse);
-    const lessons = useSelector(getLessons);
-    const loggedIn = useSelector(getLoggedIn);
     const courseStatus = useSelector(getCourseStatus);
 
     let {courseId} = useParams<"courseId">();
@@ -32,9 +30,8 @@ const Course = () => {
     const {visible, setVisible, bindings} = useModal()
 
     const handleStartCourse = async () => {
-        setStartLoad(true)
-
         try {
+            setStartLoad(true)
             const courseStatus = await UserRequests.startCourse(courseId || '')
             dispatch(setCourseStatus(courseStatus));
             setStartLoad(false)
@@ -45,28 +42,14 @@ const Course = () => {
         }
     }
 
-    const getData = (courseId: string) => {
-        const courseStatus = UserRequests.getCourseStatus(courseId);
-        const lessons = PublicRequests.getLessons(courseId);
-
-        Promise.all([courseStatus, lessons]).then(values => {
-            dispatch(setCourseStatus(values[0]));
-            dispatch(setLessons(values[1]));
-            setLoad(false)
-        }, reason => {
-            reason === 'not_authorized' &&
-            PublicRequests.getLessons(courseId).then(lessons => {
-                dispatch(setLessons(lessons));
-                setLoad(false)
-            })
-        });
+    const handleGetCourseStatus = async () => {
+        const courseStatus = await UserRequests.getCourseStatus(courseId || '');
+        dispatch(setCourseStatus(courseStatus));
     }
 
     useEffect(() => {
-        setLoad(true)
-        getData(courseId || '')
-
         if (Object.keys(selectedCourse).length === 0) {
+            setLoad(true)
             PublicRequests
                 .getCourse(courseId || '')
                 .then(course => {
@@ -74,6 +57,8 @@ const Course = () => {
                     setLoad(false)
                 })
         }
+
+        handleGetCourseStatus()
 
         AnalyticsLogs.pageView(location.pathname, selectedCourse.name)
     }, [courseId, dispatch, selectedCourse])
@@ -102,7 +87,7 @@ const Course = () => {
                             {load
                                 ? <Loading/>
                                 : <ul>
-                                    {lessons.map(lesson =>
+                                    {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
                                         <li>{lesson.name}</li>
                                     )}
                                 </ul>
@@ -115,17 +100,19 @@ const Course = () => {
                         ? <Loading/>
                         : courseStatus && courseStatus.start
                             ? <Button onClick={() => navigate(`${location.pathname}/lessons`)} children="Продолжить"/>
-                            : <Button loading={startLoad} onClick={handleStartCourse} type="secondary" children="Начать"/>
+                            :
+                            <Button loading={startLoad} onClick={handleStartCourse} type="secondary" children="Начать"/>
                     }
                 </Grid>
             </Grid.Container>
             <Modal {...bindings}>
                 <Modal.Content>
-                    <p>Для сохранения прогресса пожалуйста авторизуйтесь</p>
+                    <Text>Прогресс не будет сохранён. Если вы хотите сохранение прогресса, авторизуйтесь.</Text>
                 </Modal.Content>
 
                 <Modal.Action passive onClick={() => setVisible(false)}>Отменить</Modal.Action>
-                <Modal.Action onClick={() => navigate(`${location.pathname}/lessons`)}>Продолжить без сохранения</Modal.Action>
+                <Modal.Action onClick={() => navigate(`${location.pathname}/lessons`)}>Продолжить без
+                    сохранения</Modal.Action>
             </Modal>
         </>
     );

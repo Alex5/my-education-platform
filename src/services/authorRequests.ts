@@ -32,19 +32,9 @@ export class AuthorRequests {
                 docs.push(doc.data() as ICourse);
             });
             return docs;
-        }  else {
+        } else {
             return [];
         }
-        // else {
-        //     const q = query(collection(db, "courses"), where("published", "==", true));
-        //
-        //     const querySnapshot = await getDocs(q);
-        //     const docs: ICourse[] = [];
-        //     querySnapshot.forEach((doc) => {
-        //         docs.push(doc.data() as ICourse);
-        //     });
-        //     return docs;
-        // }
     }
 
     public static async getLessons(courseId: string): Promise<ILesson[]> {
@@ -66,7 +56,7 @@ export class AuthorRequests {
         }
     }
 
-    public static async addLessons(lessons: ILesson[], courseId: string) {
+    public static async saveLessons(lessons: ILesson[], courseId: string) {
         const q = query(collection(db, "lessons"), where("courseId", "==", courseId));
         const querySnapshot = await getDocs(q);
 
@@ -85,8 +75,18 @@ export class AuthorRequests {
 
         await batch.commit();
 
-        return this.getLessons(lessons[0].courseId).then((lessons) => {
-            return lessons;
+        const newLessons = await this.getLessons(lessons[0].courseId)
+
+        await this.updateCourseLessons(newLessons, courseId);
+
+        return newLessons;
+    }
+
+    public static async updateCourseLessons(lessons: ILesson[], courseId: string){
+        const courseRef = doc(db, "courses", courseId);
+
+        await updateDoc(courseRef, {
+            lessons: lessons.map(lesson => ({lessonId: lesson.lessonId, name: lesson.name}))
         })
     }
 
@@ -98,16 +98,16 @@ export class AuthorRequests {
             courseId: courseRef.id
         });
 
-        await this.addLessons([{
+        await this.saveLessons([{
             lessonId: '',
             name: 'Пример урока 1',
             courseId: courseRef.id,
-            description: 'Краткое описание урока',
+            description: 'Описание урока.',
             homeWorks: [{
                 code: '-',
-                description: `Отобразите сообщение «Я люблю ${course.name}!».`
+                description: `Описание домашнего задания.`
             }],
-            videoLink: 'https://www.youtube.com/embed',
+            videoLink: '',
         }], courseRef.id);
 
         return this.getCourses().then((courses) => {

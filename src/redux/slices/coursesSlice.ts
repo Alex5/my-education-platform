@@ -46,6 +46,7 @@ export const getCourses = createSelector(
 
 export const getSelectedCourse = createDraftSafeSelector(selectSelf, (state) => state.selectedCourse)
 export const getLessons = createDraftSafeSelector(selectSelf, (state) => state.lessons)
+export const getPreviewLessons = createDraftSafeSelector(selectSelf, (state) => state.selectedCourse.lessons)
 export const getCourseStatus = createDraftSafeSelector(selectSelf, (state) => state.courseStatus)
 
 export const { setCourses, setSelectedCourse, setLessons, setCourseStatus } = coursesSlice.actions

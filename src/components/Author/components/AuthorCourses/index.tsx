@@ -30,6 +30,7 @@ const AuthorCourses = () => {
             ownerId: user?.uid || '',
             published: false,
             direction: courseDirection,
+            lessons: []
         })
         setLoading(false);
         setAddCourseModal(false);

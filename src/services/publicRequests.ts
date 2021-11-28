@@ -41,7 +41,17 @@ export const PublicRequests = {
 
         return querySnapshot.size;
     },
-    async getLessons(courseId: string){
+    async getLesson(lessonId: string): Promise<ILesson> {
+        const lessonRef = doc(db, "lessons", lessonId);
+        const lessonSnap = await getDoc(lessonRef);
+
+        if (lessonSnap.exists()) {
+            return lessonSnap.data() as ILesson;
+        } else {
+            return {} as ILesson;
+        }
+    },
+    async getLessons(courseId: string) {
         const q = query(collection(db, "lessons"),
             where("courseId", "==", courseId))
 
@@ -59,7 +69,7 @@ export const PublicRequests = {
             return [];
         }
     },
-    async transformToAuthor(userId: string): Promise<IUser>{
+    async transformToAuthor(userId: string): Promise<IUser> {
         const userRef = doc(db, "users", userId);
 
         // Set the "capital" field of the city 'DC'
@@ -73,7 +83,6 @@ export const PublicRequests = {
             console.log("Document data:", docSnap.data());
             return docSnap.data() as IUser;
         } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
             return {} as IUser;
         }

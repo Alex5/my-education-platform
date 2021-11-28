@@ -6,6 +6,7 @@ export interface ICourse {
     description?: string,
     author?: IAuthor,
     direction: string,
+    lessons: Pick<ILesson, "lessonId" | "name">[]
 }
 
 export interface ICourseStatus {

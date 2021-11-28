@@ -38,7 +38,7 @@ export const UserRequests = {
         const {currentUser} = await getAuth();
 
         if (!currentUser) {
-            return Promise.reject();
+            return Promise.reject('not_authorized');
         }
 
         const memberRef = doc(db, "courses", courseId, "members", currentUser.uid);
