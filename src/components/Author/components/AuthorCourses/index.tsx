@@ -5,7 +5,7 @@ import {Search, UserPlus} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {AuthContext} from "../../../../index";
-import {AuthorRequests} from '../../../../services/authorRequests';
+import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice";
 import {ICourse} from "../../../../redux/types";
@@ -30,7 +30,8 @@ const AuthorCourses = () => {
             ownerId: user?.uid || '',
             published: false,
             direction: courseDirection,
-            lessons: []
+            lessons: [],
+            testimonials: []
         })
         setLoading(false);
         setAddCourseModal(false);

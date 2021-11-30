@@ -1,12 +1,13 @@
 import {createDraftSafeSelector, createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {ICourse, ICourseStatus, ILesson} from "../types";
+import {ICourse, ICourseStatus, ILesson, ITestimonial} from "../types";
 import {RootState} from "../store";
 
 export interface CoursesState {
-    courses: ICourse[],
-    selectedCourse: ICourse
-    lessons: ILesson[],
-    courseStatus: ICourseStatus
+    courses: ICourse[];
+    selectedCourse: ICourse;
+    lessons: ILesson[];
+    courseStatus: ICourseStatus;
+    testimonials: ITestimonial[];
 }
 
 const initialState: CoursesState = {
@@ -16,7 +17,8 @@ const initialState: CoursesState = {
     courseStatus: {
         start: false,
         viewedLessons: []
-    }
+    },
+    testimonials: []
 }
 
 export const coursesSlice = createSlice({
@@ -34,6 +36,9 @@ export const coursesSlice = createSlice({
         },
         setCourseStatus(state, action: PayloadAction<ICourseStatus>) {
             state.courseStatus = action.payload;
+        },
+        setTestimonials(state, action: PayloadAction<ITestimonial[]>) {
+            state.testimonials = action.payload
         }
     },
 })
@@ -48,7 +53,8 @@ export const getSelectedCourse = createDraftSafeSelector(selectSelf, (state) => 
 export const getLessons = createDraftSafeSelector(selectSelf, (state) => state.lessons)
 export const getPreviewLessons = createDraftSafeSelector(selectSelf, (state) => state.selectedCourse.lessons)
 export const getCourseStatus = createDraftSafeSelector(selectSelf, (state) => state.courseStatus)
+export const getTestimonials = createDraftSafeSelector(selectSelf, (state) => state.testimonials)
 
-export const { setCourses, setSelectedCourse, setLessons, setCourseStatus } = coursesSlice.actions
+export const { setCourses, setSelectedCourse, setLessons, setCourseStatus, setTestimonials } = coursesSlice.actions
 
 export default coursesSlice.reducer

@@ -1,6 +1,6 @@
 import {collection, getDocs, query, where, doc, getDoc, updateDoc} from "firebase/firestore";
-import {db} from "../index";
-import {IAuthor, ICourse, ILesson, IUser} from "../redux/types";
+import {db} from "../fbconfig";
+import {IAuthor, ICourse, ILesson, ITestimonial, IUser} from "../redux/types";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -86,5 +86,16 @@ export const PublicRequests = {
             console.log("No such document!");
             return {} as IUser;
         }
+    },
+    async getTestimonials(courseId: string): Promise<ITestimonial[]> {
+        const querySnapshot = await getDocs(collection(db, "courses", courseId, 'testimonials'));
+
+        const testimonials: ITestimonial[] = []
+
+        querySnapshot.forEach((doc) => {
+            testimonials.push(doc.data() as ITestimonial)
+        });
+
+        return testimonials;
     }
 }

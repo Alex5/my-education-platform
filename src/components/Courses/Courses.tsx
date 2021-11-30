@@ -4,7 +4,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../redux/slices/coursesSlice";
-import {PublicRequests} from "../../services/publicRequests";
+import {PublicRequests} from "../../api/publicRequests";
 import {ICourse} from "../../redux/types";
 
 const Courses = () => {
@@ -28,6 +28,7 @@ const Courses = () => {
     return (
         <>
             <Text h3>{courses.length} курса по программированию</Text>
+            <Spacer/>
             <Grid.Container gap={2} justify="flex-start">
                 {courses.map(course =>
                     <Grid style={{cursor: 'pointer'}} xs={24} md={8}>

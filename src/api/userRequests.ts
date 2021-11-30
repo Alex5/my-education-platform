@@ -1,7 +1,9 @@
 import {getAuth} from "firebase/auth";
-import {doc, getDoc, setDoc, updateDoc, serverTimestamp} from "firebase/firestore";
-import {db} from "../index";
-import {ICourseStatus} from "../redux/types";
+import {doc, getDoc, serverTimestamp, setDoc, updateDoc} from "firebase/firestore";
+import {db} from "../fbconfig";
+import {ICourseStatus, ITestimonial} from "../redux/types";
+import {nanoid} from "nanoid";
+import {PublicRequests} from "./publicRequests";
 
 export const UserRequests = {
     async startCourse(courseId: string): Promise<ICourseStatus> {
@@ -53,5 +55,21 @@ export const UserRequests = {
         const memberSnap = await getDoc(memberRef)
 
         return memberSnap.data() as ICourseStatus;
+    },
+    async addTestimonial(courseId: string, testimonial: ITestimonial){
+        const {currentUser} = await getAuth();
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        await setDoc(doc(db, "courses", courseId, "testimonials", currentUser.uid), {
+            date: serverTimestamp(),
+            name: testimonial.name,
+            text: testimonial.text,
+            id: nanoid()
+        });
+
+        return await PublicRequests.getTestimonials(courseId)
     }
 }

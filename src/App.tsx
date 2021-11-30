@@ -6,7 +6,7 @@ import AuthorCoursesLayout from "./components/Author/components/AuthorCourses/Au
 import Settings from "./components/Author/components/AuthorCourses/components/AuthorCourse/components/Settings";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, setUser} from "./redux/slices/userSlice";
-import {AuthRequests} from "./services/authRequests";
+import {AuthRequests} from "./api/authRequests";
 import {getAuth, onAuthStateChanged} from "firebase/auth"
 import Lessons from "./components/Lessons";
 

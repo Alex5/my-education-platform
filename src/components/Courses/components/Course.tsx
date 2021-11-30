@@ -1,19 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {Button, Description, Fieldset, Grid, Image, Loading, Modal, Spacer, Text, useModal} from "@geist-ui/react";
+import {
+    Button,
+    Card,
+    Description, Divider,
+    Fieldset,
+    Grid,
+    Loading,
+    Modal,
+    Spacer,
+    Text,
+    Textarea,
+    useModal
+} from "@geist-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getLessons,
     getSelectedCourse,
-    setLessons,
     setSelectedCourse,
     setCourseStatus,
     getCourseStatus
 } from "../../../redux/slices/coursesSlice";
-import {PublicRequests} from "../../../services/publicRequests";
-import {getLoggedIn} from "../../../redux/slices/userSlice";
-import {UserRequests} from "../../../services/userRequests";
+import {PublicRequests} from "../../../api/publicRequests";
+import {UserRequests} from "../../../api/userRequests";
 import {AnalyticsLogs} from "../../../services/analytics";
+import Testimonials from "../../Testimonials";
+import styled from "styled-components";
 
 const Course = () => {
     const [load, setLoad] = useState(false);
@@ -65,51 +76,57 @@ const Course = () => {
 
     return (
         <>
-            <Grid.Container gap={2} justify="center" height="100px">
-                <Grid direction="column" xs={18}>
-                    <Text h1 mb={0} mt={0}>
-                        {load ? <Loading/> : selectedCourse.name}
-                    </Text>
-                    <Spacer/>
-                    <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
-                    <Spacer h={3}/>
-                    <Fieldset>
-                        <Fieldset.Title>О курсе</Fieldset.Title>
+            <StyledCourseHeader>
+                <Grid.Container gap={2} justify="center">
+                    <Grid direction="column" xs={18}>
+                        <Text h1 mb={0} mt={0}>
+                            {load ? <Loading/> : selectedCourse.name}
+                        </Text>
                         <Spacer/>
-                        <Fieldset.Subtitle>
-                            {load ? <Loading/> : selectedCourse.description}
-                        </Fieldset.Subtitle>
-                    </Fieldset>
-                    <Spacer/>
-                    <Fieldset>
-                        <Fieldset.Title children="Уроки"/>
-                        <Fieldset.Subtitle>
-                            {load
-                                ? <Loading/>
-                                : <ul>
-                                    {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
-                                        <li>{lesson.name}</li>
-                                    )}
-                                </ul>
-                            }
-                        </Fieldset.Subtitle>
-                    </Fieldset>
-                </Grid>
-                <Grid xs={6}>
+                        <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
+                    </Grid>
+                    <Grid xs={6} alignItems={"center"}>
+                        {load
+                            ? <Loading/>
+                            : courseStatus && courseStatus.start
+                                ?
+                                <Button onClick={() => navigate(`${location.pathname}/lessons`)} children="Продолжить"/>
+                                :
+                                <Button loading={startLoad} onClick={handleStartCourse} type="secondary"
+                                        children="Начать"/>
+                        }
+                    </Grid>
+                </Grid.Container>
+            </StyledCourseHeader>
+            <Spacer h={3}/>
+            <Fieldset>
+                <Fieldset.Title>О курсе</Fieldset.Title>
+                <Fieldset.Subtitle>
+                    {load ? <Loading/> : selectedCourse.description}
+                </Fieldset.Subtitle>
+            </Fieldset>
+            <Spacer/>
+            <Fieldset>
+                <Fieldset.Title children="Уроки"/>
+                <Fieldset.Subtitle>
                     {load
                         ? <Loading/>
-                        : courseStatus && courseStatus.start
-                            ? <Button onClick={() => navigate(`${location.pathname}/lessons`)} children="Продолжить"/>
-                            :
-                            <Button loading={startLoad} onClick={handleStartCourse} type="secondary" children="Начать"/>
+                        : <ul>
+                            {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
+                                <li>{lesson.name}</li>
+                            )}
+                        </ul>
                     }
-                </Grid>
-            </Grid.Container>
+                </Fieldset.Subtitle>
+            </Fieldset>
+            <Spacer/>
+            <Testimonials/>
             <Modal {...bindings}>
+                <Modal.Title>Уведомление</Modal.Title>
                 <Modal.Content>
-                    <Text>Прогресс не будет сохранён. Если вы хотите сохранение прогресса, авторизуйтесь.</Text>
+                    <Text>Прогресс не будет сохранён, для сохранения авторизуйтесь. Либо продолжите без
+                        сохранения</Text>
                 </Modal.Content>
-
                 <Modal.Action passive onClick={() => setVisible(false)}>Отменить</Modal.Action>
                 <Modal.Action onClick={() => navigate(`${location.pathname}/lessons`)}>Продолжить без
                     сохранения</Modal.Action>
@@ -117,5 +134,13 @@ const Course = () => {
         </>
     );
 };
+
+const StyledCourseHeader = styled.div`
+  position: sticky;
+  background-color: #f7f7f7;
+  top: 10px;
+  padding: 15px;
+  border-radius: 15px;
+`
 
 export default Course;

@@ -1,3 +1,6 @@
+import firebase from "firebase/compat";
+import Timestamp = firebase.firestore.Timestamp;
+
 export interface ICourse {
     name: string,
     courseId: string,
@@ -6,7 +9,8 @@ export interface ICourse {
     description?: string,
     author?: IAuthor,
     direction: string,
-    lessons: Pick<ILesson, "lessonId" | "name">[]
+    lessons: Pick<ILesson, "lessonId" | "name">[],
+    testimonials: ITestimonial[]
 }
 
 export interface ICourseStatus {
@@ -38,6 +42,13 @@ export interface IUser {
     author: boolean,
     appointment: string,
     loggedIn: boolean
+}
+
+export interface ITestimonial {
+    id: string,
+    name: string,
+    text: string,
+    date: Timestamp
 }
 
 

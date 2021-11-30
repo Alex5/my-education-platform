@@ -11,21 +11,8 @@ import { Provider } from 'react-redux'
 import { getAnalytics } from "firebase/analytics";
 import './index.css'
 
-const firebaseApp = initializeApp({
-    apiKey: "AIzaSyDCatacUWWMPhMj2H7r3liwbBEk_Gz9Rmk",
-    authDomain: "my-education-platform.firebaseapp.com",
-    projectId: "my-education-platform",
-    storageBucket: "my-education-platform.appspot.com",
-    messagingSenderId: "856755604690",
-    appId: "1:856755604690:web:2a661047252ffdd488b10b"
-});
-
-export const db = getFirestore(firebaseApp);
-export const analytics = getAnalytics(firebaseApp);
-
 const auth: Auth = getAuth();
 export const AuthContext = createContext({} as {auth: Auth});
-
 
 ReactDOM.render(
     <Router>

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice";
 import {ArrowLeft} from "@geist-ui/react-icons";
-import {AuthorRequests} from "../../../../../../services/authorRequests";
+import {AuthorRequests} from "../../../../../../api/authorRequests";
 
 const AuthorCourse = () => {
     const [load, setLoading] = useState(false);

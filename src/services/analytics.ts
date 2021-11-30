@@ -1,5 +1,5 @@
 import { logEvent } from "firebase/analytics";
-import {analytics} from "../index";
+import {analytics} from "../fbconfig";
 
 export const AnalyticsLogs = {
     pageView(page_path: string, page_title: string){

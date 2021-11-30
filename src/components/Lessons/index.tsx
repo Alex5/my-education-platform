@@ -3,20 +3,17 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     getCourseStatus,
-    getLessons,
-    getPreviewLessons, setCourses,
-    setCourseStatus,
-    setLessons, setSelectedCourse
+    getPreviewLessons,
+    setCourseStatus, setSelectedCourse
 } from "../../redux/slices/coursesSlice";
-import {ICourse, ILesson} from "../../redux/types";
+import {ILesson} from "../../redux/types";
 import styled from "styled-components";
-import {PublicRequests} from "../../services/publicRequests";
+import {PublicRequests} from "../../api/publicRequests";
 import {useParams} from "react-router-dom";
-import {UserRequests} from "../../services/userRequests";
+import {UserRequests} from "../../api/userRequests";
 
 const Lessons = () => {
     const [selectedLesson, setSelectedLesson] = useState<ILesson>({} as ILesson);
-    const [count, setCount] = useState(0);
     const [load, setLoad] = useState(false);
     const {courseId} = useParams<"courseId">()
 
@@ -33,28 +30,36 @@ const Lessons = () => {
     }
 
     const handleNextLesson = async () => {
+        if (courseStatus.viewedLessons.length === lessons.length) {
+            alert('Курс завершён')
+            return;
+        }
+
         try {
             setLoad(true)
             const newCourseStatus = await UserRequests.nextLesson(courseId || '', selectedLesson.lessonId)
             dispatch(setCourseStatus(newCourseStatus));
-            await handleSelectLesson(lessons[newCourseStatus.viewedLessons.length].lessonId)
-            setLoad(false)
+
+            if (newCourseStatus.viewedLessons.length !== lessons.length) {
+                await handleSelectLesson(lessons[newCourseStatus.viewedLessons.length].lessonId)
+                setLoad(false)
+            }
         } catch (e) {
             alert(e);
             setLoad(false)
         }
     }
 
-    const checkIsNext = lessons && selectedLesson.lessonId !== lessons.filter(lesson => !courseStatus.viewedLessons.includes(lesson.lessonId))[0].lessonId
-
     useEffect(() => {
         if (!lessons) {
+            setLoad(true)
             PublicRequests
                 .getCourse(courseId || '')
                 .then(async course => {
                     dispatch(setSelectedCourse(course))
                     const courseStatus = await UserRequests.getCourseStatus(courseId || '');
                     dispatch(setCourseStatus(courseStatus));
+                    setLoad(false)
                 })
         } else {
             courseStatus.viewedLessons.length === lessons.length
@@ -96,7 +101,6 @@ const Lessons = () => {
                 <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
                     {courseStatus.start &&
                     <Button
-                        disabled={checkIsNext}
                         loading={load}
                         onClick={handleNextLesson}
                         children={"Следующий урок"}/>

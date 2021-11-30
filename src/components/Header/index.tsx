@@ -5,13 +5,13 @@ import yandexLogo from "../../assets/YandexLogo.svg";
 import googleLogo from "../../assets/GoogleLogo.svg";
 import {AuthContext} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {AuthRequests} from "../../services/authRequests"
+import {AuthRequests} from "../../api/authRequests"
 import {Link, useNavigate} from "react-router-dom";
 import HeaderMenu from "./HeaderMenu";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, setUser} from "../../redux/slices/userSlice";
 import {Github} from "@geist-ui/react-icons";
-import {PublicRequests} from "../../services/publicRequests";
+import {PublicRequests} from "../../api/publicRequests";
 import {AuthProvider, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
 
 interface HeaderProps {

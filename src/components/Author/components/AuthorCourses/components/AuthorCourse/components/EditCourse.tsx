@@ -6,7 +6,7 @@ import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../re
 import {XCircle} from "@geist-ui/react-icons";
 import {nanoid} from "nanoid";
 import Lesson from "./Lesson";
-import {AuthorRequests} from "../../../../../../../services/authorRequests";
+import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {ILesson} from "../../../../../../../redux/types";
 
 const EditCourse = () => {

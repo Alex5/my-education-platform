@@ -9,7 +9,7 @@ import {
     updateDoc,
     writeBatch, getDoc
 } from "firebase/firestore";
-import {db} from "../index";
+import {db} from "../fbconfig";
 import {ICourse, ILesson, IUser} from "../redux/types";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'

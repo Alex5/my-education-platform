@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Fieldset, Text} from "@geist-ui/react";
-import {AuthorRequests} from "../../../../../../../services/authorRequests";
+import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setCourses} from "../../../../../../../redux/slices/coursesSlice";

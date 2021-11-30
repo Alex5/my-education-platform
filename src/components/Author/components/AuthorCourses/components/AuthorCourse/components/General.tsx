@@ -3,7 +3,7 @@ import {Button, Fieldset, Spacer, Textarea, Note, useToasts, Input, Grid} from "
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getLessons, setLessons, getSelectedCourse} from "../../../../../../../redux/slices/coursesSlice";
-import {AuthorRequests} from "../../../../../../../services/authorRequests";
+import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import styled from "styled-components";
 import {ILesson} from "../../../../../../../redux/types";
 

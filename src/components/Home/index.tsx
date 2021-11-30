@@ -1,14 +1,14 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, memo, useEffect, useState} from 'react';
 import {Card, Grid, Loading, Page, Spacer, Text} from "@geist-ui/react";
-import {useNavigate} from 'react-router-dom';
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
-import {PublicRequests} from "../../services/publicRequests";
+import {PublicRequests} from "../../api/publicRequests";
+import {useNavigate} from "react-router-dom";
+
 
 const Home: FC = () => {
-    let navigate = useNavigate();
-
-    const CourseSize = ({direction}: any) => {
+    const navigate = useNavigate();
+    const CourseSize = memo(({direction}: any) => {
         const [size, setSize] = useState(0);
         const [load, setLoad] = useState(false);
 
@@ -22,7 +22,7 @@ const Home: FC = () => {
         }, [direction])
 
         return load ? <Loading/> : <Text>{size} курса</Text>
-    }
+    })
 
     return (
         <Page.Content>
