@@ -13,6 +13,7 @@ import {getUser, setUser} from "../../redux/slices/userSlice";
 import {Github} from "@geist-ui/react-icons";
 import {PublicRequests} from "../../api/publicRequests";
 import {AuthProvider, GoogleAuthProvider, GithubAuthProvider} from "firebase/auth";
+import {EStatus} from "../../redux/enums";
 
 interface HeaderProps {
     isAuthor: boolean;
@@ -52,7 +53,7 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
 
     const transformToAuthor = async () => {
         setLoad(true)
-        const updatedUser = await PublicRequests.transformToAuthor(user?.uid || '');
+        const updatedUser = await PublicRequests.transformAccount(user?.uid || '', EStatus.author);
         dispatch(setUser(updatedUser));
         setLoad(false)
     }
@@ -75,7 +76,7 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                                 : <Button loading={load} onClick={transformToAuthor} scale={1 / 2} type="secondary"
                                           children="Стать автором"/>
                             }
-                            <Popover style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
+                            <Popover placement={"bottomEnd"} style={{cursor: 'pointer'}} content={<HeaderMenu isAuthor={isAuthor}/>}>
                                 <User scale={1.8} src={user.photoURL != null ? user.photoURL : ''} name=""/>
                             </Popover>
                         </div>

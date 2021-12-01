@@ -4,9 +4,7 @@ import {Outlet} from "react-router-dom";
 
 const Courses = () => {
     return (
-        <Page.Content>
-            <Outlet/>
-        </Page.Content>
+        <Outlet/>
     );
 };
 

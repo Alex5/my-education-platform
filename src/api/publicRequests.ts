@@ -1,6 +1,7 @@
 import {collection, getDocs, query, where, doc, getDoc, updateDoc} from "firebase/firestore";
 import {db} from "../fbconfig";
 import {IAuthor, ICourse, ILesson, ITestimonial, IUser} from "../redux/types";
+import {EStatus} from "../redux/enums";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -69,12 +70,12 @@ export const PublicRequests = {
             return [];
         }
     },
-    async transformToAuthor(userId: string): Promise<IUser> {
+    async transformAccount(userId: string, status: string | number): Promise<IUser> {
         const userRef = doc(db, "users", userId);
 
         // Set the "capital" field of the city 'DC'
         await updateDoc(userRef, {
-            author: true
+            author: status === EStatus.author
         });
 
         const docSnap = await getDoc(userRef);

@@ -1,10 +1,10 @@
 import React, {FC, useContext} from 'react';
-import {Button, Popover, Spacer, Text, User} from "@geist-ui/react";
+import {Popover} from "@geist-ui/react";
 import {AuthContext} from "../../../index";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {signOut} from "../../../redux/slices/userSlice";
-import styled from "styled-components";
+import {routes} from "../../../routes";
 
 interface HeaderMenuProps {
     isAuthor: boolean;
@@ -14,6 +14,8 @@ const HeaderMenu: FC<HeaderMenuProps> = ({isAuthor}) => {
     const {auth} = useContext(AuthContext);
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
     const handleSignOut = () => {
         auth.signOut().then(() => {
             dispatch(signOut())
@@ -21,20 +23,24 @@ const HeaderMenu: FC<HeaderMenuProps> = ({isAuthor}) => {
     }
 
     return (
-        <StyledHeaderMenu>
-            <User scale={6} src={auth.currentUser?.photoURL || ''} name=""/>
-            <Text b>{auth.currentUser?.displayName}</Text>
-            <Text>{auth.currentUser?.email}</Text>
-            <Button scale={1/2} children="Выйти" onClick={handleSignOut}/>
-        </StyledHeaderMenu>
+        <>
+            <Popover.Item>
+                <span>Дашборд</span>
+            </Popover.Item>
+            <Popover.Item line />
+            <Popover.Item onClick={() => navigate('/account')}>
+                <span>Настройки</span>
+            </Popover.Item>
+            <Popover.Item line />
+            <Popover.Item>
+                <span>Написать команде</span>
+            </Popover.Item>
+            <Popover.Item line />
+            <Popover.Item onClick={handleSignOut}>
+                <span>Выйти</span>
+            </Popover.Item>
+        </>
     );
 };
-
-const StyledHeaderMenu = styled.div`
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
 
 export default HeaderMenu;
