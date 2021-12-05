@@ -1,5 +1,5 @@
 import React, {FC, useContext} from 'react';
-import {Popover} from "@geist-ui/react";
+import {Link, Popover} from "@geist-ui/react";
 import {AuthContext} from "../../../index";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
@@ -24,17 +24,17 @@ const HeaderMenu: FC<HeaderMenuProps> = ({isAuthor}) => {
 
     return (
         <>
-            <Popover.Item>
-                <span>Дашборд</span>
-            </Popover.Item>
-            <Popover.Item line />
+            {/*<Popover.Item>*/}
+            {/*    <span>Дашборд</span>*/}
+            {/*</Popover.Item>*/}
+            {/*<Popover.Item line />*/}
             <Popover.Item onClick={() => navigate('/account')}>
                 <span>Настройки</span>
             </Popover.Item>
-            <Popover.Item line />
-            <Popover.Item>
-                <span>Написать команде</span>
-            </Popover.Item>
+            {/*<Popover.Item line />*/}
+            {/*<Popover.Item>*/}
+            {/*    <Link href="https://t.me/alex_samurai" target="_blank">Написать команде</Link>*/}
+            {/*</Popover.Item>*/}
             <Popover.Item line />
             <Popover.Item onClick={handleSignOut}>
                 <span>Выйти</span>

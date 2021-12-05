@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {FC, useContext, useEffect, useState} from 'react';
 import {Button, Card, Description, Fieldset, Loading, Spacer, Text, Textarea} from "@geist-ui/react";
 import {PublicRequests} from "../../api/publicRequests";
 import {UserRequests} from "../../api/userRequests";
@@ -8,64 +8,59 @@ import {nanoid} from "nanoid";
 import {AuthContext} from "../../index";
 import {serverTimestamp, Timestamp} from "firebase/firestore";
 import {useParams} from "react-router-dom";
+import {IYouTubeComment} from "./types";
+import {Heart} from "@geist-ui/react-icons";
 
-const Testimonials = () => {
+interface TestimonialsProps {
+    videoId: string | undefined
+}
+
+const Testimonials: FC<TestimonialsProps> = ({videoId}) => {
     const [load, setLoad] = useState<boolean>(false);
-    const [text, setText] = useState<string>('');
-
-    const {courseId} = useParams<"courseId">()
-
-    const dispatch = useDispatch();
-    const testimonials = useSelector(getTestimonials);
-    const {auth} = useContext(AuthContext);
-
-    const handleAddTestimonial = async () => {
-        setLoad(true)
-        const testimonials = await UserRequests.addTestimonial(courseId || '', {
-            text: text,
-            date: serverTimestamp() as Timestamp,
-            id: nanoid(),
-            name: auth.currentUser?.displayName || ''
-        })
-        dispatch(setTestimonials(testimonials));
-        setLoad(false)
-    }
+    const [comments, setComments] = useState<IYouTubeComment[]>([])
 
     useEffect(() => {
         setLoad(true)
         PublicRequests
-            .getTestimonials(courseId || '')
-            .then(testimonials => {
-                dispatch(setTestimonials(testimonials));
+            .getTestimonials(videoId || '')
+            .then(comments => {
+                setComments(comments);
                 setLoad(false);
             })
-    }, [courseId])
+    }, [videoId])
 
     return (
         <Fieldset>
-            <Fieldset.Title children="Отзывы"/>
+            <Fieldset.Title children="Отзывы c YouTube"/>
+            <Spacer/>
             <Fieldset.Subtitle>
                 {load
                     ? <Loading/>
-                    : testimonials && testimonials.map(testimonial =>
-                    <Card hoverable mb={1} key={testimonial.id}>
-                        <Description title={testimonial.name} content={testimonial.text}/>
-                        <Text type={"secondary"}>{testimonial.date.toDate().toLocaleDateString('ru-RU')}</Text>
+                    : comments && comments.map(comment =>
+                    <Card mb={1} key={comment.id}>
+                        <Description
+                            title={comment.snippet.topLevelComment.snippet.authorDisplayName}
+                            content={comment.snippet.topLevelComment.snippet.textOriginal}/>
+                        <div style={{display: 'flex'}}>
+                            <Text
+                                type={"secondary"}
+                            >
+                                {new Date(comment.snippet.topLevelComment.snippet.updatedAt).toLocaleDateString()}
+                            </Text>
+                            <Spacer/>
+                            <Text
+                                type={"secondary"}
+                            >
+                                {new Date(comment.snippet.topLevelComment.snippet.updatedAt).toLocaleTimeString()}
+                            </Text>
+                        </div>
+                        <div style={{display: 'flex'}}>
+                            <Button type="abort" scale={1/2} icon={<Heart />} auto>{comment.snippet.topLevelComment.snippet.likeCount}</Button>
+                        </div>
                     </Card>
                 )
                 }
                 <Spacer/>
-                <Fieldset>
-                    <Fieldset.Title style={{fontSize: '16px', fontWeight: 400}}>Оставить
-                        отзыв</Fieldset.Title>
-                    <Fieldset.Subtitle>
-                        <Textarea onChange={e => setText(e.target.value)} width={"100%"} placeholder="Текст отзыва"/>
-                    </Fieldset.Subtitle>
-                    <Fieldset.Footer>
-                        <span/>
-                        <Button loading={load} onClick={handleAddTestimonial} auto scale={1 / 3}>Сохранить</Button>
-                    </Fieldset.Footer>
-                </Fieldset>
             </Fieldset.Subtitle>
         </Fieldset>
     );

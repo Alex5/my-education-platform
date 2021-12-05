@@ -1,7 +1,8 @@
 import {collection, getDocs, query, where, doc, getDoc, updateDoc} from "firebase/firestore";
 import {db} from "../fbconfig";
-import {IAuthor, ICourse, ILesson, ITestimonial, IUser} from "../redux/types";
+import {ICourse, ILesson, IUser} from "../redux/types";
 import {EStatus} from "../redux/enums";
+import {IYouTubeComment} from "../components/Testimonials/types";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -88,15 +89,15 @@ export const PublicRequests = {
             return {} as IUser;
         }
     },
-    async getTestimonials(courseId: string): Promise<ITestimonial[]> {
-        const querySnapshot = await getDocs(collection(db, "courses", courseId, 'testimonials'));
+    async getTestimonials(videoId: string): Promise<IYouTubeComment[]> {
+        const apiUrl = 'https://youtube.googleapis.com/youtube/v3/commentThreads'
 
-        const testimonials: ITestimonial[] = []
-
-        querySnapshot.forEach((doc) => {
-            testimonials.push(doc.data() as ITestimonial)
-        });
-
-        return testimonials;
+        return fetch(`${apiUrl}?part=snippet&videoId=${videoId}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}&maxResults=5`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                return data.items;
+            });
     }
 }

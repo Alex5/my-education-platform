@@ -120,7 +120,6 @@ const Course = () => {
                 </Fieldset.Subtitle>
             </Fieldset>
             <Spacer/>
-            <Testimonials/>
             <Modal {...bindings}>
                 <Modal.Title>Уведомление</Modal.Title>
                 <Modal.Content>

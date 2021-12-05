@@ -1,4 +1,4 @@
-import {Button, Card, Grid, Loading, Spacer, Text} from '@geist-ui/react';
+import {Button, Card, Grid, Loading, Spacer, Text, Tooltip} from '@geist-ui/react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
 import {useParams} from "react-router-dom";
 import {UserRequests} from "../../api/userRequests";
+import Testimonials from "../Testimonials";
 
 const Lessons = () => {
     const [selectedLesson, setSelectedLesson] = useState<ILesson>({} as ILesson);
@@ -70,9 +71,9 @@ const Lessons = () => {
 
     return (
         <>
-            <Text height={"100px"} h2 children={selectedLesson.name}/>
+            <Text h2 children={selectedLesson.name}/>
             <Spacer/>
-            <Grid.Container gap={2} justify="center" height="100px">
+            <Grid.Container gap={2} justify="center">
                 <Grid xs={6} direction="column">
                     {lessons && lessons.map(lesson =>
                         <StyledLesson
@@ -81,9 +82,9 @@ const Lessons = () => {
                             selectedLessonId={selectedLesson.lessonId}
                             onClick={() => handleSelectLesson(lesson.lessonId)}
                         >
-                            <span>
-                                 {`${lesson.name.slice(0, 25)}...`}
-                            </span>
+                            <Tooltip text={lesson.name}>
+                                {`${lesson.name.slice(0, 25)}...`}
+                            </Tooltip>
                         </StyledLesson>
                     )}
                 </Grid>
@@ -95,18 +96,19 @@ const Lessons = () => {
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                   allowFullScreen/>
                     }
-
+                    <Spacer/>
+                    <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
+                        {courseStatus.start &&
+                        <Button
+                            type={"secondary"}
+                            loading={load}
+                            onClick={handleNextLesson}
+                            children={"Следующий урок"}/>
+                        }
+                    </div>
+                    <Spacer/>
+                    <Testimonials videoId={selectedLesson.videoId}/>
                 </Grid>
-                <Spacer/>
-                <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
-                    {courseStatus.start &&
-                    <Button
-                        loading={load}
-                        onClick={handleNextLesson}
-                        children={"Следующий урок"}/>
-                    }
-                </div>
-
             </Grid.Container>
         </>
 
@@ -116,7 +118,7 @@ const Lessons = () => {
 const StyledLesson = styled.div<{ viewedLessons: string[], lessonId: string, selectedLessonId: string }>`
   background-color: ${props => props.viewedLessons.includes(props.lessonId) ? "#3291FF" : '#EAEAEA'};
   color: ${props => props.viewedLessons.includes(props.lessonId) ? "white" : 'black'};
-  border: ${props => props.selectedLessonId === props.lessonId ? '2px solid #999999' : '2px solid transparent'};
+  border: ${props => props.selectedLessonId === props.lessonId ? '2px solid black' : '2px solid transparent'};
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;

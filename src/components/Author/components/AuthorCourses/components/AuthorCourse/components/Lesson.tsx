@@ -26,6 +26,7 @@ const Lesson: FC<LessonProps> = ({selectedLesson}) => {
             lesson.lessonId === selectedLesson?.lessonId
                 ? {...lesson, [`${key}`]: key === 'videoLink' ? getEmbedLink(value) : value}
                 : lesson)
+
         dispatch(setLessons(newLessons));
     }
 

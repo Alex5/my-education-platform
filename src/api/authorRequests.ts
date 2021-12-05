@@ -70,7 +70,11 @@ export class AuthorRequests {
 
         lessons.forEach(lesson => {
             const lessonRef = doc(db, "lessons", nanoid());
-            batch.set(lessonRef, {...lesson, lessonId: lessonRef.id}, {merge: true});
+            batch.set(lessonRef, {
+                ...lesson,
+                lessonId: lessonRef.id,
+                videoId: lesson.videoLink.split("embed/")[1]
+            }, {merge: true});
         })
 
         await batch.commit();
@@ -82,7 +86,7 @@ export class AuthorRequests {
         return newLessons;
     }
 
-    public static async updateCourseLessons(lessons: ILesson[], courseId: string){
+    public static async updateCourseLessons(lessons: ILesson[], courseId: string) {
         const courseRef = doc(db, "courses", courseId);
 
         await updateDoc(courseRef, {
