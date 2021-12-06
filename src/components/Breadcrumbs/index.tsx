@@ -1,24 +1,22 @@
-import React from 'react';
-import {NavLink, useNavigate, useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
 import {Breadcrumbs as GBreadcrumbs, Spacer} from "@geist-ui/react";
 import useBreadcrumbs, {BreadcrumbMatch} from 'use-react-router-breadcrumbs';
-import styled from "styled-components";
+import {PublicRequests} from "../../api/publicRequests";
 
 
 const Breadcrumbs = () => {
-    const {courseId} = useParams<"courseId">();
+    const [courseNames, setCourseNames] = useState({});
     const {courseDirection} = useParams<"courseDirection">();
     const navigate = useNavigate();
 
-    const coursesNameById = {
-        'sfycqhBAFUc8in0EbZDd': 'React Router 6',
-        'IGHUKWq5SNZG2bsWYZG5': 'Авторизация в React-приложении с Firebase и Redux-Toolkit',
+    const directionNameById = {
+        [`${courseDirection}`]: 'Программирование'
     }
-    const directionNameById = {[`${courseDirection}`]: 'Программирование'}
 
     const DynamicUserBreadcrumb = ({match}: { match: BreadcrumbMatch }) => (
         // @ts-ignore
-        <span>{coursesNameById[match.params.courseId]}</span>
+        <span>{courseNames[match.params.courseId]}</span>
     );
 
     const DynamicDirectionBreadcrumb = ({match}: { match: BreadcrumbMatch }) => (
@@ -35,6 +33,12 @@ const Breadcrumbs = () => {
     ];
 
     const breadcrumbs = useBreadcrumbs(routes)
+
+    useEffect(() => {
+        PublicRequests.getCourseNamesMap().then(courseNames => {
+            setCourseNames(courseNames);
+        })
+    }, [])
 
     return (
         <>

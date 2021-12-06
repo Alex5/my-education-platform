@@ -30,6 +30,7 @@ const EditCourse = () => {
             description: '',
             homeWorks: [],
             videoLink: '',
+            videoId: ''
         }]))
     }
 

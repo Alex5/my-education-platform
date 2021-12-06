@@ -99,5 +99,15 @@ export const PublicRequests = {
             .then((data) => {
                 return data.items;
             });
+    },
+    async getCourseNamesMap(): Promise<any> {
+        const courseRef = doc(db, "courses", '--coursesNames--');
+        const courseNamesSnap = await getDoc(courseRef);
+
+        if (courseNamesSnap.exists()) {
+            return courseNamesSnap.data();
+        } else {
+            return {};
+        }
     }
 }

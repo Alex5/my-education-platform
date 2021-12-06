@@ -36,7 +36,7 @@ export interface ILesson {
     homeWorks: IHomeWork[]
     videoLink: string,
     name: string,
-    videoId?: string
+    videoId: string
 }
 
 export interface IUser {

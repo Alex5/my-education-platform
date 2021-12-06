@@ -7,10 +7,10 @@ import {
     deleteDoc,
     addDoc,
     updateDoc,
-    writeBatch, getDoc
+    writeBatch, getDoc, setDoc
 } from "firebase/firestore";
 import {db} from "../fbconfig";
-import {ICourse, ILesson, IUser} from "../redux/types";
+import {ICourse, ILesson} from "../redux/types";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'
 
@@ -73,7 +73,7 @@ export class AuthorRequests {
             batch.set(lessonRef, {
                 ...lesson,
                 lessonId: lessonRef.id,
-                videoId: lesson.videoLink.split("embed/")[1]
+                videoId: lesson.videoLink.split("embed/")[1] || ''
             }, {merge: true});
         })
 
@@ -102,6 +102,14 @@ export class AuthorRequests {
             courseId: courseRef.id
         });
 
+        const courseNamesRef = doc(db, "courses", "--coursesNames--");
+        const courseNamesSnap = await getDoc(courseNamesRef);
+
+        await setDoc(doc(db, "courses", "--coursesNames--"), {
+            ...courseNamesSnap.data(),
+            [courseRef.id]: course.name
+        });
+
         await this.saveLessons([{
             lessonId: '',
             name: 'Пример урока 1',
@@ -112,11 +120,14 @@ export class AuthorRequests {
                 description: `Описание домашнего задания.`
             }],
             videoLink: '',
+            videoId: ''
         }], courseRef.id);
 
-        return this.getCourses().then((courses) => {
-            return courses;
-        })
+        return this
+            .getCourses()
+            .then((courses) => {
+                return courses;
+            })
     }
 
     public static async deleteCourse(courseId: string) {
