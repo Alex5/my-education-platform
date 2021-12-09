@@ -1,6 +1,6 @@
 import React from 'react';
 import {Outlet, useLocation} from "react-router-dom";
-import {Link, Page, Spacer, Text} from "@geist-ui/react";
+import {Link, Page, Text} from "@geist-ui/react";
 import {Breadcrumbs, Header} from "../index";
 import {useSelector} from "react-redux";
 import {getUser} from "../../redux/slices/userSlice";
@@ -11,36 +11,35 @@ const Layout = () => {
     const {author} = useSelector(getUser);
 
     return (
-        <PageContainer>
+        <>
             <Header isAuthor={author}/>
             <StyledPage>
                 <Page.Content>
                     {location.pathname !== "/" && !location.pathname.includes('/author') && <Breadcrumbs/>}
                     <Outlet/>
                 </Page.Content>
-                <Page.Footer style={{
-                    position: 'fixed',
-                    height: '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    left: 0,
-                    backgroundColor: "white",
-                    boxShadow: 'inset 0 -1px #eaeaea',
-                }}>
-                    <Text b children="Проект создан: "/>
+                <PageFooter>
+                    <Text type={"secondary"} small b children="Проект создан: "/>
                     <Link block target={"_blank"} href={"https://github.com/Alex5"} color
-                          children={"Ильин Алексей (JavaScript - разработчик)"}/>
-                </Page.Footer>
+                          children={"Ильин Алексей (JavaScript разработчик)"}/>
+                </PageFooter>
             </StyledPage>
-        </PageContainer>
+        </>
     );
 };
 
-const PageContainer = styled.div`
-  background-color: #fafafa;
-  min-height: calc(100vh - 1px);
+const PageFooter = styled.div`
+  position: fixed;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+  box-shadow: inset 0 1px #eaeaea;
+  z-index: 2;
 `
 
 const StyledPage = styled.div`

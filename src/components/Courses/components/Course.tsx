@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
     Button,
-    Card,
-    Description, Divider,
+    Description,
     Fieldset,
     Grid,
     Loading,
@@ -23,7 +22,6 @@ import {
 import {PublicRequests} from "../../../api/publicRequests";
 import {UserRequests} from "../../../api/userRequests";
 import {AnalyticsLogs} from "../../../services/analytics";
-import Testimonials from "../../Testimonials";
 import styled from "styled-components";
 
 const Course = () => {
@@ -38,7 +36,7 @@ const Course = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {visible, setVisible, bindings} = useModal()
+    const {setVisible, bindings} = useModal()
 
     const handleStartCourse = async () => {
         try {
@@ -71,8 +69,8 @@ const Course = () => {
 
         handleGetCourseStatus()
 
-        AnalyticsLogs.pageView(location.pathname, selectedCourse.name)
-    }, [courseId, dispatch, selectedCourse])
+        AnalyticsLogs.pageView(location.pathname, selectedCourse.name, courseId || '')
+    }, [courseId, dispatch, selectedCourse, location.pathname])
 
     return (
         <>

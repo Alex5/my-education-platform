@@ -21,7 +21,8 @@ export interface ICourseStatus {
 export interface IAuthor {
     name: string,
     appointment: string,
-    avatar: string
+    avatar: string,
+    channelLink: string
 }
 
 export interface IHomeWork {

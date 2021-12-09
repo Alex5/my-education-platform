@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {Card, Description, Divider, Grid, Spacer, Text, User} from "@geist-ui/react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {Card, Description, Divider, Grid, Spacer, Text} from "@geist-ui/react";
+import {useNavigate, useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../redux/slices/coursesSlice";

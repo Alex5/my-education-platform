@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
-import {Button, Divider, Grid, Spacer, Tag, Text} from "@geist-ui/react";
+import {Badge, Button, Divider, Grid, Spacer, Tag, Text} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice";
@@ -32,35 +32,30 @@ const AuthorCourse = () => {
         <>
             <StyledInfoHeader>
                 <div style={{display: 'flex', alignItems: 'center'}}>
-                    <Text
-                        style={{fontWeight: 500, fontSize: '2rem'}}
-                        h1
-                        children={selectedCourse.name}
-                    />
+                    <Text h2 children={selectedCourse.name}/>
                     <Spacer/>
-                    {selectedCourse.published
-                        ? <Tag type="success">Опубликован</Tag>
-                        : <Tag type="secondary">Черновик</Tag>
-                    }
 
                 </div>
-                {selectedCourse.published
-                    ? <Button
-                        onClick={() => handlePublishCourse(false)}
-                        loading={load}
-                        auto
-                        type="warning"
-                        children={"Снять с публикации"}
-                    />
-                    :
-                    <Button
-                        onClick={() => handlePublishCourse(true)}
-                        loading={load}
-                        auto
-                        type="success"
-                        children={"Опубликовать"}
-                    />
-                }
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    {selectedCourse.published
+                        ? <Button
+                            onClick={() => handlePublishCourse(false)}
+                            loading={load}
+                            auto
+                            children={"Снять с публикации"}
+                        />
+                        :
+                        <Button
+                            onClick={() => handlePublishCourse(true)}
+                            loading={load}
+                            auto
+                            type="success"
+                            children={"Опубликовать"}
+                        />
+                    }
+                    <Spacer/>
+                    <Button disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"}/>
+                </div>
             </StyledInfoHeader>
             <Spacer h={3}/>
             <Grid.Container gap={2} justify="center" height="100px">

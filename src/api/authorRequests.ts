@@ -7,7 +7,7 @@ import {
     deleteDoc,
     addDoc,
     updateDoc,
-    writeBatch, getDoc, setDoc
+    writeBatch, getDoc, setDoc, deleteField, serverTimestamp
 } from "firebase/firestore";
 import {db} from "../fbconfig";
 import {ICourse, ILesson} from "../redux/types";
@@ -95,7 +95,7 @@ export class AuthorRequests {
     }
 
     public static async addCourse(course: ICourse): Promise<ICourse[]> {
-        const docRef = await addDoc(collection(db, "courses"), course);
+        const docRef = await addDoc(collection(db, "courses"), {...course, createdAt: serverTimestamp()});
         const courseRef = doc(db, "courses", docRef.id);
 
         await updateDoc(courseRef, {
@@ -130,13 +130,22 @@ export class AuthorRequests {
             })
     }
 
-    public static async deleteCourse(courseId: string) {
+    public static async deleteCourse(courseId: string): Promise<ICourse[]> {
+        const coursesNamesRef = doc(db, 'courses', '--coursesNames--');
+
+        await updateDoc(coursesNamesRef, {
+            [courseId]: deleteField()
+        });
+
         await deleteDoc(doc(db, "courses", courseId));
+
         const q = query(collection(db, "lessons"), where("courseId", "==", courseId));
         const querySnapshot = await getDocs(q);
+
         querySnapshot.forEach((doc) => {
             deleteDoc(doc.ref);
         });
+
         return this.getCourses().then((courses) => {
             return courses;
         })
@@ -146,7 +155,8 @@ export class AuthorRequests {
         const courseRef = doc(db, "courses", courseId);
 
         await updateDoc(courseRef, {
-            [key]: data
+            [key]: data,
+            updatedAt: serverTimestamp()
         });
 
         const docSnap = await getDoc(courseRef)

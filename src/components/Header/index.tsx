@@ -9,7 +9,6 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeaderMenu from "./HeaderMenu";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser, setUser} from "../../redux/slices/userSlice";
-import {Github} from "@geist-ui/react-icons";
 import {PublicRequests} from "../../api/publicRequests";
 import {EStatus} from "../../redux/enums";
 import AuthorTabs from "../Author/components/AuthorTabs";
@@ -85,16 +84,10 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                                 <ButtonGroup>
                                     <Button onClick={() => login('google')}
                                             icon={<img height={"17px"} src={googleLogo} alt="Google Logo"/>}/>
-                                    {/*<Button onClick={() => login('github')}*/}
-                                    {/*        icon={<Github/>}*/}
-                                    {/*/>*/}
                                 </ButtonGroup>
                                 <Spacer/>
                             </StyledActions>
                     }
-                    <GLInk href={'https://github.com/Alex5/my-education-platform'} target={"_blank"}>
-                        <Github/>
-                    </GLInk>
                 </div>
             </StyledHeaderContent>
             {location.pathname.includes('/author') &&
@@ -107,12 +100,13 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
 };
 
 const StyledHeader = styled.nav<{ author: boolean }>`
-  height: ${props => props.author ? 'unset' : '80px'};
+  //height: ${props => props.author ? 'unset' : '80px'};
   display: flex;
   flex-direction: column;
   box-shadow: inset 0 -1px #eaeaea;
   width: 100%;
   background-color: white;
+ 
 `
 const StyledHeaderContent = styled.div`
   justify-content: space-between;
