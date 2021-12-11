@@ -6,11 +6,12 @@ export interface ICourse {
     courseId: string,
     ownerId: string,
     published: boolean,
-    description?: string,
-    author?: IAuthor,
+    description: string,
+    author: IAuthor,
     direction: string,
     lessons: Pick<ILesson, "lessonId" | "name">[],
-    testimonials: ITestimonial[]
+    testimonials: ITestimonial[];
+    cover: ''
 }
 
 export interface ICourseStatus {
@@ -52,5 +53,7 @@ export interface ITestimonial {
     text: string,
     date: Timestamp
 }
+
+export type IKey = 'author' | 'name' | 'description' | 'cover'
 
 

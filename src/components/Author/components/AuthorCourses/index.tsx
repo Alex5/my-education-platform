@@ -8,7 +8,7 @@ import {AuthContext} from "../../../../index";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice";
-import {ICourse} from "../../../../redux/types";
+import {IAuthor, ICourse} from "../../../../redux/types";
 import {Select, Spacer} from "@geist-ui/react";
 
 const AuthorCourses = () => {
@@ -31,7 +31,10 @@ const AuthorCourses = () => {
             published: false,
             direction: courseDirection,
             lessons: [],
-            testimonials: []
+            testimonials: [],
+            author: {} as IAuthor,
+            description: '',
+            cover: ''
         })
         setLoading(false);
         setAddCourseModal(false);
@@ -40,11 +43,11 @@ const AuthorCourses = () => {
     }
 
     const handleSelectCourse = (course: ICourse) => {
-        dispatch(setSelectedCourse(course));
-        navigate(`${location.pathname}/${course.courseId}`)
+        return () => {
+            dispatch(setSelectedCourse(course));
+            navigate(`${location.pathname}/${course.courseId}`)
+        }
     }
-
-    const handler = (val: any) => setCourseDirection(val)
 
     useEffect(() => {
         (async () => {
@@ -77,9 +80,9 @@ const AuthorCourses = () => {
                             <Geist.Grid xs={24} sm={12} md={8}>
                                 <Geist.Card
                                     style={{cursor: 'pointer'}} hoverable width="100%"
-                                    onClick={() => handleSelectCourse(course)}
+                                    onClick={handleSelectCourse(course)}
                                 >
-                                    <Geist.Text h3>{course.name}</Geist.Text>
+                                    <Geist.Text h4>{course.name.slice(0, 25)}</Geist.Text>
                                     <Geist.Divider/>
                                     <Geist.Spacer/>
                                     <Geist.Description
@@ -118,7 +121,7 @@ const AuthorCourses = () => {
                     <Select
                         width={"100%"}
                         placeholder="Выберите направление"
-                        onChange={handler}
+                        onChange={(val: any) => setCourseDirection(val)}
                     >
                         <Select.Option value="programming">Программирование</Select.Option>
                     </Select>

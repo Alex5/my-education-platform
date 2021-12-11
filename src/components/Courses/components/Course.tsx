@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
-    Button,
+    Button, ButtonGroup,
     Description,
     Fieldset,
-    Grid,
+    Grid, Image, Link,
     Loading,
     Modal,
-    Spacer,
+    Spacer, Tag,
     Text,
-    Textarea,
     useModal
 } from "@geist-ui/react";
 import {useDispatch, useSelector} from "react-redux";
@@ -23,6 +22,7 @@ import {PublicRequests} from "../../../api/publicRequests";
 import {UserRequests} from "../../../api/userRequests";
 import {AnalyticsLogs} from "../../../services/analytics";
 import styled from "styled-components";
+import {Heart, Youtube} from "@geist-ui/react-icons";
 
 const Course = () => {
     const [load, setLoad] = useState(false);
@@ -74,33 +74,67 @@ const Course = () => {
 
     return (
         <>
-            <StyledCourseHeader>
-                <Grid.Container gap={2} justify="center">
-                    <Grid direction="column" xs={18}>
-                        <Text h1 mb={0} mt={0}>
-                            {load ? <Loading/> : selectedCourse.name}
-                        </Text>
-                        <Spacer/>
-                        <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
-                    </Grid>
-                    <Grid xs={6} alignItems={"center"}>
+            <Grid.Container gap={2} justify="space-between" direction={"row"}>
+                <Grid>
+                    <Text h3 mb={0} mt={0}>
+                        {load ? <Loading/> : selectedCourse.name}
+                    </Text>
+                </Grid>
+                <Grid>
+                    <div style={{display: 'flex'}}>
+                        <Button disabled mr={1} auto icon={<Heart/>}/>
                         {load
                             ? <Loading/>
                             : courseStatus && courseStatus.start
                                 ?
-                                <Button onClick={() => navigate(`${location.pathname}/lessons`)} children="Продолжить"/>
+                                <Button type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
+                                        children="Продолжить"/>
                                 :
                                 <Button loading={startLoad} onClick={handleStartCourse} type="secondary"
                                         children="Начать"/>
                         }
-                    </Grid>
-                </Grid.Container>
-            </StyledCourseHeader>
+                    </div>
+                </Grid>
+            </Grid.Container>
+            <Spacer h={2}/>
+            <Grid.Container gap={2} justify="center">
+                <Grid direction="column" xs={16}>
+                    <Image src={selectedCourse.cover || ''}/>
+                </Grid>
+                <Grid xs={8} direction={"column"}>
+                    <StyledBubble>
+                        <Description title="Краткое описание" content={<Text small>
+                            Завершая десятилетие клиентской маршрутизации, React Router v6 берет лучшие функции из
+                            предыдущих версий - и своего родственного проекта Reach Router!
+                        </Text>}/>
+                    </StyledBubble>
+                    <Spacer/>
+                    <StyledBubble>
+                        <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
+                    </StyledBubble>
+                    <Spacer/>
+                    <StyledBubble>
+                        <Description title="Соц. сети автора" content={<>
+                            <Link target={"_blank"} href={selectedCourse.author?.channelLink}>
+                                <Youtube/>
+                            </Link>
+                        </>}/>
+                    </StyledBubble>
+                    <Spacer/>
+                    <StyledBubble>
+                        <Description title="Популярные теги" content={<StyledTags>
+                            <Tag scale={1 / 2}>React Router 6</Tag>
+                            <Tag scale={1 / 2}>React</Tag>
+                        </StyledTags>}/>
+                    </StyledBubble>
+                    <Spacer/>
+                </Grid>
+            </Grid.Container>
             <Spacer h={3}/>
             <Fieldset>
-                <Fieldset.Title>О курсе</Fieldset.Title>
+                <Fieldset.Title>Об этом курсе</Fieldset.Title>
                 <Fieldset.Subtitle>
-                    {load ? <Loading/> : selectedCourse.description}
+                    {load ? <Loading/> : <Text>{selectedCourse.description}</Text>}
                 </Fieldset.Subtitle>
             </Fieldset>
             <Spacer/>
@@ -132,12 +166,17 @@ const Course = () => {
     );
 };
 
-const StyledCourseHeader = styled.div`
-  position: sticky;
+const StyledBubble = styled.div`
   background-color: #f7f7f7;
-  top: 10px;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #e3e3e3;
 `
+
+const StyledTags = styled.div`
+  display: flex;
+  gap: 5px;
+`
+
 
 export default Course;

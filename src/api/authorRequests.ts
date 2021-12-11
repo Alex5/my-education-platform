@@ -154,6 +154,8 @@ export class AuthorRequests {
     public static async updateCourse(courseId: string, key: string, data: string | boolean | number | {}): Promise<ICourse> {
         const courseRef = doc(db, "courses", courseId);
 
+        debugger
+
         await updateDoc(courseRef, {
             [key]: data,
             updatedAt: serverTimestamp()

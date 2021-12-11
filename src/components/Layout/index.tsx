@@ -1,6 +1,6 @@
 import React from 'react';
 import {Outlet, useLocation} from "react-router-dom";
-import {Link, Page, Text} from "@geist-ui/react";
+import {Link, Page, Spacer, Text} from "@geist-ui/react";
 import {Breadcrumbs, Header} from "../index";
 import {useSelector} from "react-redux";
 import {getUser} from "../../redux/slices/userSlice";
@@ -9,20 +9,21 @@ import styled from "styled-components";
 const Layout = () => {
     const location = useLocation();
     const {author} = useSelector(getUser);
+    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author');
 
     return (
         <>
             <Header isAuthor={author}/>
             <StyledPage>
                 <Page.Content>
-                    {location.pathname !== "/" && !location.pathname.includes('/author') && <Breadcrumbs/>}
+                    {isAuthorUrl && <Breadcrumbs/>}
                     <Outlet/>
                 </Page.Content>
-                <PageFooter>
-                    <Text type={"secondary"} small b children="Проект создан: "/>
-                    <Link block target={"_blank"} href={"https://github.com/Alex5"} color
-                          children={"Ильин Алексей (JavaScript разработчик)"}/>
-                </PageFooter>
+                {/*<PageFooter>*/}
+                {/*    <Text type={"secondary"} small b children="Проект создан: "/>*/}
+                {/*    <Link block target={"_blank"} href={"https://github.com/Alex5"} color*/}
+                {/*          children={"Ильин Алексей (JavaScript разработчик)"}/>*/}
+                {/*</PageFooter>*/}
             </StyledPage>
         </>
     );

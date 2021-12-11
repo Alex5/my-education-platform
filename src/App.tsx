@@ -90,9 +90,7 @@ function App() {
                     <Route path="settings" element={<div>Account Settings</div>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
-
             </Route>
-
             <Route path="*" element={<NoMatch/>}/>
         </Routes>
     );

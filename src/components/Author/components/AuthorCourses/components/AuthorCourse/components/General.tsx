@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Fieldset, Spacer, Textarea, Note, useToasts, Input, Grid, Text, Tag, Card} from "@geist-ui/react";
+import {Button, Fieldset, Spacer, Note, useToasts, Input, Grid, Text, Tag, Card} from "@geist-ui/react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -10,6 +10,8 @@ import {
 } from "../../../../../../../redux/slices/coursesSlice";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import styled from "styled-components";
+import {IAuthor, IKey} from "../../../../../../../redux/types";
+import EditBlock from "./EditBlock";
 
 const General = () => {
     const navigate = useNavigate();
@@ -19,48 +21,23 @@ const General = () => {
     const lessons = useSelector(getLessons)
 
     const selectedCourse = useSelector(getSelectedCourse);
-    const [description, setDescription] = useState<string>(selectedCourse.description || '')
-    const [authorName, setAuthorName] = useState<string | undefined>(selectedCourse.author?.name || '')
-    const [courseName, setCourseName] = useState<string | undefined>(selectedCourse.name || '')
-    const [authorAppointment, setAuthorAppointment] = useState<string>(selectedCourse.author?.appointment || '')
-    const [channelLink, setChannelLink] = useState<string>(selectedCourse.author?.channelLink || '')
-    const [descriptionLoading, setDescriptionLoading] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
-    const handleDescriptionUpdate = async () => {
-        setDescriptionLoading(true)
-        await AuthorRequests.updateCourse(authorCourseId || '', 'description', description);
-        setDescriptionLoading(false)
-        setToast({
-            text: 'Описание курса обновлено',
-            type: "success"
-        })
+    const handleUpdateState = (key: IKey, value: string | IAuthor) => {
+        dispatch(setSelectedCourse({...selectedCourse, [`${key}`]: value}));
     }
 
-    const handleAuthorUpdate = async () => {
-        setLoading(true)
-        await AuthorRequests.updateCourse(authorCourseId || '', 'author', {
-            name: authorName,
-            appointment: authorAppointment,
-            avatar: '',
-            channelLink: channelLink
-        });
-        setLoading(false)
-        setToast({
-            text: 'Автор курса обновлён',
-            type: "success"
-        })
-    }
-
-    const handleUpdate = async (key: string, data: any) => {
-        setLoading(true)
-        const course = await AuthorRequests.updateCourse(authorCourseId || '', key, data);
-        dispatch(setSelectedCourse(course));
-        setLoading(false)
-        setToast({
-            text: 'Успешно обновлено',
-            type: "success"
-        })
+    const handleUpdate = (key: IKey, data: string | IAuthor) => {
+        return async () => {
+            setLoading(true)
+            const course = await AuthorRequests.updateCourse(authorCourseId || '', key, data);
+            dispatch(setSelectedCourse(course));
+            setLoading(false)
+            setToast({
+                text: 'Успешно обновлено',
+                type: "success"
+            })
+        }
     }
 
     useEffect(() => {
@@ -82,39 +59,56 @@ const General = () => {
                 </Card.Body>
             </Card>
             <Spacer/>
-            <Fieldset>
-                <Fieldset.Title>Название курса</Fieldset.Title>
-                <Fieldset.Subtitle>
-                    <Spacer/>
-                    <Input onChange={e => setCourseName(e.target.value)} value={courseName}/>
-                </Fieldset.Subtitle>
-                <Fieldset.Footer>
-                    <span>Сохранить изменения</span>
-                    <Button loading={loading} onClick={() => handleUpdate('name', courseName)} auto
-                            scale={1 / 3}>Сохранить</Button>
-                </Fieldset.Footer>
-            </Fieldset>
-            <Spacer/>
+            <EditBlock
+                name={"Название курса"}
+                data={selectedCourse.name}
+                handleUpdateState={handleUpdateState}
+                handleUpdate={handleUpdate}
+                courseKey={"name"}
+                loading={loading}
+            />
+            <EditBlock
+                name={"Тизер или обложка"}
+                data={selectedCourse.cover}
+                handleUpdateState={handleUpdateState}
+                handleUpdate={handleUpdate}
+                courseKey={"cover"}
+                loading={loading}
+            />
             <Fieldset>
                 <Fieldset.Title>Автор курса</Fieldset.Title>
                 <Fieldset.Subtitle>
                     <Spacer/>
                     <Grid.Container gap={1}>
                         <Grid xs={8}>
-                            <Input value={authorName} onChange={e => setAuthorName(e.target.value)} width="100%"
-                                   placeholder="Иван Иванов">
+                            <Input
+                                value={selectedCourse.author.name}
+                                onChange={e => handleUpdateState('author', {
+                                    ...selectedCourse.author,
+                                    name: e.target.value
+                                })} width="100%"
+                                placeholder="Иван Иванов">
                                 Имя Фамилия
                             </Input>
                         </Grid>
                         <Grid xs={8}>
-                            <Input value={authorAppointment} onChange={e => setAuthorAppointment(e.target.value)}
-                                   width="100%"
-                                   placeholder="Senior Pomidor JavaScript Developer">
+                            <Input
+                                value={selectedCourse.author.appointment}
+                                onChange={e => handleUpdateState('author', {
+                                    ...selectedCourse.author,
+                                    appointment: e.target.value
+                                })}
+                                width="100%"
+                                placeholder="Senior Pomidor JavaScript Developer">
                                 Должность
                             </Input>
                         </Grid>
                         <Grid xs={8}>
-                            <Input value={channelLink} onChange={e => setChannelLink(e.target.value)}
+                            <Input value={selectedCourse.author.channelLink}
+                                   onChange={e => handleUpdateState('author', {
+                                       ...selectedCourse.author,
+                                       channelLink: e.target.value
+                                   })}
                                    width="100%"
                                    placeholder="https://www.youtube.com/c/">
                                 Ссылка на YouTube-канал
@@ -125,28 +119,25 @@ const General = () => {
                 </Fieldset.Subtitle>
                 <Fieldset.Footer>
                     <span>Сохранить изменения</span>
-                    <Button loading={loading} onClick={handleAuthorUpdate} auto scale={1 / 3}>Сохранить</Button>
+                    <Button
+                        loading={loading}
+                        onClick={handleUpdate('author', selectedCourse.author)}
+                        auto
+                        scale={1 / 3}
+                    >
+                        Сохранить
+                    </Button>
                 </Fieldset.Footer>
             </Fieldset>
             <Spacer/>
-            <Fieldset>
-                <Fieldset.Title>Описание курса</Fieldset.Title>
-                <Fieldset.Subtitle>
-                    <Spacer/>
-                    <Textarea
-                        resize={"vertical"}
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                        width="100%"
-                        placeholder={"Поле не заполнено"}/>
-                </Fieldset.Subtitle>
-                <Fieldset.Footer>
-                    Пожалуйста, используйте максимум 148 символов.
-                    <Button loading={descriptionLoading} onClick={handleDescriptionUpdate} auto
-                            scale={1 / 3}>Сохранить</Button>
-                </Fieldset.Footer>
-            </Fieldset>
-            <Spacer/>
+            <EditBlock
+                name={"Об этом курсе"}
+                data={selectedCourse.description}
+                handleUpdateState={handleUpdateState}
+                handleUpdate={handleUpdate}
+                courseKey={"description"}
+                loading={loading}
+            />
             <Fieldset>
                 <Fieldset.Title>Содержание</Fieldset.Title>
                 <Fieldset.Subtitle>

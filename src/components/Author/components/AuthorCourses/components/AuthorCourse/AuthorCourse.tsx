@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCourses, getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice";
 import {ArrowLeft} from "@geist-ui/react-icons";
 import {AuthorRequests} from "../../../../../../api/authorRequests";
+import {routes} from "../../../../../../routes";
 
 const AuthorCourse = () => {
     const [load, setLoading] = useState(false);
@@ -34,7 +35,6 @@ const AuthorCourse = () => {
                 <div style={{display: 'flex', alignItems: 'center'}}>
                     <Text h2 children={selectedCourse.name}/>
                     <Spacer/>
-
                 </div>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                     {selectedCourse.published
@@ -54,7 +54,8 @@ const AuthorCourse = () => {
                         />
                     }
                     <Spacer/>
-                    <Button disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"}/>
+                    <Button onClick={() => navigate(`/${selectedCourse.direction}/${selectedCourse.courseId}`)}
+                            disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"}/>
                 </div>
             </StyledInfoHeader>
             <Spacer h={3}/>

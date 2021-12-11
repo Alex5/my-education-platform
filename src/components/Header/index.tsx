@@ -70,8 +70,9 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
                         : user
                             ? <div style={{display: 'flex', alignItems: 'center'}}>
                                 {author
-                                    ? <Button scale={1 / 2} onClick={() => navigate('/author')} auto
-                                              children="Панель автора"/>
+                                    ? !location.pathname.includes('/author') &&
+                                    <Button scale={1 / 2} onClick={() => navigate('/author')} auto
+                                            children="Панель автора"/>
                                     : <Button loading={load} onClick={transformToAuthor} scale={1 / 2} type="secondary"
                                               children="Стать автором"/>
                                 }
@@ -100,13 +101,13 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
 };
 
 const StyledHeader = styled.nav<{ author: boolean }>`
-  //height: ${props => props.author ? 'unset' : '80px'};
+    //height: ${props => props.author ? 'unset' : '80px'};
   display: flex;
   flex-direction: column;
   box-shadow: inset 0 -1px #eaeaea;
   width: 100%;
   background-color: white;
- 
+
 `
 const StyledHeaderContent = styled.div`
   justify-content: space-between;
