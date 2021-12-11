@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
     Button, ButtonGroup,
-    Description,
+    Description, Display,
     Fieldset,
     Grid, Image, Link,
     Loading,
@@ -99,7 +99,12 @@ const Course = () => {
             <Spacer h={2}/>
             <Grid.Container gap={2} justify="center">
                 <Grid direction="column" xs={16}>
-                    <Image src={selectedCourse.cover || ''}/>
+                    {selectedCourse.cover
+                        ? <Image src={selectedCourse.cover}/>
+                        : <Display caption="Нет доступного изображения">
+                            <span style={{fontSize: '120px'}}>😢</span>
+                        </Display>
+                    }
                 </Grid>
                 <Grid xs={8} direction={"column"}>
                     <StyledBubble>
@@ -123,8 +128,11 @@ const Course = () => {
                     <Spacer/>
                     <StyledBubble>
                         <Description title="Популярные теги" content={<StyledTags>
-                            <Tag scale={1 / 2}>React Router 6</Tag>
-                            <Tag scale={1 / 2}>React</Tag>
+                            {selectedCourse.tags
+                                ? selectedCourse.tags.map(tag =>
+                                    <Tag key={tag.id} scale={1 / 2}>{tag.text}</Tag>
+                                )
+                                : <span>Пока пусто</span>}
                         </StyledTags>}/>
                     </StyledBubble>
                     <Spacer/>

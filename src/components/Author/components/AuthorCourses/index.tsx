@@ -34,7 +34,8 @@ const AuthorCourses = () => {
             testimonials: [],
             author: {} as IAuthor,
             description: '',
-            cover: ''
+            cover: '',
+            tags: []
         })
         setLoading(false);
         setAddCourseModal(false);

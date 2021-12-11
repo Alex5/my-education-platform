@@ -1,6 +1,11 @@
 import firebase from "firebase/compat";
 import Timestamp = firebase.firestore.Timestamp;
 
+export interface ITags {
+    id: string,
+    text: string
+}
+
 export interface ICourse {
     name: string,
     courseId: string,
@@ -9,9 +14,10 @@ export interface ICourse {
     description: string,
     author: IAuthor,
     direction: string,
-    lessons: Pick<ILesson, "lessonId" | "name">[],
+    lessons: Pick<ILesson, "lessonId" | "name">[];
     testimonials: ITestimonial[];
-    cover: ''
+    cover: '';
+    tags: ITags[];
 }
 
 export interface ICourseStatus {
