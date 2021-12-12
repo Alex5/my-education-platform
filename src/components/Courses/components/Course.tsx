@@ -108,10 +108,7 @@ const Course = () => {
                 </Grid>
                 <Grid xs={8} direction={"column"}>
                     <StyledBubble>
-                        <Description title="Краткое описание" content={<Text small>
-                            Завершая десятилетие клиентской маршрутизации, React Router v6 берет лучшие функции из
-                            предыдущих версий - и своего родственного проекта Reach Router!
-                        </Text>}/>
+                        <Description title="Краткое описание" content={<Text small>-</Text>}/>
                     </StyledBubble>
                     <Spacer/>
                     <StyledBubble>
@@ -184,6 +181,7 @@ const StyledBubble = styled.div`
 const StyledTags = styled.div`
   display: flex;
   gap: 5px;
+  flex-wrap: wrap;
 `
 
 

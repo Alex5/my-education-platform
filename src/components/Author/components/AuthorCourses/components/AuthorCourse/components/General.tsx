@@ -1,17 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Fieldset, Spacer, Note, useToasts, Input, Grid, Text, Tag, Card} from "@geist-ui/react";
+import {Button, Card, Fieldset, Grid, Input, Note, Spacer, Tag, Text, useInput, useToasts} from "@geist-ui/react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getLessons,
-    setLessons,
     getSelectedCourse,
+    setLessons,
     setSelectedCourse
 } from "../../../../../../../redux/slices/coursesSlice";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import styled from "styled-components";
-import {IAuthor, IKey} from "../../../../../../../redux/types";
+import {IAuthor, IKey, ITag} from "../../../../../../../redux/types";
 import EditBlock from "./EditBlock";
+import {PlusCircle, Trash} from "@geist-ui/react-icons";
+import {nanoid} from "nanoid";
 
 const General = () => {
     const navigate = useNavigate();
@@ -21,13 +23,19 @@ const General = () => {
     const lessons = useSelector(getLessons)
 
     const selectedCourse = useSelector(getSelectedCourse);
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false);
+    const {state, setState, reset, bindings} = useInput('')
 
-    const handleUpdateState = (key: IKey, value: string | IAuthor) => {
-        dispatch(setSelectedCourse({...selectedCourse, [`${key}`]: value}));
+    const handleUpdateState = (key: IKey, value: string | IAuthor | ITag) => {
+        dispatch(setSelectedCourse({
+            ...selectedCourse,
+            [`${key}`]: key === 'tags'
+                ? handleUpdateTags(value as ITag)
+                : value
+        }));
     }
 
-    const handleUpdate = (key: IKey, data: string | IAuthor) => {
+    const handleUpdate = (key: IKey, data: string | IAuthor | ITag[]) => {
         return async () => {
             setLoading(true)
             const course = await AuthorRequests.updateCourse(authorCourseId || '', key, data);
@@ -39,6 +47,13 @@ const General = () => {
             })
         }
     }
+
+    const handleUpdateTags = (tag: ITag) => {
+        setState('');
+        return selectedCourse.tags.some(t => t.id === tag.id)
+            ? selectedCourse.tags.filter(t => t.id !== tag.id)
+            : [...selectedCourse.tags, tag];
+    };
 
     useEffect(() => {
         (async () => {
@@ -65,14 +80,6 @@ const General = () => {
                 handleUpdateState={handleUpdateState}
                 handleUpdate={handleUpdate}
                 courseKey={"name"}
-                loading={loading}
-            />
-            <EditBlock
-                name={"Тизер или обложка"}
-                data={selectedCourse.cover}
-                handleUpdateState={handleUpdateState}
-                handleUpdate={handleUpdate}
-                courseKey={"cover"}
                 loading={loading}
             />
             <Fieldset>
@@ -138,6 +145,43 @@ const General = () => {
                 courseKey={"description"}
                 loading={loading}
             />
+            <EditBlock
+                name={"Тизер или обложка"}
+                data={selectedCourse.cover}
+                handleUpdateState={handleUpdateState}
+                handleUpdate={handleUpdate}
+                courseKey={"cover"}
+                loading={loading}
+            />
+            <Fieldset>
+                <Fieldset.Title>Теги</Fieldset.Title>
+                <Fieldset.Subtitle>
+                    <StyledTags>
+                        {selectedCourse.tags?.map(tag => (
+                            <StyledTag>
+                                <Text mr={0.5} b key={tag.id}>{tag.text} </Text>
+                                <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
+                            </StyledTag>
+                        ))}
+                        {selectedCourse.tags.length !== 5 && (
+                            <Input
+                                {...bindings}
+                                onIconClick={() => handleUpdateState('tags', {
+                                    id: nanoid(),
+                                    text: state.toLowerCase()
+                                })}
+                                iconClickable
+                                iconRight={<PlusCircle/>} placeholder="Название тега"/>
+                        )}
+                    </StyledTags>
+                </Fieldset.Subtitle>
+                <Fieldset.Footer>
+                    <span></span>
+                    <Button loading={loading} onClick={handleUpdate('tags', selectedCourse.tags)} auto
+                            scale={1 / 3}>Сохранить</Button>
+                </Fieldset.Footer>
+            </Fieldset>
+            <Spacer/>
             <Fieldset>
                 <Fieldset.Title>Содержание</Fieldset.Title>
                 <Fieldset.Subtitle>
@@ -177,6 +221,21 @@ const StyledLessonItem = styled.div`
   &:hover {
     background-color: #f7f7f7;
   }
+`
+
+
+const StyledTags = styled.div`
+  flex-direction: row;
+  display: flex;
+  grid-gap: 5px;
+`
+
+const StyledTag = styled.div`
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 5px;
 `
 
 export default General;

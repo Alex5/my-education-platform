@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, Grid, useToasts} from "@geist-ui/react";
+import {Button, Text, Grid, useToasts, Tooltip} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../redux/slices/coursesSlice";
@@ -78,13 +78,15 @@ const EditCourse = () => {
                             selectedLessonId={selectedLesson?.lessonId || ''}
                             onClick={() => handleLessonSelect(lesson.lessonId || '')}
                         >
-                            <span style={{fontWeight: 500, fontSize: '1rem'}}
-                                  children={
-                                      lesson.name.length > 15
-                                          ? `${lesson.name.slice(0, 13)}...`
-                                          : lesson.name
-                                  }
-                            />
+                            <Tooltip text={lesson.name}>
+                                 <span style={{fontWeight: 500, fontSize: '1rem'}}
+                                       children={
+                                           lesson.name.length > 15
+                                               ? `${lesson.name.slice(0, 13)}...`
+                                               : lesson.name
+                                       }
+                                 />
+                            </Tooltip>
                             {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>}
                         </StyledLessonItem>
                     )}

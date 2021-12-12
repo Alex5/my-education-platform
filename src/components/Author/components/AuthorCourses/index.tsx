@@ -9,7 +9,7 @@ import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice";
 import {IAuthor, ICourse} from "../../../../redux/types";
-import {Select, Spacer} from "@geist-ui/react";
+import {Select, Spacer, Tooltip} from "@geist-ui/react";
 
 const AuthorCourses = () => {
     const courses = useSelector(getCourses);
@@ -83,7 +83,9 @@ const AuthorCourses = () => {
                                     style={{cursor: 'pointer'}} hoverable width="100%"
                                     onClick={handleSelectCourse(course)}
                                 >
-                                    <Geist.Text h4>{course.name.slice(0, 25)}</Geist.Text>
+                                    <Tooltip text={course.name}>
+                                        <Geist.Text h4>{course.name.length > 25 ? `${course.name.slice(0, 25)}...` : course.name}</Geist.Text>
+                                    </Tooltip>
                                     <Geist.Divider/>
                                     <Geist.Spacer/>
                                     <Geist.Description

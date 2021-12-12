@@ -1,7 +1,7 @@
 import firebase from "firebase/compat";
 import Timestamp = firebase.firestore.Timestamp;
 
-export interface ITags {
+export interface ITag {
     id: string,
     text: string
 }
@@ -17,7 +17,7 @@ export interface ICourse {
     lessons: Pick<ILesson, "lessonId" | "name">[];
     testimonials: ITestimonial[];
     cover: '';
-    tags: ITags[];
+    tags: ITag[];
 }
 
 export interface ICourseStatus {
@@ -60,6 +60,6 @@ export interface ITestimonial {
     date: Timestamp
 }
 
-export type IKey = 'author' | 'name' | 'description' | 'cover'
+export type IKey = 'author' | 'name' | 'description' | 'cover' | 'tags'
 
 
