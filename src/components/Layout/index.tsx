@@ -3,7 +3,7 @@ import {Outlet, useLocation} from "react-router-dom";
 import {Link, Page, Spacer, Text} from "@geist-ui/react";
 import {Breadcrumbs, Header} from "../index";
 import {useSelector} from "react-redux";
-import {getUser} from "../../redux/slices/userSlice";
+import {getUser} from "../../redux/slices/userSlice/userSlice";
 import styled from "styled-components";
 
 const Layout = () => {

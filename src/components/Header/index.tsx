@@ -8,7 +8,7 @@ import {AuthRequests} from "../../api/authRequests"
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import HeaderMenu from "./HeaderMenu";
 import {useDispatch, useSelector} from "react-redux";
-import {getUser, setUser} from "../../redux/slices/userSlice";
+import {getUser, setUser} from "../../redux/slices/userSlice/userSlice";
 import {PublicRequests} from "../../api/publicRequests";
 import {EStatus} from "../../redux/enums";
 import AuthorTabs from "../Author/components/AuthorTabs";

@@ -7,9 +7,9 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {AuthContext} from "../../../../index";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
-import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice";
-import {IAuthor, ICourse} from "../../../../redux/types";
+import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
 import {Select, Spacer, Tooltip} from "@geist-ui/react";
+import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
 
 const AuthorCourses = () => {
     const courses = useSelector(getCourses);

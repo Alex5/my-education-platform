@@ -5,7 +5,6 @@ import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
 import {useNavigate} from "react-router-dom";
 
-
 const Home: FC = () => {
     const navigate = useNavigate();
     const CourseSize = memo(({direction}: any) => {
@@ -25,24 +24,31 @@ const Home: FC = () => {
     })
 
     return (
-        <Page.Content>
-            <Text h1>Направления</Text>
-            <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
-            <Spacer/>
-            <Grid.Container gap={2}>
-                <Grid xs={24} md={8}>
-                    <Card style={{cursor: 'pointer'}} onClick={() => navigate('/programming')} width="100%" hoverable>
-                        <StyledCardContent>
-                            <Code color={"#1482ff"}/>
-                            <Text h4 mb={0} mt={0}> Программирование</Text>
-                        </StyledCardContent>
-                        <Card.Footer>
-                            <CourseSize direction={"programming"}/>
-                        </Card.Footer>
-                    </Card>
-                </Grid>
-            </Grid.Container>
-        </Page.Content>
+        <>
+            <Card width={"100%"}>
+                Course 1
+            </Card>
+            <Page.Content>
+                <Text h1>Направления</Text>
+                <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
+                <Spacer/>
+                <Grid.Container gap={2}>
+                    <Grid xs={24} md={8}>
+                        <Card style={{cursor: 'pointer'}} onClick={() => navigate('/programming')} width="100%"
+                              hoverable>
+                            <StyledCardContent>
+                                <Code color={"#1482ff"}/>
+                                <Text h4 mb={0} mt={0}> Программирование</Text>
+                            </StyledCardContent>
+                            <Card.Footer>
+                                <CourseSize direction={"programming"}/>
+                            </Card.Footer>
+                        </Card>
+                    </Grid>
+                </Grid.Container>
+            </Page.Content>
+        </>
+
     );
 };
 

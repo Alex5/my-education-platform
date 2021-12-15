@@ -3,7 +3,7 @@ import {Link, Popover} from "@geist-ui/react";
 import {AuthContext} from "../../../index";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {signOut} from "../../../redux/slices/userSlice";
+import {signOut} from "../../../redux/slices/userSlice/userSlice";
 import {routes} from "../../../routes";
 
 interface HeaderMenuProps {

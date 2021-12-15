@@ -5,8 +5,8 @@ import {
     GithubAuthProvider
 } from "firebase/auth";
 import {doc, setDoc, getDoc} from "firebase/firestore";
-import {IUser} from "../redux/types";
 import {db} from "../fbconfig";
+import {IUser} from "../redux/slices/userSlice/types";
 
 export class AuthRequests {
     public static async signIn(auth: Auth, providerName: keyof typeof provider): Promise<IUser> {

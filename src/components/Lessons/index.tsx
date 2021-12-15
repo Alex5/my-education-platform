@@ -5,13 +5,13 @@ import {
     getCourseStatus,
     getPreviewLessons,
     setCourseStatus, setSelectedCourse
-} from "../../redux/slices/coursesSlice";
-import {ILesson} from "../../redux/types";
+} from "../../redux/slices/coursesSlice/coursesSlice";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
 import {useParams} from "react-router-dom";
 import {UserRequests} from "../../api/userRequests";
 import Testimonials from "../Testimonials";
+import {ILesson} from "../../redux/slices/coursesSlice/types";
 
 const Lessons = () => {
     const [selectedLesson, setSelectedLesson] = useState<ILesson>({} as ILesson);

@@ -10,9 +10,9 @@ import {
     writeBatch, getDoc, setDoc, deleteField, serverTimestamp
 } from "firebase/firestore";
 import {db} from "../fbconfig";
-import {ICourse, ILesson} from "../redux/types";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'
+import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
 
 export class AuthorRequests {
     public static async getAuth() {
@@ -153,8 +153,6 @@ export class AuthorRequests {
 
     public static async updateCourse(courseId: string, key: string, data: string | boolean | number | {}): Promise<ICourse> {
         const courseRef = doc(db, "courses", courseId);
-
-        debugger
 
         await updateDoc(courseRef, {
             [key]: data,

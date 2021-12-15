@@ -1,6 +1,6 @@
 import {createDraftSafeSelector, createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {ICourse, ICourseStatus, ILesson, ITestimonial} from "../types";
-import {RootState} from "../store";
+import {RootState} from "../../store";
+import {ICourse, ICourseStatus, ILesson, ITestimonial} from "./types";
 
 export interface CoursesState {
     courses: ICourse[];

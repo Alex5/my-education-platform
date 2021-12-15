@@ -17,7 +17,7 @@ import {
     setSelectedCourse,
     setCourseStatus,
     getCourseStatus
-} from "../../../redux/slices/coursesSlice";
+} from "../../../redux/slices/coursesSlice/coursesSlice";
 import {PublicRequests} from "../../../api/publicRequests";
 import {UserRequests} from "../../../api/userRequests";
 import {AnalyticsLogs} from "../../../services/analytics";

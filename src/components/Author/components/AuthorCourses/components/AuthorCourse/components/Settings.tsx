@@ -3,7 +3,7 @@ import {Button, Fieldset, Text} from "@geist-ui/react";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setCourses} from "../../../../../../../redux/slices/coursesSlice";
+import {setCourses} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 
 const Settings = () => {
     const [load, setLoad] = useState(false)

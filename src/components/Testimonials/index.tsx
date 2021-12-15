@@ -3,7 +3,7 @@ import {Button, Card, Description, Fieldset, Loading, Spacer, Text, Textarea} fr
 import {PublicRequests} from "../../api/publicRequests";
 import {UserRequests} from "../../api/userRequests";
 import {useDispatch, useSelector} from "react-redux";
-import {getTestimonials, setTestimonials} from "../../redux/slices/coursesSlice";
+import {getTestimonials, setTestimonials} from "../../redux/slices/coursesSlice/coursesSlice";
 import {nanoid} from "nanoid";
 import {AuthContext} from "../../index";
 import {serverTimestamp, Timestamp} from "firebase/firestore";

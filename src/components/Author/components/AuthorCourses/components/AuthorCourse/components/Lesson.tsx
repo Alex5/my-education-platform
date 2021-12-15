@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
 import {Fieldset, Input, Link, Spacer, Text, Textarea} from "@geist-ui/react";
 import {useDispatch, useSelector} from "react-redux";
-import {ILesson} from "../../../../../../../redux/types";
-import {getLessons, setLessons} from "../../../../../../../redux/slices/coursesSlice";
+import {getLessons, setLessons} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
+import {ILesson} from "../../../../../../../redux/slices/coursesSlice/types";
 
 interface LessonProps {
     selectedLesson: ILesson | undefined

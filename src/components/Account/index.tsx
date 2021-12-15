@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {PublicRequests} from "../../api/publicRequests";
-import {getUser, setUser} from "../../redux/slices/userSlice";
+import {getUser, setUser} from "../../redux/slices/userSlice/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {AuthContext} from "../../index";
 import {useAuthState} from "react-firebase-hooks/auth";

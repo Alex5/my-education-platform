@@ -3,9 +3,10 @@ import {Card, Description, Divider, Grid, Spacer, Text} from "@geist-ui/react";
 import {useNavigate, useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {getCourses, setCourses, setSelectedCourse} from "../../redux/slices/coursesSlice";
+import {getCourses, setCourses, setSelectedCourse} from "../../redux/slices/coursesSlice/coursesSlice";
 import {PublicRequests} from "../../api/publicRequests";
-import {ICourse} from "../../redux/types";
+import TextSnippet from "../TextSnippet";
+import {ICourse} from "../../redux/slices/coursesSlice/types";
 
 const Courses = () => {
     const dispatch = useDispatch()
@@ -30,7 +31,7 @@ const Courses = () => {
             <Text h3>{courses.length} курса по программированию</Text>
             <Spacer/>
             <Grid.Container gap={2} justify="flex-start">
-                {courses.map(course =>
+                {courses && courses.map(course =>
                     <Grid style={{cursor: 'pointer'}} xs={24} md={8}>
                         <Card
                             key={course.courseId}
@@ -39,9 +40,8 @@ const Courses = () => {
                             hoverable
                         >
                             <StyledCourseCardHeader>
-                                <Text mt={0} mb={0} h3>{course.name}</Text>
+                                <TextSnippet text={course.name}/>
                             </StyledCourseCardHeader>
-                            <Spacer/>
                             <Divider/>
                             <Spacer/>
                             <Description title="Автор" content={

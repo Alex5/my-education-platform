@@ -1,9 +1,9 @@
 import {getAuth} from "firebase/auth";
 import {doc, getDoc, serverTimestamp, setDoc, updateDoc} from "firebase/firestore";
 import {db} from "../fbconfig";
-import {ICourseStatus, ITestimonial} from "../redux/types";
 import {nanoid} from "nanoid";
 import {PublicRequests} from "./publicRequests";
+import {ICourseStatus, ITestimonial} from "../redux/slices/coursesSlice/types";
 
 export const UserRequests = {
     async startCourse(courseId: string): Promise<ICourseStatus> {

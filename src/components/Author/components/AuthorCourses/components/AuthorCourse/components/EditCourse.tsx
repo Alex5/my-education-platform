@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {Button, Text, Grid, useToasts, Tooltip} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../redux/slices/coursesSlice";
+import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {XCircle} from "@geist-ui/react-icons";
 import {nanoid} from "nanoid";
 import Lesson from "./Lesson";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
-import {ILesson} from "../../../../../../../redux/types";
+import {ILesson} from "../../../../../../../redux/slices/coursesSlice/types";
 
 const EditCourse = () => {
     const dispatch = useDispatch();
