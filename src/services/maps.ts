@@ -14,5 +14,6 @@ export const deactivatedBlocks = [
     'direction',
     'ownerId',
     'updatedAt',
-    "courseName"
+    "courseName",
+    'createdAt'
 ];

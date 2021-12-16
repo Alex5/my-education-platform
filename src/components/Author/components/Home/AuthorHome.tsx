@@ -1,9 +1,6 @@
-import {Image, Spacer, Text, Card, Grid, Description, Loading, Table, Badge, Button} from '@geist-ui/react';
-import React, {useEffect, useState} from 'react';
-import {AuthorRequests} from "../../../../api/authorRequests";
-import axios from "axios";
-import {PublicRequests} from "../../../../api/publicRequests";
-import styled from "styled-components";
+import {Image, Spacer, Text, Display} from '@geist-ui/react';
+import React from 'react';
+import dev from "../../../../assets/developer.svg"
 
 const AuthorHome = () => {
 
@@ -11,21 +8,11 @@ const AuthorHome = () => {
         <>
             <Text h3 b children={"Дашборд"}/>
             <Spacer/>
-            <Grid.Container gap={2} justify="flex-start" height="100px">
-                <Grid xs={6}>
-                    <Card width="100%">
-                        <Button children={"создать курс"}/>
-                    </Card>
-                </Grid>
-            </Grid.Container>
+            <Display caption="Страница находится в разработке.">
+                <Image width="435px" src={dev}/>
+            </Display>
         </>
     );
 };
-
-const StyledCourseView = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`
 
 export default AuthorHome;

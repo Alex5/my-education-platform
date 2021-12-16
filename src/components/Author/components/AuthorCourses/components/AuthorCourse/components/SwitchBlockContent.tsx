@@ -24,10 +24,11 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
                         <Input
                             value={data.name}
                             onChange={e => handleUpdateState('author', {
-                                ...data.author,
+                                ...data,
                                 name: e.target.value
                             })} width="100%"
-                            placeholder="Иван Иванов">
+                            placeholder="Иван Иванов"
+                        >
                             Имя Фамилия
                         </Input>
                     </Grid>
@@ -35,18 +36,19 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
                         <Input
                             value={data.appointment}
                             onChange={e => handleUpdateState('author', {
-                                ...data.author,
+                                ...data,
                                 appointment: e.target.value
                             })}
                             width="100%"
-                            placeholder="Senior Pomidor JavaScript Developer">
+                            placeholder="Senior Pomidor JavaScript Developer"
+                        >
                             Должность
                         </Input>
                     </Grid>
                     <Grid xs={8}>
                         <Input value={data.channelLink}
                                onChange={e => handleUpdateState('author', {
-                                   ...data.author,
+                                   ...data,
                                    channelLink: e.target.value
                                })}
                                width="100%"
