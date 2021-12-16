@@ -8,10 +8,8 @@ interface TextSnippetProps {
 }
 
 const TextSnippet: FC<TextSnippetProps> = ({text}) => {
-    const checkVisible = text.length > 25;
-
     return (
-        <Tooltip visible={checkVisible} text={text}>
+        <Tooltip text={text}>
             <Geist.Text h4>{snipText(text)}</Geist.Text>
         </Tooltip>
     );

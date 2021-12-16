@@ -23,7 +23,7 @@ const Home: FC = () => {
         return load ? <Loading/> : <Text>{size} курса</Text>
     })
 
-    const tags = ["react", "redux-toolkit", "react router 6"]
+    const tags = ["react", "redux-toolkit", "react router 6", 'front-end', 'что учить в 2022', 'roadmap']
 
     return (
         <>
@@ -31,7 +31,7 @@ const Home: FC = () => {
             <Grid.Container gap={1}>
                 {tags.map(tag => (
                     <Grid>
-                        <Tag onClick={() => navigate(`tags/${tag}`)} style={{cursor: 'pointer'}} scale={1.5}
+                        <Tag onClick={() => navigate(`tags/${tag}`)} style={{cursor: 'pointer'}} scale={1.2}
                              type="lite">{tag}</Tag>
                     </Grid>
                 ))}

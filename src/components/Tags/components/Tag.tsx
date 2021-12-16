@@ -25,11 +25,14 @@ const Tag = () => {
             <Grid.Container gap={1}>
                 {courses && courses.map(course => (
                     <Grid>
-                        <Card onClick={() => navigate(`/programming/${course.courseId}`)} style={{cursor: 'pointer'}} width="400px">
+                        <Card onClick={() => navigate(`/programming/${course.courseId}`)} style={{cursor: 'pointer'}}
+                              width="400px">
                             <Image style={{objectFit: 'cover'}} src={course.cover}
                                    height="200px" width="400px" draggable={false}/>
-                            <Text h4 mb={0}>{course.name}</Text>
-                            <Text type="secondary" small>{course.description}</Text>
+                            <Text h4 mb={0}>{course.name.slice(0, 30)}...</Text>
+                            <div style={{height: "50px"}}>
+                                <Text type="secondary" small>{course.description.slice(0, 100)}...</Text>
+                            </div>
                         </Card>
                     </Grid>
                 ))}

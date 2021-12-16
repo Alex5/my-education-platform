@@ -8,6 +8,7 @@ import {PublicRequests} from "../../api/publicRequests";
 const Breadcrumbs = () => {
     const [courseNames, setCourseNames] = useState({});
     const {courseDirection} = useParams<"courseDirection">();
+    const {tagName} = useParams<"tagName">();
     const navigate = useNavigate();
 
     const directionNameById = {
@@ -31,7 +32,7 @@ const Breadcrumbs = () => {
         {path: '/:courseDirection/:courseId/lessons', breadcrumb: 'Уроки'},
         {path: '/account', breadcrumb: 'Аккаунт'},
         {path: '/tags', breadcrumb: 'Теги'},
-        {path: '/tags/:tagName', breadcrumb: 'Динамическое имя тега'},
+        {path: '/tags/:tagName', breadcrumb: tagName},
     ];
 
     const breadcrumbs = useBreadcrumbs(routes)
