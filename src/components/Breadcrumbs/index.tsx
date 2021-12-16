@@ -30,6 +30,8 @@ const Breadcrumbs = () => {
         {path: '/:courseDirection/:courseId', breadcrumb: DynamicUserBreadcrumb},
         {path: '/:courseDirection/:courseId/lessons', breadcrumb: 'Уроки'},
         {path: '/account', breadcrumb: 'Аккаунт'},
+        {path: '/tags', breadcrumb: 'Теги'},
+        {path: '/tags/:tagName', breadcrumb: 'Динамическое имя тега'},
     ];
 
     const breadcrumbs = useBreadcrumbs(routes)

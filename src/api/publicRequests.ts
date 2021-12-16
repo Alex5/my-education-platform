@@ -109,5 +109,22 @@ export const PublicRequests = {
         } else {
             return {};
         }
+    },
+    async getCoursesByTag(tagName: string): Promise<ICourse[]> {
+        const q = query(collection(db, "courses"), where(`tags`, 'array-contains', tagName))
+
+        const querySnapshot = await getDocs(q);
+
+        const courses: ICourse[] = [];
+
+        querySnapshot.forEach((doc) => {
+            courses.push(doc.data() as ICourse);
+        });
+
+        if (courses.length > 0) {
+            return courses;
+        } else {
+            return [];
+        }
     }
 }

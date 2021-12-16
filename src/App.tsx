@@ -11,6 +11,9 @@ import {Auth, getAuth, onAuthStateChanged} from "firebase/auth"
 import Lessons from "./components/Lessons";
 import Account from "./components/Account";
 import AccountLayout from "./components/Account/AccountLayout";
+import Tags from "./components/Tags";
+import TagsLayout from "./components/Tags/TagsLayout";
+import Tag from "./components/Tags/components/Tag";
 
 function App() {
     const dispatch = useDispatch();
@@ -89,6 +92,10 @@ function App() {
                     <Route index element={<Account/>}/>
                     <Route path="settings" element={<div>Account Settings</div>}/>
                     <Route path="*" element={<NoMatch/>}/>
+                </Route>
+                <Route path="/tags" element={<TagsLayout/>}>
+                    <Route index element={<Tags/>}/>
+                    <Route path=":tagName" element={<Tag/>}/>
                 </Route>
             </Route>
             <Route path="*" element={<NoMatch/>}/>

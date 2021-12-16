@@ -59,18 +59,15 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
         case "tags":
             return (
                 <StyledTags>
-                    {data.map((tag: { id: any; text: any; }) => (
+                    {data && data.map((tag: string) => (
                         <StyledTag>
-                            <Text mr={0.5} b key={tag.id}>{tag.text} </Text>
+                            <Text mr={0.5} b key={tag}>{tag} </Text>
                             <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
                         </StyledTag>
                     ))}
                     {data.length !== 5 && (
                         <Input
-                            onIconClick={(e) => handleUpdateState('tags', {
-                                id: nanoid(),
-                                text: tagInput.toLowerCase()
-                            })}
+                            onIconClick={() => handleUpdateState('tags', tagInput.toLowerCase())}
                             value={tagInput}
                             iconClickable
                             iconRight={<PlusCircle/>}

@@ -28,18 +28,18 @@ const General = () => {
 
     const selectedCourse = useSelector(getSelectedCourse);
 
-    const handleUpdateState = (key: keyof ICourse, value: string | IAuthor | ITag) => {
+    const handleUpdateState = (key: keyof ICourse, value: string | IAuthor) => {
         dispatch(setSelectedCourse({
             ...selectedCourse,
             [`${key}`]: key === 'tags'
-                ? handleUpdateTags(value as ITag)
+                ? handleUpdateTags(value as string)
                 : value
         }));
     }
 
-    const handleUpdateTags = (tag: ITag) => {
-        return selectedCourse.tags.some(t => t.id === tag.id)
-            ? selectedCourse.tags.filter(t => t.id !== tag.id)
+    const handleUpdateTags = (tag: string) => {
+        return selectedCourse.tags.some(t => t === tag)
+            ? selectedCourse.tags.filter(t => t !== tag)
             : [...selectedCourse.tags, tag];
     };
 

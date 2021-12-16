@@ -1,5 +1,5 @@
 import React, {FC, memo, useEffect, useState} from 'react';
-import {Card, Grid, Loading, Page, Spacer, Text} from "@geist-ui/react";
+import {Card, Grid, Loading, Page, Spacer, Tag, Text} from "@geist-ui/react";
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
@@ -23,11 +23,19 @@ const Home: FC = () => {
         return load ? <Loading/> : <Text>{size} курса</Text>
     })
 
+    const tags = ["react", "redux-toolkit", "react router 6"]
+
     return (
         <>
-            <Card width={"100%"}>
-                Course 1
-            </Card>
+            <Text h4>Теги</Text>
+            <Grid.Container gap={1}>
+                {tags.map(tag => (
+                    <Grid>
+                        <Tag onClick={() => navigate(`tags/${tag}`)} style={{cursor: 'pointer'}} scale={1.5}
+                             type="lite">{tag}</Tag>
+                    </Grid>
+                ))}
+            </Grid.Container>
             <Page.Content>
                 <Text h1>Направления</Text>
                 <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
@@ -48,7 +56,6 @@ const Home: FC = () => {
                 </Grid.Container>
             </Page.Content>
         </>
-
     );
 };
 

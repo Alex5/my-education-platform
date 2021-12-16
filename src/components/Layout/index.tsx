@@ -19,11 +19,6 @@ const Layout = () => {
                     {isAuthorUrl && <Breadcrumbs/>}
                     <Outlet/>
                 </Page.Content>
-                {/*<PageFooter>*/}
-                {/*    <Text type={"secondary"} small b children="Проект создан: "/>*/}
-                {/*    <Link block target={"_blank"} href={"https://github.com/Alex5"} color*/}
-                {/*          children={"Ильин Алексей (JavaScript разработчик)"}/>*/}
-                {/*</PageFooter>*/}
             </StyledPage>
         </>
     );

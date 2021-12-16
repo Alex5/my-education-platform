@@ -127,7 +127,7 @@ const Course = () => {
                         <Description title="Популярные теги" content={<StyledTags>
                             {selectedCourse.tags
                                 ? selectedCourse.tags.map(tag =>
-                                    <Tag type={"lite"} key={tag.id} scale={1 / 2}>{tag.text}</Tag>
+                                    <Tag type={"lite"} key={tag} scale={1 / 2}>{tag}</Tag>
                                 )
                                 : <span>Пока пусто</span>}
                         </StyledTags>}/>

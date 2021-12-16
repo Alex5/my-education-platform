@@ -15,9 +15,8 @@ export interface ICourse {
     author: IAuthor,
     direction: string,
     lessons: Pick<ILesson, "lessonId" | "name">[];
-    testimonials: ITestimonial[];
-    cover: '';
-    tags: ITag[];
+    cover: string;
+    tags: string[];
 }
 
 export interface ICourseStatus {

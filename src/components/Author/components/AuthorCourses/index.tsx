@@ -31,7 +31,6 @@ const AuthorCourses = () => {
             published: false,
             direction: courseDirection,
             lessons: [],
-            testimonials: [],
             author: {} as IAuthor,
             description: '',
             cover: '',
