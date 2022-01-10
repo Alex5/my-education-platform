@@ -3,8 +3,6 @@ import {Button, Grid, Input, Note, Text} from "@geist-ui/react";
 import {ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
 import styled from "styled-components";
 import {PlusCircle, Trash} from "@geist-ui/react-icons";
-import {nanoid} from "nanoid";
-import {useNavigate} from "react-router-dom";
 
 interface Props {
     handleUpdateState: (key: keyof ICourse, targetValue: any) => void
@@ -14,7 +12,6 @@ interface Props {
 
 const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => {
     const [tagInput, setTagInput] = useState('')
-
 
     switch (courseKey) {
         case "author":
@@ -62,14 +59,17 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
             return (
                 <StyledTags>
                     {data && data.map((tag: string) => (
-                        <StyledTag>
+                        <StyledTag key={tag}>
                             <Text mr={0.5} b key={tag}>{tag} </Text>
                             <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
                         </StyledTag>
                     ))}
                     {data.length !== 5 && (
                         <Input
-                            onIconClick={() => handleUpdateState('tags', tagInput.toLowerCase())}
+                            onIconClick={() => {
+                                handleUpdateState('tags', tagInput.toLowerCase())
+                                setTagInput('');
+                            }}
                             value={tagInput}
                             iconClickable
                             iconRight={<PlusCircle/>}
@@ -81,11 +81,9 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
             )
         case "lessons":
             return (
-                data.length > 0
-                    ? data && data.map((lesson: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }, index: React.Key | null | undefined) =>
-                    <StyledLessonItem
-                        key={index}
-                    >
+                data && data.length > 0
+                    ? data.map((lesson: any) =>
+                    <StyledLessonItem key={lesson.lessonId}>
                         &#8226; {lesson.name}
                     </StyledLessonItem>
                 )
@@ -94,12 +92,22 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
                         <Button auto type="warning" children="Добавить" scale={1 / 3}/>
                     </Note>
             )
+        case "description":
+            return (
+                <Input.Textarea
+                    resize={"vertical"}
+                    width={"100%"}
+                    onChange={(e) => handleUpdateState(courseKey, e.target.value)}
+                    value={data}
+                />
+            )
         default:
             return (
                 <Input
                     width={"100%"}
                     onChange={(e) => handleUpdateState(courseKey, e.target.value)}
-                    value={data}/>
+                    value={data}
+                />
             )
     }
 };

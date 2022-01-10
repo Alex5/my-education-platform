@@ -1,9 +1,11 @@
 import React, {FC, memo, useEffect, useState} from 'react';
-import {Card, Grid, Loading, Page, Spacer, Tag, Text} from "@geist-ui/react";
+import {Button, Card, Grid, Link, Loading, Page, Spacer, Tag, Text} from "@geist-ui/react";
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
 import {useNavigate} from "react-router-dom";
+import Tags from "../Tags";
+import NewCourses from "../NewCourses";
 
 const Home: FC = () => {
     const navigate = useNavigate();
@@ -23,19 +25,12 @@ const Home: FC = () => {
         return load ? <Loading/> : <Text>{size} курса</Text>
     })
 
-    const tags = ["react", "redux-toolkit", "react router 6", 'front-end', 'что учить в 2022', 'roadmap']
-
     return (
         <>
+            <Text h4>Новые курсы</Text>
+            <NewCourses/>
             <Text h4>Теги</Text>
-            <Grid.Container gap={1}>
-                {tags.map(tag => (
-                    <Grid>
-                        <Tag onClick={() => navigate(`tags/${tag}`)} style={{cursor: 'pointer'}} scale={1.2}
-                             type="lite">{tag}</Tag>
-                    </Grid>
-                ))}
-            </Grid.Container>
+            <Tags length={8}/>
             <Page.Content>
                 <Text h1>Направления</Text>
                 <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>

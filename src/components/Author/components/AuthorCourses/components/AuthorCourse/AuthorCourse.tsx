@@ -3,7 +3,11 @@ import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router
 import {Badge, Button, Divider, Grid, Spacer, Tag, Text} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {getCourses, getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
+import {
+    getCourses,
+    getSelectedCourse,
+    setSelectedCourse
+} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {ArrowLeft} from "@geist-ui/react-icons";
 import {AuthorRequests} from "../../../../../../api/authorRequests";
 import {routes} from "../../../../../../routes";
@@ -32,27 +36,15 @@ const AuthorCourse = () => {
     return (
         <>
             <StyledInfoHeader>
+                <Text mb={0} mt={0} h3 children={selectedCourse.name}/>
                 <div style={{display: 'flex', alignItems: 'center'}}>
-                    <Text h2 children={selectedCourse.name}/>
-                    <Spacer/>
-                </div>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    {selectedCourse.published
-                        ? <Button
-                            onClick={() => handlePublishCourse(false)}
-                            loading={load}
-                            auto
-                            children={"Снять с публикации"}
-                        />
-                        :
-                        <Button
-                            onClick={() => handlePublishCourse(true)}
-                            loading={load}
-                            auto
-                            type="success"
-                            children={"Опубликовать"}
-                        />
-                    }
+                    <Button
+                        onClick={() => handlePublishCourse(!selectedCourse.published)}
+                        loading={load}
+                        auto
+                        children={selectedCourse.published ? "Снять с публикации" : "Опубликовать"}
+                        type={selectedCourse.published ? "default" : "success"}
+                    />
                     <Spacer/>
                     <Button onClick={() => navigate(`/${selectedCourse.direction}/${selectedCourse.courseId}`)}
                             disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"}/>

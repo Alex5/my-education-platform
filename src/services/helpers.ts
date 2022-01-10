@@ -1,3 +1,3 @@
-export const snipText = (text: string): string => {
-   return text.length > 25 ? `${text.slice(0, 25)}...` : text
+export const snipText = (text: string, length?: number): string => {
+   return text.length > 25 ? `${text.slice(0, length || 25)}...` : text
 }

@@ -14,7 +14,7 @@ export interface ICourse {
     description: string,
     author: IAuthor,
     direction: string,
-    lessons: Pick<ILesson, "lessonId" | "name">[];
+    lessons: Pick<ILesson, "lessonId" | "name" | "position">[];
     cover: string;
     tags: string[];
 }
@@ -43,7 +43,8 @@ export interface ILesson {
     homeWorks: IHomeWork[]
     videoLink: string,
     name: string,
-    videoId: string
+    videoId: string,
+    position: number
 }
 
 export interface ITestimonial {

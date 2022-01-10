@@ -1,23 +1,20 @@
 import React, {useEffect} from 'react';
 import {Tabs} from "@geist-ui/react";
 import {useNavigate} from "react-router-dom";
-import {Home} from "@geist-ui/react-icons";
-import styled from "styled-components";
 
 const AuthorTabs = () => {
     const navigate = useNavigate();
     const changeHandler = (val: string) => navigate(`${val}`);
 
     useEffect(() => {
-        navigate("/author", {replace: true})
+        navigate("/author/courses", {replace: true})
     }, [])
 
     return (
         <>
-            <Tabs hideDivider initialValue={"/author"} onChange={changeHandler}>
-                <Tabs.Item label={<><Home/></>} value="/author"/>
+            <Tabs hideDivider initialValue={"/author/courses"} onChange={changeHandler}>
                 <Tabs.Item label="Мои курсы" value="/author/courses"/>
-                {/*<Tabs.Item label="Активность" value="/author/activity"/>*/}
+                {/*<Tabs.Item label="Менторство" value="/author/mentoring"/>*/}
                 {/*<Tabs.Item label="Настройки" value="/author/settings"/>*/}
             </Tabs>
         </>

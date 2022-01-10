@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {Button, Fieldset, Text} from "@geist-ui/react";
+import {Button, Fieldset, Input, Spacer, Text, useClipboard, useToasts} from "@geist-ui/react";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setCourses} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
+import {Copy} from "@geist-ui/react-icons";
 
 const Settings = () => {
     const [load, setLoad] = useState(false)
@@ -19,8 +20,29 @@ const Settings = () => {
         navigate('/author/courses');
     }
 
+    const {copy} = useClipboard()
+    const [, setToast] = useToasts()
+    const handleCopy = () => {
+        copy(authorCourseId || "")
+        setToast({text: 'ID Скопированно'})
+    }
+
     return (
         <div>
+            <Fieldset>
+                <Fieldset.Title>ID курса</Fieldset.Title>
+                <Fieldset.Subtitle>
+                    <Text children="Это идентификатор курса в My Education Platform."/>
+                    <Input
+                        width={'260px'}
+                        iconClickable={true}
+                        onIconClick={handleCopy}
+                        iconRight={<Copy/>}
+                        value={authorCourseId}
+                    />
+                </Fieldset.Subtitle>
+            </Fieldset>
+            <Spacer/>
             <Fieldset style={{border: '1px solid #e00'}}>
                 <Fieldset.Title>Удалить курс</Fieldset.Title>
                 <Fieldset.Subtitle>

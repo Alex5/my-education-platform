@@ -36,7 +36,7 @@ export const UserRequests = {
 
         return memberSnap.data() as ICourseStatus;
     },
-    async nextLesson(courseId: string, newViewedLessonId: string): Promise<ICourseStatus>{
+    async nextLesson(courseId: string, newViewedLessonId: string): Promise<ICourseStatus> {
         const {currentUser} = await getAuth();
 
         if (!currentUser) {
@@ -56,7 +56,29 @@ export const UserRequests = {
 
         return memberSnap.data() as ICourseStatus;
     },
-    async addTestimonial(courseId: string, testimonial: ITestimonial){
+    async markLessonViewed(courseId: string, lessonId: string): Promise<ICourseStatus> {
+        const {currentUser} = await getAuth();
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        const memberRef = doc(db, "courses", courseId, "members", currentUser.uid);
+        const snapshot = await getDoc(memberRef);
+        const memberData = snapshot.data() as ICourseStatus;
+
+        await updateDoc(memberRef, {
+            viewedLessons: memberData.viewedLessons.includes(lessonId)
+                ? [...memberData.viewedLessons.filter(lesson => lesson !== lessonId)]
+                : [...memberData.viewedLessons, lessonId],
+            updatedDate: serverTimestamp()
+        });
+
+        const memberSnap = await getDoc(memberRef)
+
+        return memberSnap.data() as ICourseStatus;
+    },
+    async addTestimonial(courseId: string, testimonial: ITestimonial) {
         const {currentUser} = await getAuth();
 
         if (!currentUser) {

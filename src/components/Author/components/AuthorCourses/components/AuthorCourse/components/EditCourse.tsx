@@ -1,8 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, Grid, useToasts, Tooltip} from "@geist-ui/react";
+import {Button, Text, Grid, useToasts, Tooltip, Spacer, Input, Tag} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {getLessons, getSelectedCourse, setLessons} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
+import {
+    getLessons,
+    getSelectedCourse,
+    setLessons,
+    updateSelectedCourseLessons
+} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {XCircle} from "@geist-ui/react-icons";
 import {nanoid} from "nanoid";
 import Lesson from "./Lesson";
@@ -30,7 +35,8 @@ const EditCourse = () => {
             description: '',
             homeWorks: [],
             videoLink: '',
-            videoId: ''
+            videoId: '',
+            position: lessons.length + 1
         }]))
     }
 
@@ -41,7 +47,8 @@ const EditCourse = () => {
 
     const handleLessonsSave = async () => {
         setLoad(true);
-        await AuthorRequests.saveLessons(lessons, selectedCourse.courseId)
+        const newLessons = await AuthorRequests.saveLessons(lessons, selectedCourse.courseId)
+        dispatch(updateSelectedCourseLessons(newLessons))
         setLoad(false);
         setToast({
             text: 'Уроки успешно обновлены',
@@ -68,17 +75,20 @@ const EditCourse = () => {
                 </Button>
             </StyledEditLessonsHeader>
             <Grid.Container gap={2}>
-                <Grid xs={24} md={18} direction={'column'}>
+                <Grid xs={24} md={16} direction={'column'}>
                     <Lesson selectedLesson={selectedLesson}/>
                 </Grid>
-                <Grid direction="column" xs={24} md={6}>
-                    {lessons.map(lesson =>
-                        <StyledLessonItem
-                            lessonId={lesson.lessonId || ''}
-                            selectedLessonId={selectedLesson?.lessonId || ''}
-                            onClick={() => handleLessonSelect(lesson.lessonId || '')}
-                        >
-                            <Tooltip text={lesson.name}>
+                <Grid direction="column" xs={24} md={8}>
+                    <div style={{height: '500px', overflow: 'auto'}}>
+                        {lessons && [...lessons].sort((a, b) => a.position - b.position).map(lesson =>
+                            <StyledLessonItem
+                                key={lesson.lessonId}
+                                lessonId={lesson.lessonId || ''}
+                                selectedLessonId={selectedLesson?.lessonId || ''}
+                                onClick={() => handleLessonSelect(lesson.lessonId || '')}
+                            >
+                                <Tag type="lite">{lesson.position}</Tag>
+                                <Tooltip text={lesson.name}>
                                  <span style={{fontWeight: 500, fontSize: '1rem'}}
                                        children={
                                            lesson.name.length > 15
@@ -86,11 +96,13 @@ const EditCourse = () => {
                                                : lesson.name
                                        }
                                  />
-                            </Tooltip>
-                            {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>}
-                        </StyledLessonItem>
-                    )}
-                    <Button onClick={handleAddLesson} scale={1 / 2} children="Добавить урок"/>
+                                </Tooltip>
+                                {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>}
+                            </StyledLessonItem>
+                        )}
+                    </div>
+                    <Spacer/>
+                    <Button onClick={handleAddLesson} children="Добавить урок"/>
                 </Grid>
             </Grid.Container>
         </div>
@@ -112,7 +124,7 @@ const StyledLessonItem = styled.div<{ selectedLessonId?: string, lessonId: strin
   background-color: ${props => props.selectedLessonId === props.lessonId ? "#f7f7f7" : ""};
 
   &:hover {
-    background-color: #f7f7f7;
+    background-color: #fbfbfb;
   }
 `
 

@@ -118,7 +118,10 @@ export const PublicRequests = {
         const courses: ICourse[] = [];
 
         querySnapshot.forEach((doc) => {
-            courses.push(doc.data() as ICourse);
+            const docData = doc.data() as ICourse;
+            if (docData.published) {
+                courses.push(docData);
+            }
         });
 
         if (courses.length > 0) {
@@ -126,5 +129,19 @@ export const PublicRequests = {
         } else {
             return [];
         }
+    },
+    async getTags(): Promise<string[]> {
+        const querySnapshot = await getDocs(collection(db, "courses"));
+
+        const tags: string[] = [];
+
+        querySnapshot.forEach((doc) => {
+            if (doc.id !== '--coursesNames--') {
+                const docData = doc.data() as ICourse;
+                docData.published && tags.push(...docData.tags);
+            }
+        });
+
+        return tags;
     }
 }

@@ -51,26 +51,18 @@ const Course = () => {
         }
     }
 
-    const handleGetCourseStatus = async () => {
-        const courseStatus = await UserRequests.getCourseStatus(courseId || '');
-        dispatch(setCourseStatus(courseStatus));
-    }
-
     useEffect(() => {
-        if (Object.keys(selectedCourse).length === 0) {
-            setLoad(true)
-            PublicRequests
-                .getCourse(courseId || '')
-                .then(course => {
-                    dispatch(setSelectedCourse(course));
-                    setLoad(false)
-                })
-        }
-
-        handleGetCourseStatus()
+        PublicRequests
+            .getCourse(courseId || '')
+            .then(async course => {
+                dispatch(setSelectedCourse(course));
+                const courseStatus = await UserRequests.getCourseStatus(courseId || '');
+                dispatch(setCourseStatus(courseStatus));
+                setLoad(false)
+            })
 
         AnalyticsLogs.pageView(location.pathname, selectedCourse.name, courseId || '')
-    }, [courseId, dispatch, selectedCourse, location.pathname])
+    }, [courseId])
 
     return (
         <>
@@ -87,10 +79,10 @@ const Course = () => {
                             ? <Loading/>
                             : courseStatus && courseStatus.start
                                 ?
-                                <Button type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
+                                <Button loading={load} type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
                                         children="Продолжить"/>
                                 :
-                                <Button loading={startLoad} onClick={handleStartCourse} type="secondary"
+                                <Button loading={load} onClick={handleStartCourse} type="secondary"
                                         children="Начать"/>
                         }
                     </div>
@@ -130,7 +122,8 @@ const Course = () => {
                                     <Tag
                                         style={{cursor: 'pointer'}}
                                         onClick={() => navigate(`/tags/${tag}`)}
-                                        type={"lite"} key={tag}
+                                        type={"lite"}
+                                        key={tag}
                                         scale={1 / 2}>{tag}
                                     </Tag>
                                 )
@@ -155,7 +148,7 @@ const Course = () => {
                         ? <Loading/>
                         : <ul>
                             {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
-                                <li>{lesson.name}</li>
+                                <li key={lesson.lessonId}>{lesson.name}</li>
                             )}
                         </ul>
                     }

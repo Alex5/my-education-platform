@@ -25,10 +25,13 @@ export const coursesSlice = createSlice({
     name: 'courses',
     initialState,
     reducers: {
-        setCourses(state, action: PayloadAction<ICourse[]>){
+        setCourses(state, action: PayloadAction<ICourse[]>) {
             state.courses = action.payload;
         },
-        setLessons(state, action: PayloadAction<ILesson[]>){
+        updateSelectedCourseLessons(state, action: PayloadAction<ILesson[]>) {
+            state.selectedCourse.lessons = action.payload;
+        },
+        setLessons(state, action: PayloadAction<ILesson[]>) {
             state.lessons = action.payload;
         },
         setSelectedCourse(state, action: PayloadAction<ICourse>) {
@@ -55,6 +58,13 @@ export const getPreviewLessons = createDraftSafeSelector(selectSelf, (state) => 
 export const getCourseStatus = createDraftSafeSelector(selectSelf, (state) => state.courseStatus)
 export const getTestimonials = createDraftSafeSelector(selectSelf, (state) => state.testimonials)
 
-export const { setCourses, setSelectedCourse, setLessons, setCourseStatus, setTestimonials } = coursesSlice.actions
+export const {
+    setCourses,
+    updateSelectedCourseLessons,
+    setSelectedCourse,
+    setLessons,
+    setCourseStatus,
+    setTestimonials
+} = coursesSlice.actions
 
 export default coursesSlice.reducer

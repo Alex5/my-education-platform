@@ -90,7 +90,11 @@ export class AuthorRequests {
         const courseRef = doc(db, "courses", courseId);
 
         await updateDoc(courseRef, {
-            lessons: lessons.map(lesson => ({lessonId: lesson.lessonId, name: lesson.name}))
+            lessons: lessons.map(lesson => ({
+                lessonId: lesson.lessonId,
+                name: lesson.name,
+                position: lesson.position
+            }))
         })
     }
 
@@ -120,14 +124,11 @@ export class AuthorRequests {
                 description: `Описание домашнего задания.`
             }],
             videoLink: '',
-            videoId: ''
+            videoId: '',
+            position: 1
         }], courseRef.id);
 
-        return this
-            .getCourses()
-            .then((courses) => {
-                return courses;
-            })
+        return await this.getCourses();
     }
 
     public static async deleteCourse(courseId: string): Promise<ICourse[]> {

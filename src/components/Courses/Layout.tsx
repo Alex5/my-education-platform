@@ -1,11 +1,5 @@
 import React from 'react';
-import {Page} from "@geist-ui/react";
 import {Outlet} from "react-router-dom";
 
-const Courses = () => {
-    return (
-        <Outlet/>
-    );
-};
-
+const Courses = () => <Outlet/>
 export default Courses;

@@ -14,6 +14,8 @@ import AccountLayout from "./components/Account/AccountLayout";
 import Tags from "./components/Tags";
 import TagsLayout from "./components/Tags/TagsLayout";
 import Tag from "./components/Tags/components/Tag";
+import MentoringLayout from "./components/Author/components/Mentoring/MentoringLayout";
+import Mentoring from "./components/Author/components/Mentoring";
 
 function App() {
     const dispatch = useDispatch();
@@ -81,6 +83,9 @@ function App() {
                             <Route path="*" element={<NoMatch/>}/>
                         </Route>
                         <Route path="*" element={<NoMatch/>}/>
+                    </Route>
+                    <Route path="mentoring" element={<MentoringLayout/>}>
+                        <Route index element={<Mentoring/>}/>
                     </Route>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
