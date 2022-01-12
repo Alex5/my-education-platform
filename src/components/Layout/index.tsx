@@ -9,7 +9,7 @@ import styled from "styled-components";
 const Layout = () => {
     const location = useLocation();
     const {author} = useSelector(getUser);
-    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author');
+    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author') && !location.pathname.includes('/shorts');
 
     return (
         <>

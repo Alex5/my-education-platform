@@ -16,6 +16,8 @@ import TagsLayout from "./components/Tags/TagsLayout";
 import Tag from "./components/Tags/components/Tag";
 import MentoringLayout from "./components/Author/components/Mentoring/MentoringLayout";
 import Mentoring from "./components/Author/components/Mentoring";
+import HomeLayout from "./components/Home/HomeLayout";
+import Shorts from "./components/Shorts";
 
 function App() {
     const dispatch = useDispatch();
@@ -56,7 +58,11 @@ function App() {
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>
-                <Route index element={<Home/>}/>
+                <Route element={<HomeLayout/>}>
+                    <Route index element={<Home/>}/>
+                    <Route path="/shorts" element={<Shorts/>}/>
+                    <Route path="*" element={<NoMatch/>}/>
+                </Route>
                 <Route path="/:courseDirection" element={<Courses/>}>
                     <Route index element={<CoursesIndex/>}/>
                     <Route path="/:courseDirection/:courseId" element={<Course/>}/>

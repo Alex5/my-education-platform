@@ -3,7 +3,7 @@ import {Button, Card, Grid, Link, Loading, Page, Spacer, Tag, Text} from "@geist
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
-import {useNavigate} from "react-router-dom";
+import {NavLink, Outlet, useNavigate} from "react-router-dom";
 import Tags from "../Tags";
 import NewCourses from "../NewCourses";
 
@@ -26,31 +26,32 @@ const Home: FC = () => {
     })
 
     return (
-        <>
-            <Text h4>Новые курсы</Text>
-            <NewCourses/>
-            <Text h4>Теги</Text>
-            <Tags length={8}/>
-            <Page.Content>
-                <Text h1>Направления</Text>
-                <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
-                <Spacer/>
-                <Grid.Container gap={2}>
-                    <Grid xs={24} md={8}>
-                        <Card style={{cursor: 'pointer'}} onClick={() => navigate('/programming')} width="100%"
-                              hoverable>
-                            <StyledCardContent>
-                                <Code color={"#1482ff"}/>
-                                <Text h4 mb={0} mt={0}> Программирование</Text>
-                            </StyledCardContent>
-                            <Card.Footer>
-                                <CourseSize direction={"programming"}/>
-                            </Card.Footer>
-                        </Card>
-                    </Grid>
-                </Grid.Container>
-            </Page.Content>
-        </>
+       <>
+           <Text h4>Новые курсы</Text>
+           <NewCourses courseLimit={3}/>
+           <Spacer h={5}/>
+           <Text h4>Теги</Text>
+           <Tags length={8}/>
+           <Page.Content>
+               <Text h1>Направления</Text>
+               <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>
+               <Spacer/>
+               <Grid.Container gap={2}>
+                   <Grid xs={24} md={8}>
+                       <Card style={{cursor: 'pointer'}} onClick={() => navigate('/programming')} width="100%"
+                             hoverable>
+                           <StyledCardContent>
+                               <Code color={"#1482ff"}/>
+                               <Text h4 mb={0} mt={0}> Программирование</Text>
+                           </StyledCardContent>
+                           <Card.Footer>
+                               <CourseSize direction={"programming"}/>
+                           </Card.Footer>
+                       </Card>
+                   </Grid>
+               </Grid.Container>
+           </Page.Content>
+       </>
     );
 };
 
@@ -61,6 +62,32 @@ export const StyledCardContent = styled.div`
   svg {
     margin-right: 10px;
   }
+`
+
+const StyledSidebar = styled.nav`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  width: 100%;
+  
+  a {
+
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    transition: ease-in-out 0.3s;
+  }
+
+  .active {
+    font-weight: 500;
+    color: #0070F3;
+    background-color: #FAFAFA;
+  }
+`
+
+const StyledNavLink = styled(NavLink)`
+
 `
 
 export default Home;

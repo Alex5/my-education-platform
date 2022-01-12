@@ -7,6 +7,7 @@ export interface ITag {
 }
 
 export interface ICourse {
+    createdAt?: Timestamp,
     name: string,
     courseId: string,
     ownerId: string,

@@ -14,12 +14,18 @@ const Tags: FC<TagsProps> = ({length}) => {
     const location = useLocation();
 
     useEffect(() => {
-        setLoad(true);
-        PublicRequests.getTags().then(tags => {
-            const uniqTags = new Set([...tags])
-            setTags(length ? Array.from(uniqTags).slice(0, length) : Array.from(uniqTags));
+        try {
+            setLoad(true);
+            PublicRequests.getTags().then(tags => {
+                const uniqTags = new Set([...tags])
+                setTags(length ? Array.from(uniqTags).slice(0, length) : Array.from(uniqTags));
+                setLoad(false);
+            })
+        } catch (e) {
+            alert(e)
             setLoad(false);
-        })
+        }
+
     }, [length])
 
     const navigate = useNavigate();

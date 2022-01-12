@@ -1,4 +1,4 @@
-import {collection, getDocs, query, where, doc, getDoc, updateDoc} from "firebase/firestore";
+import {collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit} from "firebase/firestore";
 import {db} from "../fbconfig";
 import {EStatus} from "../redux/enums";
 import {IYouTubeComment} from "../components/Testimonials/types";
@@ -143,5 +143,25 @@ export const PublicRequests = {
         });
 
         return tags;
+    },
+    async getNewCourses(courseLimit: number): Promise<ICourse[]> {
+        const q = query(collection(db, "courses"),
+            where("published", "==", true),
+            orderBy("createdAt", "desc"),
+            limit(courseLimit))
+
+        const querySnapshot = await getDocs(q);
+
+        const courses: ICourse[] = [];
+
+        querySnapshot.forEach((doc) => {
+            courses.push(doc.data() as ICourse);
+        });
+
+        if (courses.length > 0) {
+            return courses;
+        } else {
+            return [];
+        }
     }
 }
