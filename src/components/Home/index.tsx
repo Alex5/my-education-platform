@@ -3,7 +3,7 @@ import {Button, Card, Grid, Link, Loading, Page, Spacer, Tag, Text} from "@geist
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
-import {NavLink, Outlet, useNavigate} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import Tags from "../Tags";
 import NewCourses from "../NewCourses";
 

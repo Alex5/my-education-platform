@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
-import {Badge, Button, Divider, Grid, Spacer, Tag, Text} from "@geist-ui/react";
+import {Button, Grid, Spacer, Text} from "@geist-ui/react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    getCourses,
-    getSelectedCourse,
-    setSelectedCourse
-} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
-import {ArrowLeft} from "@geist-ui/react-icons";
+import {getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {AuthorRequests} from "../../../../../../api/authorRequests";
-import {routes} from "../../../../../../routes";
+
 
 const AuthorCourse = () => {
     const [load, setLoading] = useState(false);

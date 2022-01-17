@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Shorts = () => {
+const AuthorName = (uid: string) => {
     return (
         <div>
-            Shorts
+
         </div>
     );
 };
 
-export default Shorts;
+export default AuthorName;

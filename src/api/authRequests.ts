@@ -25,6 +25,7 @@ export class AuthRequests {
                     await setDoc(doc(db, 'users', result.user.uid), {
                         appointment: '',
                         author: false,
+                        uid: result.user.uid
                     })
 
                     const docSnap = await getDoc(doc(db, "users", result.user.uid))

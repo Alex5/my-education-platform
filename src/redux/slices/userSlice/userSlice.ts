@@ -5,7 +5,8 @@ import {IUser} from "./types";
 const initialState: IUser = {
     author: false,
     appointment: '',
-    loggedIn: false
+    loggedIn: false,
+    uid: ''
 }
 
 export const userSlice = createSlice({
@@ -16,6 +17,7 @@ export const userSlice = createSlice({
             state.author = action.payload.author;
             state.appointment = action.payload.appointment;
             state.loggedIn = true
+            state.uid = action.payload.uid
         },
         signOut(state){
             state.author = initialState.author;

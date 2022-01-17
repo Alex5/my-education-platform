@@ -20,21 +20,20 @@ export class AuthorRequests {
         return currentUser;
     }
 
-    public static async getCourses(): Promise<ICourse[]> {
-        const user = await this.getAuth()
+    public static async getCourses(uid: string): Promise<ICourse[]> {
+        const q = query(collection(db, "courses"), where("ownerId", "==", uid));
 
-        if (user) {
-            const q = query(collection(db, "courses"), where("ownerId", "==", user.uid));
-
+        try {
             const querySnapshot = await getDocs(q);
             const docs: ICourse[] = [];
             querySnapshot.forEach((doc) => {
                 docs.push(doc.data() as ICourse);
             });
             return docs;
-        } else {
-            return [];
+        } catch (e) {
+            return Promise.reject(e);
         }
+
     }
 
     public static async getLessons(courseId: string): Promise<ILesson[]> {
@@ -128,10 +127,10 @@ export class AuthorRequests {
             position: 1
         }], courseRef.id);
 
-        return await this.getCourses();
+        return await this.getCourses(course.ownerId);
     }
 
-    public static async deleteCourse(courseId: string): Promise<ICourse[]> {
+    public static async deleteCourse(courseId: string, uid: string): Promise<ICourse[]> {
         const coursesNamesRef = doc(db, 'courses', '--coursesNames--');
 
         await updateDoc(coursesNamesRef, {
@@ -147,7 +146,7 @@ export class AuthorRequests {
             deleteDoc(doc.ref);
         });
 
-        return this.getCourses().then((courses) => {
+        return this.getCourses(uid).then((courses) => {
             return courses;
         })
     }

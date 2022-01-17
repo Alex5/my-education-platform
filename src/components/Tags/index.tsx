@@ -40,7 +40,7 @@ const Tags: FC<TagsProps> = ({length}) => {
             {load
                 ? <Spinner/>
                 : tags && tags.map(tag => (
-                <Grid>
+                <Grid key={tag}>
                     <Button
                         onClick={navigateToTag(tag)}
                         auto

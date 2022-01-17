@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
-import {Button, Grid, Loading, Spacer, Text} from "@geist-ui/react";
+import {Loading, Spacer} from "@geist-ui/react";
 import Testimonials from "../../Testimonials";
 import {ILesson} from "../../../redux/slices/coursesSlice/types";
-import {Heart} from "@geist-ui/react-icons";
 
 interface LessonProps {
     load: boolean;

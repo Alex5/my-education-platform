@@ -1,5 +1,6 @@
 export interface IUser {
     author: boolean,
     appointment: string,
-    loggedIn: boolean
+    loggedIn: boolean,
+    uid: string
 }

@@ -9,7 +9,7 @@ import styled from "styled-components";
 const Layout = () => {
     const location = useLocation();
     const {author} = useSelector(getUser);
-    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author') && !location.pathname.includes('/shorts');
+    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author') && !location.pathname.includes('/videos');
 
     return (
         <>
@@ -23,20 +23,6 @@ const Layout = () => {
         </>
     );
 };
-
-const PageFooter = styled.div`
-  position: fixed;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  left: 0;
-  bottom: 0;
-  background-color: white;
-  box-shadow: inset 0 1px #eaeaea;
-  z-index: 2;
-`
 
 const StyledPage = styled.div`
   max-width: 1048px;

@@ -1,15 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import * as Geist from "@geist-ui/react";
-import {Search, UserPlus} from "@geist-ui/react-icons";
-import styled from "styled-components";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {AuthContext} from "../../../../index";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
 import {Select, Spacer, Tooltip} from "@geist-ui/react";
 import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
+import {getUser} from "../../../../redux/slices/userSlice/userSlice";
+import SearchBar from "../shared/SearchBar";
 
 const AuthorCourses = () => {
     const courses = useSelector(getCourses);
@@ -18,16 +16,16 @@ const AuthorCourses = () => {
     const [courseName, setCourseName] = useState<string>("");
     const [courseDirection, setCourseDirection] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const {auth} = useContext(AuthContext);
-    const [user] = useAuthState(auth);
+    const [addCourseLoading, setAddCourseLoading] = useState<boolean>(false);
+    const {author, uid} = useSelector(getUser);
     const dispatch = useDispatch();
 
     const handleAddCourse = async () => {
-        setLoading(true)
+        setAddCourseLoading(true)
         const newCourses = await AuthorRequests.addCourse({
             name: courseName,
             courseId: '',
-            ownerId: user?.uid || '',
+            ownerId: uid,
             published: false,
             direction: courseDirection,
             lessons: [],
@@ -36,10 +34,10 @@ const AuthorCourses = () => {
             cover: '',
             tags: []
         })
-        setLoading(false);
         setAddCourseModal(false);
         setCourseName("");
         dispatch(setCourses(newCourses));
+        setAddCourseLoading(false);
     }
 
     const handleSelectCourse = (course: ICourse) => {
@@ -49,35 +47,29 @@ const AuthorCourses = () => {
         }
     }
 
+    const handleGetCourses = async () => {
+        setLoading(true)
+        const courses = await AuthorRequests.getCourses(uid);
+        dispatch(setCourses(courses));
+        setLoading(false)
+    }
+
     useEffect(() => {
-        (async () => {
-            setLoading(true)
-            const courses = await AuthorRequests.getCourses();
-            dispatch(setCourses(courses));
-            setLoading(false)
-        })()
-    }, [dispatch])
+        if (author) {
+            handleGetCourses()
+        }
+    }, [author])
 
     return (
         <>
-            <StyledHomeHeader>
-                <Geist.Input scale={1.3} icon={<Search/>} width={'100%'} placeholder="Поиск по курсам"/>
-                <Geist.Spacer/>
-                <Geist.Button
-                    onClick={() => setAddCourseModal(true)}
-                    auto
-                    type="secondary"
-                    children="Новый курс"
-                />
-                <Geist.Spacer/>
-            </StyledHomeHeader>
+            <SearchBar onClick={() => setAddCourseModal(true)}/>
             <Geist.Spacer/>
             <Geist.Grid.Container gap={2}>
                 {loading
                     ? <Geist.Loading style={{height: '200px'}}/>
                     : courses.length > 0
                         ? courses.map(course =>
-                            <Geist.Grid xs={24} sm={12} md={8}>
+                            <Geist.Grid key={course.courseId} xs={24} sm={12} md={8}>
                                 <Geist.Card
                                     style={{cursor: 'pointer'}} hoverable width="100%"
                                     onClick={handleSelectCourse(course)}
@@ -129,19 +121,10 @@ const AuthorCourses = () => {
                     </Select>
                 </Geist.Modal.Content>
                 <Geist.Modal.Action passive onClick={() => setAddCourseModal(false)}>Отменить</Geist.Modal.Action>
-                <Geist.Modal.Action loading={loading} onClick={handleAddCourse}>Сохранить</Geist.Modal.Action>
+                <Geist.Modal.Action loading={addCourseLoading} onClick={handleAddCourse}>Сохранить</Geist.Modal.Action>
             </Geist.Modal>
         </>
     );
 };
-
-const StyledHomeHeader = styled.div`
-  display: flex;
-`
-const StyledCourseCardHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
 
 export default AuthorCourses;

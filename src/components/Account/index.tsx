@@ -9,10 +9,10 @@ import {Copy} from "@geist-ui/react-icons";
 import {EStatus} from "../../redux/enums";
 
 const Account = () => {
-    const fbUser = useSelector(getUser);
+    const {author, uid} = useSelector(getUser);
 
     const [load, setLoad] = useState(false);
-    const [status, setStatus] = useState<string | number>(fbUser.author ? EStatus.author : EStatus.user)
+    const [status, setStatus] = useState<string | number>(author ? EStatus.author : EStatus.user)
     const handler = (val: string | number) => {
         setStatus(val)
     }
@@ -20,19 +20,16 @@ const Account = () => {
     const {copy} = useClipboard()
     const [, setToast] = useToasts()
     const handleCopy = () => {
-        copy(user?.uid || '')
+        copy(uid)
         setToast({text: 'ID Скопированно'})
     }
 
     const dispatch = useDispatch();
 
-    const {auth} = useContext(AuthContext);
-    const [user, loading] = useAuthState(auth);
-
 
     const handleSaveStatus = async () => {
         setLoad(true)
-        const updatedUser = await PublicRequests.transformAccount(user?.uid || '', status);
+        const updatedUser = await PublicRequests.transformAccount(uid, status);
         dispatch(setUser(updatedUser));
         setLoad(false)
     }
@@ -45,13 +42,10 @@ const Account = () => {
                     <Fieldset.Subtitle>
                         <Text
                             children="Смените тип аккаунт, все созданные вами курсы остануться. Но вы потеряете доступ к созданию новых."/>
-                        {loading
-                            ? <Loading/>
-                            : <Radio.Group value={fbUser.author ? EStatus.author : EStatus.user} onChange={handler}>
-                                <Radio value={EStatus.author}>Автор</Radio>
-                                <Radio value={EStatus.user}>Пользователь</Radio>
-                            </Radio.Group>
-                        }
+                        <Radio.Group value={author ? EStatus.author : EStatus.user} onChange={handler}>
+                            <Radio value={EStatus.author}>Автор</Radio>
+                            <Radio value={EStatus.user}>Пользователь</Radio>
+                        </Radio.Group>
                     </Fieldset.Subtitle>
                     <Fieldset.Footer>
                         Не забудьте сохранить изменения
@@ -68,7 +62,7 @@ const Account = () => {
                             iconClickable={true}
                             onIconClick={handleCopy}
                             iconRight={<Copy/>}
-                            value={user?.uid}
+                            value={uid}
                         />
                     </Fieldset.Subtitle>
                     <Fieldset.Footer>

@@ -2,19 +2,21 @@ import React, {useState} from 'react';
 import {Button, Fieldset, Input, Spacer, Text, useClipboard, useToasts} from "@geist-ui/react";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setCourses} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {Copy} from "@geist-ui/react-icons";
+import {getUser} from "../../../../../../../redux/slices/userSlice/userSlice";
 
 const Settings = () => {
     const [load, setLoad] = useState(false)
     const {authorCourseId} = useParams<"authorCourseId">()
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {uid} = useSelector(getUser);
 
     const handleDeleteCourse = async () => {
         setLoad(true)
-        const courses = await AuthorRequests.deleteCourse(authorCourseId || '')
+        const courses = await AuthorRequests.deleteCourse(authorCourseId || '', uid)
         dispatch(setCourses(courses))
         setLoad(false)
         navigate('/author/courses');

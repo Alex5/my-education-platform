@@ -17,7 +17,10 @@ import Tag from "./components/Tags/components/Tag";
 import MentoringLayout from "./components/Author/components/Mentoring/MentoringLayout";
 import Mentoring from "./components/Author/components/Mentoring";
 import HomeLayout from "./components/Home/HomeLayout";
-import Shorts from "./components/Shorts";
+import Videos from "./components/Videos";
+import Video from "./components/Videos/Components/Video";
+import AuthorVideosLayout from "./components/Author/components/AuthorVideos/AuthorVideosLayout";
+import AuthorVideos from "./components/Author/components/AuthorVideos";
 
 function App() {
     const dispatch = useDispatch();
@@ -33,16 +36,16 @@ function App() {
         return children;
     }
 
-    function RequireAuthor({children}: { children: JSX.Element }) {
-        const {author} = useSelector(getUser);
-        let location = useLocation();
-
-        if (!author) {
-            return <Navigate to="/for-author" state={{from: location}}/>;
-        }
-
-        return children;
-    }
+    // function RequireAuthor({children}: { children: JSX.Element }) {
+    //     const {author} = useSelector(getUser);
+    //     let location = useLocation();
+    //
+    //     if (!author) {
+    //         return <Navigate to="/for-author" state={{from: location}}/>;
+    //     }
+    //
+    //     return children;
+    // }
 
     useEffect(() => {
         const auth = getAuth();
@@ -60,7 +63,7 @@ function App() {
             <Route path="/" element={<Layout/>}>
                 <Route element={<HomeLayout/>}>
                     <Route index element={<Home/>}/>
-                    <Route path="/shorts" element={<Shorts/>}/>
+                    <Route path="/videos" element={<Videos/>}/>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
                 <Route path="/:courseDirection" element={<Courses/>}>
@@ -71,16 +74,8 @@ function App() {
                 </Route>
                 <Route path={"/for-author"} element={<ForAuthor/>}/>
                 <Route path="/author">
-                    <Route index element={
-                        <RequireAuthor>
-                            <AuthorHome/>
-                        </RequireAuthor>
-                    }/>
-                    <Route path="courses" element={
-                        <RequireAuthor>
-                            <AuthorCoursesLayout/>
-                        </RequireAuthor>
-                    }>
+                    <Route index element={<AuthorHome/>}/>
+                    <Route path="courses" element={<AuthorCoursesLayout/>}>
                         <Route index element={<AuthorCourses/>}/>
                         <Route path=":authorCourseId" element={<AuthorCourse/>}>
                             <Route path="general" element={<General/>}/>
@@ -92,6 +87,9 @@ function App() {
                     </Route>
                     <Route path="mentoring" element={<MentoringLayout/>}>
                         <Route index element={<Mentoring/>}/>
+                    </Route>
+                    <Route path="videos" element={<AuthorVideosLayout/>}>
+                        <Route index element={<AuthorVideos/>}/>
                     </Route>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
@@ -107,6 +105,9 @@ function App() {
                 <Route path="/tags" element={<TagsLayout/>}>
                     <Route index element={<Tags/>}/>
                     <Route path=":tagName" element={<Tag/>}/>
+                </Route>
+                <Route path="/videos/:videoId">
+                    <Route index element={<Video/>}/>
                 </Route>
             </Route>
             <Route path="*" element={<NoMatch/>}/>

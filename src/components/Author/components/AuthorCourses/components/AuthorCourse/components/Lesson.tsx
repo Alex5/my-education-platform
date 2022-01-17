@@ -3,6 +3,7 @@ import {Fieldset, Input, Link, Spacer, Text, Textarea} from "@geist-ui/react";
 import {useDispatch, useSelector} from "react-redux";
 import {getLessons, setLessons} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {ILesson} from "../../../../../../../redux/slices/coursesSlice/types";
+import {formatEmbedLink} from "../../../../../../../services/helpers";
 
 interface LessonProps {
     selectedLesson: ILesson | undefined
@@ -13,18 +14,9 @@ const Lesson: FC<LessonProps> = ({selectedLesson}) => {
     const lessons = useSelector(getLessons);
 
     const handleLessonEdit = (value: string, key: string) => {
-        const getEmbedLink = (iframeTag: string) => {
-            if (!iframeTag.startsWith('<iframe')) {
-                return ''
-            } else {
-                // @ts-ignore
-                return iframeTag.replace("<iframe", "").trim().match(/src="(.*?)"/)[1];
-            }
-        }
-
         const newLessons = lessons.map(lesson =>
             lesson.lessonId === selectedLesson?.lessonId
-                ? {...lesson, [`${key}`]: key === 'videoLink' ? getEmbedLink(value) : value}
+                ? {...lesson, [`${key}`]: key === 'videoLink' ? formatEmbedLink(value) : value}
                 : lesson)
 
         dispatch(setLessons(newLessons));

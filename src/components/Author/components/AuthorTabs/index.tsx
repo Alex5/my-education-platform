@@ -13,8 +13,8 @@ const AuthorTabs = () => {
     return (
         <>
             <Tabs hideDivider initialValue={"/author/courses"} onChange={changeHandler}>
-                <Tabs.Item label="Мои курсы" value="/author/courses"/>
-                {/*<Tabs.Item label="Менторство" value="/author/mentoring"/>*/}
+                <Tabs.Item label="Курсы" value="/author/courses"/>
+                <Tabs.Item label="Видео" value="/author/videos"/>
                 {/*<Tabs.Item label="Настройки" value="/author/settings"/>*/}
             </Tabs>
         </>

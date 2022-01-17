@@ -31,10 +31,11 @@ const Courses = () => {
 
     return (
         <>
-            <Text h3>{courses.length} курса по программированию</Text>
+            <Text h3>{courses.length} курса по {courseDirection}</Text>
             <Spacer/>
             <Grid.Container gap={2} justify="flex-start">
-                {coursesLoad ? (
+                {coursesLoad
+                    ? (
                         <Loading/>
                     )
                     : courses && courses.map(course =>
@@ -59,21 +60,6 @@ const Courses = () => {
                                     <Text small>{course.author?.appointment}</Text>
                                 </>
                             }/>
-                            {/*<Spacer/>*/}
-                            {/*<Description title="Доступные услуги" content={*/}
-                            {/*    <>*/}
-                            {/*        <Spacer height={"0.5"}/>*/}
-                            {/*        <div style={{display: 'flex', gap: '5px', flexWrap: 'wrap'}}>*/}
-                            {/*            <Tag scale={0.5} type="lite">Менторство</Tag>*/}
-                            {/*            <Tag scale={0.5} type="lite">Домашнее задание</Tag>*/}
-                            {/*            <Tag scale={0.5} type="lite">Расписание</Tag>*/}
-                            {/*        </div>*/}
-                            {/*    </>*/}
-                            {/*}/>*/}
-                            {/*<Spacer/>*/}
-                            {/*<Description title="Рейтинг" content={*/}
-                            {/*    <Rating scale={0.5} icon={<Github/>} locked={true} value={4} count={5}/>*/}
-                            {/*}/>*/}
                         </Card>
                     </Grid>
                 )}

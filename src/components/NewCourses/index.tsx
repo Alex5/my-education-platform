@@ -27,7 +27,7 @@ const NewCourses: FC<NewCoursesProps> = ({courseLimit}) => {
         <Grid.Container gap={1}>
             <StyledNewCourseContainer>
                 {newCourses.map(course => (
-                    <Grid xs={8}>
+                    <Grid xs={8} key={course.courseId}>
                         <StyledNewCourse onClick={() => navigate(`${course.direction}/${course.courseId}`)}>
                             {course.cover.length > 0 && (
                                 <>

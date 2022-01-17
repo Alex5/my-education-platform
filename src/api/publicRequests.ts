@@ -163,5 +163,5 @@ export const PublicRequests = {
         } else {
             return [];
         }
-    }
+    },
 }
