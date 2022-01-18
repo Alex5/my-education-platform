@@ -21,6 +21,8 @@ import Videos from "./components/Videos";
 import Video from "./components/Videos/Components/Video";
 import AuthorVideosLayout from "./components/Author/components/AuthorVideos/AuthorVideosLayout";
 import AuthorVideos from "./components/Author/components/AuthorVideos";
+import AuthorSettingsLayout from "./components/Author/components/AuthorSettings/AuthorSettingsLayout";
+import AuthorSettings from "./components/Author/components/AuthorSettings";
 
 function App() {
     const dispatch = useDispatch();
@@ -91,6 +93,9 @@ function App() {
                     <Route path="videos" element={<AuthorVideosLayout/>}>
                         <Route index element={<AuthorVideos/>}/>
                     </Route>
+                    <Route path="settings" element={<AuthorSettingsLayout/>}>
+                        <Route index element={<AuthorSettings/>}/>
+                    </Route>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
                 <Route path={'/account'} element={
@@ -109,6 +114,7 @@ function App() {
                 <Route path="/videos/:videoId">
                     <Route index element={<Video/>}/>
                 </Route>
+                <Route path="*" element={<NoMatch/>}/>
             </Route>
             <Route path="*" element={<NoMatch/>}/>
         </Routes>

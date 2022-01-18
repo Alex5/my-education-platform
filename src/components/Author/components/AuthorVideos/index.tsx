@@ -23,6 +23,7 @@ import {getVideos, setVideos} from "../../../../redux/slices/videosSlice";
 import {getUser} from "../../../../redux/slices/userSlice/userSlice";
 import Iframe from "../shared/Iframe";
 import {MoreVertical} from "@geist-ui/react-icons";
+import SnipText from "../../../shared/SnipText";
 
 const AuthorVideos = () => {
     const {visible, setVisible, bindings} = useModal()
@@ -62,45 +63,58 @@ const AuthorVideos = () => {
     }
 
     const handleEditVideo = (video: IVideo) => {
-        setSaveType('update')
-        setVideo(video);
-        setVisible(true);
+        return () => {
+            setSaveType('update')
+            setVideo(video);
+            setVisible(true);
+        }
     }
 
-    const handleDeleteVideo = async (video: Pick<IVideo, 'videoId' | 'ownerId'>) => {
-        const videos = await VideosRequests.deleteVideo(video);
-        dispatch(setVideos(videos));
+    const handleDeleteVideo = (video: Pick<IVideo, 'videoId' | 'ownerId'>) => {
+        return async () => {
+            const videos = await VideosRequests.deleteVideo(video);
+            dispatch(setVideos(videos));
+        }
     }
 
-    const handleUpdateVideo = async (video: IVideo) => {
-        setLoad(true)
-        const videos = await VideosRequests.updateVideo(video);
-        dispatch(setVideos(videos));
-        setSaveType('save');
-        setVideo({} as IVideo);
-        setLoad(false)
-        setVisible(false);
+    const handleUpdateVideo = (video: IVideo) => {
+        return async () => {
+            setLoad(true)
+            const videos = await VideosRequests.updateVideo(video);
+            dispatch(setVideos(videos));
+            setSaveType('save');
+            setVideo({} as IVideo);
+            setLoad(false)
+            setVisible(false);
+        }
     }
 
-    const menuContent = (video: IVideo) => (
-        <>
-            <Popover.Item>
-                {video.published
-                    ? <span onClick={() => handleUpdateVideo({...video, published: false})}>Снять с публикации</span>
-                    : <Badge.Anchor>
-                        <Badge scale={0.5} type="error" dot/>
-                        <span onClick={() => handleUpdateVideo({...video, published: true})}>Опубликовать</span>
-                    </Badge.Anchor>
-                }
-            </Popover.Item>
-            <Popover.Item>
-                <span onClick={() => handleEditVideo(video)}>Редактировать</span>
-            </Popover.Item>
-            <Popover.Item>
-                <span onClick={() => handleDeleteVideo(video)} style={{color: "red"}}>Удалить</span>
-            </Popover.Item>
-        </>
-    )
+    const menuContent = (video: IVideo) => {
+        return (
+            <div style={{width:'170px'}}>
+                <Popover.Item title>
+                    <span>Действия</span>
+                </Popover.Item>
+                <Popover.Item>
+                    {video.published
+                        ? <span onClick={handleUpdateVideo({...video, published: false})}>Снять с публикации</span>
+                        : (
+                            <Badge.Anchor>
+                                <Badge scale={0.5} type="error" dot/>
+                                <span onClick={handleUpdateVideo({...video, published: true})}>Опубликовать</span>
+                            </Badge.Anchor>
+                        )
+                    }
+                </Popover.Item>
+                <Popover.Item>
+                    <span onClick={handleEditVideo(video)}>Редактировать</span>
+                </Popover.Item>
+                <Popover.Item>
+                    <Text mb={0} mt={0} type={"error"} onClick={handleDeleteVideo(video)}>Удалить</Text>
+                </Popover.Item>
+            </div>
+        )
+    }
 
     useEffect(() => {
         (async () => {
@@ -119,7 +133,7 @@ const AuthorVideos = () => {
                         <Grid key={video.videoId} xs={8}>
                             <Card>
                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                    <Text h5 children={video.name}/>
+                                    <SnipText h5 text={video.name}/>
                                     <Spacer/>
                                     <Popover content={menuContent(video)}>
                                         <Badge.Anchor>
