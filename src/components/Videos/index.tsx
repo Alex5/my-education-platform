@@ -20,7 +20,7 @@ const Videos = () => {
 
 
     return (
-        <Grid.Container>
+        <Grid.Container gap={2}>
             {videos.map(video => (
                 <Grid xs={8} key={video.videoId}>
                     <Card onClick={() => navigate(`/videos/${video.videoId}`)} style={{cursor: 'pointer'}} hoverable>

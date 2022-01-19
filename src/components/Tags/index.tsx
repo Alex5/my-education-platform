@@ -3,6 +3,7 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {Button, Grid, Spinner} from "@geist-ui/react";
 import {PublicRequests} from "../../api/publicRequests";
 import {snipText} from "../../services/helpers";
+import styled from "styled-components";
 
 interface TagsProps {
     length?: number;
@@ -41,31 +42,23 @@ const Tags: FC<TagsProps> = ({length}) => {
                 ? <Spinner/>
                 : tags && tags.map(tag => (
                 <Grid key={tag}>
-                    <Button
+                    <StyledTag
                         onClick={navigateToTag(tag)}
-                        auto
-                        scale={1 / 2}
-                        ghost
-                        type={"secondary"}
                     >
                         {snipText(tag, 10)}
-                    </Button>
+                    </StyledTag>
                 </Grid>
             ))}
-            {location.pathname !== '/tags' && (
-                <Grid>
-                    <Button
-                        onClick={() => navigate(`tags`, {replace: true})}
-                        scale={1 / 2}
-                        type="secondary-light"
-                        auto
-                    >
-                        Все теги
-                    </Button>
-                </Grid>
-            )}
         </Grid.Container>
     );
 };
+
+const StyledTag = styled.div`
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  border: 1px solid #e7e7e7;
+  cursor: pointer;
+  padding: 5px 10px 5px 10px;
+`
 
 export default Tags;

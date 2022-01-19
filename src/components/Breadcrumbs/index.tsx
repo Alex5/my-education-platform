@@ -3,32 +3,55 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Breadcrumbs as GBreadcrumbs, Spacer} from "@geist-ui/react";
 import useBreadcrumbs, {BreadcrumbMatch} from 'use-react-router-breadcrumbs';
 import {PublicRequests} from "../../api/publicRequests";
+import {useSelector} from "react-redux";
+import {getVideos} from "../../redux/slices/videosSlice";
+import {getCourses} from "../../redux/slices/coursesSlice/coursesSlice";
 
+interface IBreadcrumb {
+    id: string;
+    name: string;
+}
 
 const Breadcrumbs = () => {
-    const [courseNames, setCourseNames] = useState({});
     const {courseDirection} = useParams<"courseDirection">();
     const {tagName} = useParams<"tagName">();
     const navigate = useNavigate();
+    const videos = useSelector(getVideos);
+    const courses = useSelector(getCourses);
 
     const directionNameById = {
         [`${courseDirection}`]: 'Программирование'
     }
 
+    const coursesNameById: IBreadcrumb[] = courses.map(video => ({
+        name: video.name,
+        id: video.courseId
+    }));
+
+    const videosNameById: IBreadcrumb[] = videos.map(video => ({
+        name: video.name,
+        id: video.videoId
+    }));
+
     const DynamicUserBreadcrumb = ({match}: { match: BreadcrumbMatch }) => (
         // @ts-ignore
-        <span>{courseNames[match.params.courseId]}</span>
+        <span>{coursesNameById.find(video => video.id === match.params.courseId)?.name}</span>
     );
 
     const DynamicDirectionBreadcrumb = ({match}: { match: BreadcrumbMatch }) => (
-        // @ts-ignore
-        <span>{directionNameById[match.params.courseDirection]}</span>
+        <span>{directionNameById[match.params.courseDirection || '']}</span>
+    );
+
+    const DynamicVideosBreadcrumb = ({match}: { match: BreadcrumbMatch }) => (
+        <span>{videosNameById.find(video => video.id === match.params.videoId)?.name}</span>
     );
 
     const routes = [
         {path: '/', breadcrumb: 'Главная'},
         {path: '/:courseDirection', breadcrumb: DynamicDirectionBreadcrumb},
         {path: '/:courseDirection/:courseId', breadcrumb: DynamicUserBreadcrumb},
+        {path: '/videos/', breadcrumb: 'Видео'},
+        {path: '/videos/:videoId', breadcrumb: DynamicVideosBreadcrumb},
         {path: '/:courseDirection/:courseId/lessons', breadcrumb: 'Уроки'},
         {path: '/account', breadcrumb: 'Аккаунт'},
         {path: '/tags', breadcrumb: 'Теги'},
@@ -36,12 +59,6 @@ const Breadcrumbs = () => {
     ];
 
     const breadcrumbs = useBreadcrumbs(routes)
-
-    useEffect(() => {
-        PublicRequests.getCourseNamesMap().then(courseNames => {
-            setCourseNames(courseNames);
-        })
-    }, [])
 
     return (
         <>
