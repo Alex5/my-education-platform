@@ -30,7 +30,7 @@ const AuthorVideos = () => {
     const user = useSelector(getUser);
 
     const [load, setLoad] = useState<boolean>(false);
-    const [video, setVideo] = useState<IVideo>({videoId: nanoid(), ownerId: user.uid} as IVideo);
+    const [video, setVideo] = useState<IVideo>({ownerId: user.uid} as IVideo);
     const [saveType, setSaveType] = useState<'save' | 'update'>('save')
 
     const [, setToast] = useToasts();
@@ -42,9 +42,10 @@ const AuthorVideos = () => {
         if (key === 'embedLink') {
             const formattedLink = formatEmbedLink(newValue)
             const videoId = formattedLink.split("embed/")[1] || ''
-            const newObj = updateObjectProp(key, video, formattedLink)
-            const newObjUpdate = updateObjectProp("cover", newObj, `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`)
-            return setVideo(newObjUpdate);
+            const videoWithLink = updateObjectProp(key, video, formattedLink)
+            const videoWithCover = updateObjectProp("cover", videoWithLink, `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`)
+            const videoWithVideoId = updateObjectProp("videoId", videoWithCover, videoId);
+            return setVideo(videoWithVideoId);
         }
 
         const newObj = updateObjectProp(key, video, newValue)
@@ -91,7 +92,7 @@ const AuthorVideos = () => {
 
     const menuContent = (video: IVideo) => {
         return (
-            <div style={{width:'170px'}}>
+            <div style={{width: '170px'}}>
                 <Popover.Item title>
                     <span>Действия</span>
                 </Popover.Item>
@@ -117,12 +118,13 @@ const AuthorVideos = () => {
     }
 
     useEffect(() => {
-        (async () => {
-            const videos = await VideosRequests.getVideos('author');
-            dispatch(setVideos(videos));
-        })()
-    }, [])
-
+        if (user.loggedIn) {
+            (async () => {
+                const videos = await VideosRequests.getVideos('author');
+                dispatch(setVideos(videos));
+            })()
+        }
+    }, [user.loggedIn])
 
     return (
         <>
@@ -130,7 +132,7 @@ const AuthorVideos = () => {
             <Grid.Container>
                 <Grid.Container gap={2}>
                     {videos && videos.map(video => (
-                        <Grid key={video.videoId} xs={8}>
+                        <Grid key={video.videoId} xs={24} md={8}>
                             <Card>
                                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                     <SnipText h5 text={video.name}/>

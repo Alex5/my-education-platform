@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuLayout from "../shared/MenuLayout";
+import MenuLayout from "../Layout/MenuLayout";
 
 const AccountLayout = () => {
     const accountMenu = [

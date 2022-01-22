@@ -5,6 +5,7 @@ import {IVideo, IVideoState} from "./types";
 const initialState: IVideoState = {
     videos: [],
     authorVideos: [],
+    selectedVideo: {} as IVideo
 }
 
 export const videosSlice = createSlice({
@@ -14,6 +15,9 @@ export const videosSlice = createSlice({
         setVideos(state, action: PayloadAction<IVideo[]>) {
             state.videos = action.payload;
         },
+        setSelectedVideo(state, action: PayloadAction<IVideo>) {
+            state.selectedVideo = action.payload;
+        }
     },
 })
 
@@ -21,8 +25,9 @@ const selectSelf = (state: RootState) => state.videos;
 
 // selectors
 export const getVideos = createDraftSafeSelector(selectSelf, (state) => state.videos)
+export const getSelectedVideo = createDraftSafeSelector(selectSelf, (state) => state.selectedVideo)
 
 // actions
-export const {setVideos} = videosSlice.actions
+export const {setVideos, setSelectedVideo} = videosSlice.actions
 
 export default videosSlice.reducer

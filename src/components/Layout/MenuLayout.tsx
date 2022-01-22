@@ -38,12 +38,14 @@ const StyledSidebar = styled.nav`
     padding: 10px;
     border-radius: 10px;
     transition: ease-in-out 0.1s;
+    border: 1px solid transparent;
   }
 
   .active {
     font-weight: 500;
     color: #0070F3;
     background-color: #f7f7f7;
+    border: 1px solid #eeeeee;
   }
 `
 

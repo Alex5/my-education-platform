@@ -24,17 +24,14 @@ export const VideosRequests = {
         return await this.getAuthorVideos(video.ownerId);
     },
     async getVideos(type?: 'author'): Promise<IVideo[]> {
-        const {currentUser} = await getAuth();
-
-        if (!currentUser) {
-            return Promise.reject('not_authorized')
-        }
+        const {currentUser} = getAuth();
 
         const q = query(collection(db, "videos"),
             type === 'author'
-                ? where("ownerId", '==', currentUser.uid)
+                ? where("ownerId", '==', currentUser?.uid)
                 : where("published", "==", true)
         );
+
         const querySnapshot = await getDocs(q);
 
         const videos: IVideo[] = [];
@@ -44,6 +41,16 @@ export const VideosRequests = {
         });
 
         return videos;
+    },
+    async getVideoById(videoId: string): Promise<IVideo> {
+        const docRef = doc(db, "videos", videoId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data() as IVideo
+        } else {
+            return Promise.reject("No such document!")
+        }
     },
     async getAuthorVideos(uid: string): Promise<IVideo[]> {
         const q = query(collection(db, "videos"), where("ownerId", "==", uid));

@@ -23,31 +23,10 @@ import AuthorVideosLayout from "./components/Author/components/AuthorVideos/Auth
 import AuthorVideos from "./components/Author/components/AuthorVideos";
 import AuthorSettingsLayout from "./components/Author/components/AuthorSettings/AuthorSettingsLayout";
 import AuthorSettings from "./components/Author/components/AuthorSettings";
+import AppRouter from "./router";
 
 function App() {
     const dispatch = useDispatch();
-
-    function RequireAuth({children}: { children: JSX.Element }) {
-        const auth: Auth = getAuth();
-        let location = useLocation();
-
-        if (!auth.currentUser) {
-            return <Navigate to="/" state={{from: location}}/>;
-        }
-
-        return children;
-    }
-
-    // function RequireAuthor({children}: { children: JSX.Element }) {
-    //     const {author} = useSelector(getUser);
-    //     let location = useLocation();
-    //
-    //     if (!author) {
-    //         return <Navigate to="/for-author" state={{from: location}}/>;
-    //     }
-    //
-    //     return children;
-    // }
 
     useEffect(() => {
         const auth = getAuth();
@@ -60,65 +39,7 @@ function App() {
         });
     }, [dispatch])
 
-    return (
-        <Routes>
-            <Route path="/" element={<Layout/>}>
-                <Route element={<HomeLayout/>}>
-                    <Route index element={<Home/>}/>
-                    <Route path="/videos" element={<Videos/>}/>
-                    <Route path="*" element={<NoMatch/>}/>
-                </Route>
-                <Route path="/:courseDirection" element={<Courses/>}>
-                    <Route index element={<CoursesIndex/>}/>
-                    <Route path="/:courseDirection/:courseId" element={<Course/>}/>
-                    <Route path="/:courseDirection/:courseId/lessons" element={<Lessons/>}/>
-                    <Route path="*" element={<NoMatch/>}/>
-                </Route>
-                <Route path={"/for-author"} element={<ForAuthor/>}/>
-                <Route path="/author">
-                    <Route index element={<AuthorHome/>}/>
-                    <Route path="courses" element={<AuthorCoursesLayout/>}>
-                        <Route index element={<AuthorCourses/>}/>
-                        <Route path=":authorCourseId" element={<AuthorCourse/>}>
-                            <Route path="general" element={<General/>}/>
-                            <Route path="edit" element={<EditCourse/>}/>
-                            <Route path="settings" element={<Settings/>}/>
-                            <Route path="*" element={<NoMatch/>}/>
-                        </Route>
-                        <Route path="*" element={<NoMatch/>}/>
-                    </Route>
-                    <Route path="mentoring" element={<MentoringLayout/>}>
-                        <Route index element={<Mentoring/>}/>
-                    </Route>
-                    <Route path="videos" element={<AuthorVideosLayout/>}>
-                        <Route index element={<AuthorVideos/>}/>
-                    </Route>
-                    <Route path="settings" element={<AuthorSettingsLayout/>}>
-                        <Route index element={<AuthorSettings/>}/>
-                    </Route>
-                    <Route path="*" element={<NoMatch/>}/>
-                </Route>
-                <Route path={'/account'} element={
-                    <RequireAuth>
-                        <AccountLayout/>
-                    </RequireAuth>
-                }>
-                    <Route index element={<Account/>}/>
-                    <Route path="settings" element={<div>Account Settings</div>}/>
-                    <Route path="*" element={<NoMatch/>}/>
-                </Route>
-                <Route path="/tags" element={<TagsLayout/>}>
-                    <Route index element={<Tags/>}/>
-                    <Route path=":tagName" element={<Tag/>}/>
-                </Route>
-                <Route path="/videos/:videoId">
-                    <Route index element={<Video/>}/>
-                </Route>
-                <Route path="*" element={<NoMatch/>}/>
-            </Route>
-            <Route path="*" element={<NoMatch/>}/>
-        </Routes>
-    );
+    return <AppRouter/>;
 }
 
 export default App;

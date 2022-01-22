@@ -25,9 +25,8 @@ const NewCourses: FC<NewCoursesProps> = ({courseLimit}) => {
 
     return (
         <Grid.Container gap={1}>
-            <StyledNewCourseContainer>
                 {newCourses.map(course => (
-                    <Grid xs={8} key={course.courseId}>
+                    <Grid md={8} xs={24} key={course.courseId}>
                         <StyledNewCourse onClick={() => navigate(`${course.direction}/${course.courseId}`)}>
                             {course.cover.length > 0 && (
                                 <>
@@ -45,7 +44,6 @@ const NewCourses: FC<NewCoursesProps> = ({courseLimit}) => {
                         </StyledNewCourse>
                     </Grid>
                 ))}
-            </StyledNewCourseContainer>
         </Grid.Container>
     );
 };
@@ -65,6 +63,7 @@ const StyledNewCourse = styled.div`
   border-radius: 10px;
   overflow: auto;
   transition: ease-in-out 0.3s;
+  width: 100%;
 
   &:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);

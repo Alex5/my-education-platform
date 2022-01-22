@@ -90,7 +90,7 @@ const Course = () => {
             </Grid.Container>
             <Spacer h={2}/>
             <Grid.Container gap={2} justify="center">
-                <Grid direction="column" xs={16}>
+                <Grid direction="column" xs={24} md={16}>
                     {selectedCourse.cover
                         ? <Image src={selectedCourse.cover}/>
                         : <Display caption="Нет доступного изображения">
@@ -98,7 +98,7 @@ const Course = () => {
                         </Display>
                     }
                 </Grid>
-                <Grid xs={8} direction={"column"}>
+                <Grid xs={24} md={8} direction={"column"}>
                     <StyledBubble>
                         <Description title="Краткое описание" content={<Text small>-</Text>}/>
                     </StyledBubble>

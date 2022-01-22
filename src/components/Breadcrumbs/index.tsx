@@ -62,22 +62,20 @@ const Breadcrumbs = () => {
 
     return (
         <>
-            <>
-                <GBreadcrumbs>
-                    {breadcrumbs.map(({match, breadcrumb}) =>
-                        <GBreadcrumbs.Item
-                            href={''}
-                            onClick={(e) => {
-                                e.preventDefault()
-                                navigate(match.pathname)
-                            }}
-                            key={match.pathname}
-                        >
-                            {breadcrumb}
-                        </GBreadcrumbs.Item>
-                    )}
-                </GBreadcrumbs>
-            </>
+            <GBreadcrumbs style={{display: 'flex',flexWrap: 'wrap'}}>
+                {breadcrumbs.map(({match, breadcrumb}) =>
+                    <GBreadcrumbs.Item
+                        href={''}
+                        onClick={(e) => {
+                            e.preventDefault()
+                            navigate(match.pathname)
+                        }}
+                        key={match.pathname}
+                    >
+                        {breadcrumb}
+                    </GBreadcrumbs.Item>
+                )}
+            </GBreadcrumbs>
             <Spacer h={3}/>
         </>
     );

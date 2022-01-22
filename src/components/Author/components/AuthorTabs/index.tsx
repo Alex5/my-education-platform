@@ -1,5 +1,6 @@
+import { Tabs } from '@geist-ui/core';
 import React, {useEffect} from 'react';
-import {Tabs} from "@geist-ui/react";
+
 import {useNavigate} from "react-router-dom";
 
 const AuthorTabs = () => {

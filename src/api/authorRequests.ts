@@ -105,14 +105,6 @@ export class AuthorRequests {
             courseId: courseRef.id
         });
 
-        const courseNamesRef = doc(db, "courses", "--coursesNames--");
-        const courseNamesSnap = await getDoc(courseNamesRef);
-
-        await setDoc(doc(db, "courses", "--coursesNames--"), {
-            ...courseNamesSnap.data(),
-            [courseRef.id]: course.name
-        });
-
         await this.saveLessons([{
             lessonId: '',
             name: 'Пример урока 1',
@@ -131,12 +123,6 @@ export class AuthorRequests {
     }
 
     public static async deleteCourse(courseId: string, uid: string): Promise<ICourse[]> {
-        const coursesNamesRef = doc(db, 'courses', '--coursesNames--');
-
-        await updateDoc(coursesNamesRef, {
-            [courseId]: deleteField()
-        });
-
         await deleteDoc(doc(db, "courses", courseId));
 
         const q = query(collection(db, "lessons"), where("courseId", "==", courseId));

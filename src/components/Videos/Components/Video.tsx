@@ -1,24 +1,58 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Grid} from "@geist-ui/react";
 import {useParams} from "react-router-dom";
-import PageLayout from "../../shared/PageLayout";
-import {useSelector} from "react-redux";
-import {getVideos} from "../../../redux/slices/videosSlice";
-import {IVideo} from "../../../redux/slices/videosSlice/types";
+import PageLayout from "../../Layout/PageLayout";
+import {useDispatch, useSelector} from "react-redux";
+import {getSelectedVideo, setSelectedVideo} from "../../../redux/slices/videosSlice";
+import Testimonials from "../../Testimonials";
+import {VideosRequests} from "../../../api/videosRequests";
+import {Card, Description, Fieldset, Loading, Text} from '@geist-ui/core';
 
 const Video = () => {
     const {videoId} = useParams<"videoId">();
-    const videos = useSelector(getVideos);
-    const selectedVideo = videos.find(video => video.videoId === videoId) || {} as IVideo;
+
+    const [load, setLoad] = useState<boolean>(false);
+
+    const dispatch = useDispatch();
+    const video = useSelector(getSelectedVideo);
+
+    useEffect(() => {
+        setLoad(true);
+        VideosRequests
+            .getVideoById(videoId || '')
+            .then(video => {
+                dispatch(setSelectedVideo(video));
+                setLoad(false);
+            })
+            .catch((e) => {
+                alert(e)
+                setLoad(false);
+            })
+    }, [videoId])
 
     return (
-        <PageLayout title={selectedVideo.name || ''}>
-            <Grid.Container>
+        <PageLayout title={video.name || ''}>
+            <Grid.Container gap={2}>
                 <Grid xs={24}>
-                    <iframe width="100%" height="600" src={`https://www.youtube.com/embed/Ph5cR4jXckM`}
-                            title="YouTube video player" frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen/>
+                    {load
+                        ? <Loading/>
+                        : <iframe width="100%" height="590" src={video.embedLink}
+                                  title={video.name} frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen/>
+                    }
+
+                </Grid>
+                <Grid xs={24}>
+                    <Fieldset>
+                        <Fieldset.Title>Описание</Fieldset.Title>
+                        <Fieldset.Subtitle>
+                            {video.description}
+                        </Fieldset.Subtitle>
+                    </Fieldset>
+                </Grid>
+                <Grid xs={24}>
+                    <Testimonials videoId={videoId}/>
                 </Grid>
             </Grid.Container>
         </PageLayout>

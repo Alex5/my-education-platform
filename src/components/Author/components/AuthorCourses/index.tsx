@@ -4,7 +4,7 @@ import * as Geist from "@geist-ui/react";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
-import {Select, Spacer, Tooltip} from "@geist-ui/react";
+import {Grid, Select, Spacer, Tooltip} from "@geist-ui/react";
 import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
 import {getUser} from "../../../../redux/slices/userSlice/userSlice";
 import SearchBar from "../shared/SearchBar";
@@ -61,47 +61,48 @@ const AuthorCourses = () => {
     }, [author])
 
     return (
-        <>
-            <SearchBar onClick={() => setAddCourseModal(true)}/>
-            <Geist.Spacer/>
-            <Geist.Grid.Container gap={2}>
-                {loading
-                    ? <Geist.Loading style={{height: '200px'}}/>
-                    : courses.length > 0
-                        ? courses.map(course =>
-                            <Geist.Grid key={course.courseId} xs={24} sm={12} md={8}>
-                                <Geist.Card
-                                    style={{cursor: 'pointer'}} hoverable width="100%"
-                                    onClick={handleSelectCourse(course)}
-                                >
-                                    <Tooltip text={course.name}>
-                                        <Geist.Text h4>{course.name.length > 25 ? `${course.name.slice(0, 25)}...` : course.name}</Geist.Text>
-                                    </Tooltip>
-                                    <Geist.Divider/>
-                                    <Geist.Spacer/>
-                                    <Geist.Description
-                                        title={"Статус"}
-                                        content={course.published
-                                            ? <Geist.Dot type="success">Опубликован</Geist.Dot>
-                                            : <Geist.Dot>черновик</Geist.Dot>
-                                        }
-                                    />
-                                    <Geist.Spacer h={1}/>
-                                    <Geist.Description
-                                        title={"Автор"}
-                                        content={course.author
-                                            ? <Geist.User name={course.author?.name}>
-                                                {course.author?.appointment}
-                                            </Geist.User>
-                                            : <span>Автор пока не добавлен</span>
-                                        }/>
-                                </Geist.Card>
-                            </Geist.Grid>)
-                        : <Geist.Grid xs={24} alignItems="center" justify="center">
-                            <Geist.Text children={"Нет курсов"}/>
-                        </Geist.Grid>
-                }
-            </Geist.Grid.Container>
+        <Geist.Grid.Container gap={2}>
+            <Geist.Grid xs={24}>
+                <SearchBar onClick={() => setAddCourseModal(true)}/>
+            </Geist.Grid>
+            {loading
+                ? <Geist.Loading style={{height: '200px'}}/>
+                : courses.length > 0
+                    ? courses.map(course =>
+                        <Geist.Grid key={course.courseId} xs={24} sm={12} md={8}>
+                            <Geist.Card
+                                style={{cursor: 'pointer'}} hoverable width="100%"
+                                onClick={handleSelectCourse(course)}
+                            >
+                                <Tooltip text={course.name}>
+                                    <Geist.Text
+                                        h4>{course.name.length > 25 ? `${course.name.slice(0, 25)}...` : course.name}</Geist.Text>
+                                </Tooltip>
+                                <Geist.Divider/>
+                                <Geist.Spacer/>
+                                <Geist.Description
+                                    title={"Статус"}
+                                    content={course.published
+                                        ? <Geist.Dot type="success">Опубликован</Geist.Dot>
+                                        : <Geist.Dot>черновик</Geist.Dot>
+                                    }
+                                />
+                                <Geist.Spacer h={1}/>
+                                <Geist.Description
+                                    title={"Автор"}
+                                    content={course.author
+                                        ? <Geist.User name={course.author?.name}>
+                                            {course.author?.appointment}
+                                        </Geist.User>
+                                        : <span>Автор пока не добавлен</span>
+                                    }/>
+                            </Geist.Card>
+                        </Geist.Grid>)
+                    : <Geist.Grid xs={24} alignItems="center" justify="center">
+                        <Geist.Text children={"Нет курсов"}/>
+                    </Geist.Grid>
+            }
+
             <Geist.Modal visible={addCourseModal} onClose={() => setAddCourseModal(false)}>
                 <Geist.Modal.Title>Новый курс</Geist.Modal.Title>
                 <Geist.Modal.Content>
@@ -123,7 +124,7 @@ const AuthorCourses = () => {
                 <Geist.Modal.Action passive onClick={() => setAddCourseModal(false)}>Отменить</Geist.Modal.Action>
                 <Geist.Modal.Action loading={addCourseLoading} onClick={handleAddCourse}>Сохранить</Geist.Modal.Action>
             </Geist.Modal>
-        </>
+        </Geist.Grid.Container>
     );
 };
 

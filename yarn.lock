@@ -1697,6 +1697,11 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.6.1.tgz#0c74724ba6e9ea6ad25a391eab60a79eaba4c556"
   integrity sha512-9FqhNjKQWpQ3fGnSOCovHOm+yhhiorKEqYLAfd525jWavunDJcx8rOW6i6ozAh+FbwcYMkL7b+3j4UR/30MpoQ==
 
+"@geist-ui/core@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@geist-ui/core/-/core-2.2.3.tgz#fd9e8b88cd4b3bec330d51fe8f29e9140b4aa029"
+  integrity sha512-CbiVrW+VdD56QJbDRCIDJzo7xozCl7R6D7ETuK6jM0qtJFcF+62koDPhonC0sSYgn2+F4E8nHJwGs8/LIw3yXg==
+
 "@geist-ui/react-icons@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@geist-ui/react-icons/-/react-icons-1.0.1.tgz#5da112bbc98216bf05da3aabbd7d21594440b209"

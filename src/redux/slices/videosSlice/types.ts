@@ -1,6 +1,7 @@
 export interface IVideoState {
     videos: IVideo[]
-    authorVideos: IVideo[]
+    authorVideos: IVideo[],
+    selectedVideo: IVideo
 }
 
 export interface IVideo {

@@ -4,6 +4,7 @@ import {Button, Grid, Spinner} from "@geist-ui/react";
 import {PublicRequests} from "../../api/publicRequests";
 import {snipText} from "../../services/helpers";
 import styled from "styled-components";
+import {Card} from "@geist-ui/core";
 
 interface TagsProps {
     length?: number;
@@ -42,11 +43,11 @@ const Tags: FC<TagsProps> = ({length}) => {
                 ? <Spinner/>
                 : tags && tags.map(tag => (
                 <Grid key={tag}>
-                    <StyledTag
-                        onClick={navigateToTag(tag)}
-                    >
-                        {snipText(tag, 10)}
-                    </StyledTag>
+                    <Card style={{cursor: 'pointer'}} hoverable onClick={navigateToTag(tag)}>
+                        <Card.Content padding={0.3}>
+                            {snipText(tag, 10)}
+                        </Card.Content>
+                    </Card>
                 </Grid>
             ))}
         </Grid.Container>

@@ -1,5 +1,16 @@
 import React, {FC, useContext, useState} from 'react';
-import {Button, ButtonGroup, Loading, Popover, Spacer, Link as GLInk, Text, User, useToasts} from "@geist-ui/react";
+import {
+    Button,
+    ButtonGroup,
+    Loading,
+    Popover,
+    Spacer,
+    Link as GLInk,
+    Text,
+    User,
+    useToasts,
+    Avatar
+} from "@geist-ui/react";
 import styled from "styled-components";
 import googleLogo from "../../assets/GoogleLogo.svg";
 import {AuthContext} from "../../index";
@@ -57,64 +68,65 @@ const Header: FC<HeaderProps> = ({isAuthor}) => {
     }
 
     return (
-        <StyledHeader author={author}>
-            <StyledHeaderContent>
-                <Link to={"/"}>
-                    <Text style={{fontFamily: 'TTNormsBold'}} mb={0} mt={0} h4>
-                        My Education Platform
-                    </Text>
-                </Link>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    {loading
-                        ? <Loading mr={0} ml={0} width={10}/>
-                        : user
-                            ? <div style={{display: 'flex', alignItems: 'center'}}>
-                                {author
-                                    ? !location.pathname.includes('/author') &&
-                                    <Button scale={1 / 2} onClick={() => navigate('/author')} auto
-                                            children="Панель автора"/>
-                                    : <Button loading={load} onClick={transformToAuthor} scale={1 / 2} type="secondary"
-                                              children="Стать автором"/>
-                                }
-                                <Popover placement={"bottomEnd"} style={{cursor: 'pointer'}}
-                                         content={<HeaderMenu isAuthor={isAuthor}/>}>
-                                    <User scale={1.8} src={user.photoURL != null ? user.photoURL : ''} name=""/>
-                                </Popover>
-                            </div>
-                            : <StyledActions>
-                                <ButtonGroup>
-                                    <Button onClick={() => login('google')}
+        <div style={{padding: '0 24px'}}>
+            <StyledHeader author={author}>
+                <StyledHeaderContent>
+                    <Link to={"/"}>
+                        <Text style={{fontFamily: 'TTNormsBold'}} mb={0} mt={0} h4>
+                            My Education Platform
+                        </Text>
+                    </Link>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        {loading
+                            ? <Loading mr={0} ml={0} width={10}/>
+                            : user
+                                ? <div style={{display: 'flex', alignItems: 'center'}}>
+                                    {author
+                                        ? !location.pathname.includes('/author') &&
+                                        <Button scale={1 / 2} onClick={() => navigate('/author')} auto
+                                                children="Панель автора"/>
+                                        : <Button loading={load} onClick={transformToAuthor} scale={1 / 2}
+                                                  type="secondary"
+                                                  children="Стать автором"/>
+                                    }
+                                    <Spacer/>
+                                    <Popover placement={"bottomEnd"} style={{cursor: 'pointer'}}
+                                             content={<HeaderMenu isAuthor={isAuthor}/>}>
+                                        <Avatar scale={1.8} src={user.photoURL != null ? user.photoURL : ''}/>
+                                    </Popover>
+                                </div>
+                                : <StyledActions>
+                                    <Button auto onClick={() => login('google')}
                                             icon={<img height={"17px"} src={googleLogo} alt="Google Logo"/>}/>
-                                </ButtonGroup>
-                                <Spacer/>
-                            </StyledActions>
-                    }
-                </div>
-            </StyledHeaderContent>
-            {location.pathname.includes('/author') &&
-            <StyledAuthorTabs>
-                <AuthorTabs/>
-            </StyledAuthorTabs>
-            }
-        </StyledHeader>
+                                </StyledActions>
+                        }
+                    </div>
+                </StyledHeaderContent>
+                {location.pathname.includes('/author') && (
+                    <StyledAuthorTabs>
+                        <AuthorTabs/>
+                    </StyledAuthorTabs>
+                )}
+            </StyledHeader>
+        </div>
+
     );
 };
 
 const StyledHeader = styled.nav<{ author: boolean }>`
-    //height: ${props => props.author ? 'unset' : '80px'};
   display: flex;
   flex-direction: column;
   box-shadow: inset 0 -1px #eaeaea;
   width: 100%;
   background-color: white;
-
+  max-width: 1048px;
+  margin: auto;
 `
 const StyledHeaderContent = styled.div`
   justify-content: space-between;
   display: flex;
   max-width: 1048px;
   margin: auto;
-  padding: 0 24px;
   width: 100%;
   align-items: center;
   height: 80px;
@@ -128,7 +140,6 @@ const StyledActions = styled.div`
 const StyledAuthorTabs = styled.div`
   max-width: 1048px;
   margin: auto;
-  padding: 0 24px;
   width: 100%;
   height: 30px;
 `

@@ -86,7 +86,7 @@ const Lessons = () => {
             </Grid.Container>
             <Spacer/>
             <Grid.Container gap={2} justify="center">
-                <Grid xs={6} direction="column" style={{height: '600px', overflow: 'auto', position: "sticky", top: 0}}>
+                <Grid xs={24} md={6} direction="column">
                     {lessons && [...lessons].sort((a, b) => a.position - b.position).map(lesson =>
                         <StyledLesson
                             key={lesson.lessonId}
@@ -101,7 +101,7 @@ const Lessons = () => {
                         </StyledLesson>
                     )}
                 </Grid>
-                <Grid xs={18} direction={"column"}>
+                <Grid xs={24} md={18} direction={"column"}>
                     <Lesson load={load} selectedLesson={selectedLesson}/>
                 </Grid>
             </Grid.Container>

@@ -11,6 +11,5 @@ export const AnalyticsLogs = {
             user_id: uid,
             course_id: course_id
         });
-        debugger
     }
 }

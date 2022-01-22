@@ -1,47 +1,26 @@
 import React from 'react';
-import {NavLink, Outlet} from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 import {Grid} from "@geist-ui/react";
-import styled from "styled-components";
+import MenuLayout from "../Layout/MenuLayout";
 
 const HomeLayout = () => {
     return (
-        <Grid.Container gap={2}>
-            <Grid xs={24} md={4}>
-                <StyledSidebar>
-                    <NavLink end to={"/"} className={({isActive}) => isActive ? "active" : ''}
-                             children={"Курсы"}/>
+        <MenuLayout menu={[
+            {
+                to: '/',
+                children: 'Курсы',
+                end: true
+            }, {
+                to: '/videos',
+                children: 'Видео',
+            },
 
-                    <NavLink end to={"/videos"} className={({isActive}) => isActive ? "active" : ''}
-                             children={"Видео"}/>
-                </StyledSidebar>
-            </Grid>
+        ]}>
             <Grid direction={"column"} xs={24} md={20}>
                 <Outlet/>
             </Grid>
-        </Grid.Container>
-
+        </MenuLayout>
     );
 };
-
-const StyledSidebar = styled.nav`
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  width: 100%;
-
-  a {
-    text-decoration: none;
-    color: black;
-    padding: 10px;
-    border-radius: 10px;
-    transition: ease-in-out 0.1s;
-  }
-
-  .active {
-    font-weight: 500;
-    color: #0070F3;
-    background-color: #f7f7f7;
-  }
-`
 
 export default HomeLayout;
