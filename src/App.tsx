@@ -37,7 +37,7 @@ function App() {
                 dispatch(setUser(userInfo));
             }
         });
-    }, [dispatch])
+    }, [])
 
     return <AppRouter/>;
 }

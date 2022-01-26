@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
-import * as Geist from "@geist-ui/react";
+import * as Geist from "@geist-ui/core";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
-import {Grid, Select, Spacer, Tooltip} from "@geist-ui/react";
+import {Grid, Spacer, Tooltip} from "@geist-ui/core";
 import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
 import {getUser} from "../../../../redux/slices/userSlice/userSlice";
 import SearchBar from "../shared/SearchBar";
+import { Select } from '@geist-ui/core';
+import SnipText from "../../../shared/SnipText";
 
 const AuthorCourses = () => {
     const courses = useSelector(getCourses);
@@ -74,10 +76,7 @@ const AuthorCourses = () => {
                                 style={{cursor: 'pointer'}} hoverable width="100%"
                                 onClick={handleSelectCourse(course)}
                             >
-                                <Tooltip text={course.name}>
-                                    <Geist.Text
-                                        h4>{course.name.length > 25 ? `${course.name.slice(0, 25)}...` : course.name}</Geist.Text>
-                                </Tooltip>
+                                <SnipText h4 text={course.name}/>
                                 <Geist.Divider/>
                                 <Geist.Spacer/>
                                 <Geist.Description
@@ -119,6 +118,13 @@ const AuthorCourses = () => {
                         onChange={(val: any) => setCourseDirection(val)}
                     >
                         <Select.Option value="programming">Программирование</Select.Option>
+                        <Select.Option value="design">Дизайн</Select.Option>
+                        <Select.Option value="marketing">Маркетинг</Select.Option>
+                        <Select.Option value="management">Управление</Select.Option>
+                        <Select.Option value="analytics">Аналитика</Select.Option>
+                        <Select.Option value="games">Разработка игр</Select.Option>
+                        <Select.Option value="creative">Креатив</Select.Option>
+                        <Select.Option value="management">Бизнес</Select.Option>
                     </Select>
                 </Geist.Modal.Content>
                 <Geist.Modal.Action passive onClick={() => setAddCourseModal(false)}>Отменить</Geist.Modal.Action>

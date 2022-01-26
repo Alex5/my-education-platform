@@ -1,5 +1,5 @@
 import React, {FC, memo, useEffect, useState} from 'react';
-import {Button, Card, Grid, Link, Loading, Page, Spacer, Tag, Text} from "@geist-ui/react";
+import {Card, Grid, Loading, Page, Spacer, Text} from "@geist-ui/core";
 import {Code} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";

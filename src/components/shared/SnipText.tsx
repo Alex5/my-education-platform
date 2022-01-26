@@ -12,10 +12,17 @@ interface SnipTextProps {
     h5?: boolean
 }
 
-const SnipText: FC<SnipTextProps> = ({text, h1, h2, h3, h4, h5}) => (
-    <Tooltip text={text}>
-        <Geist.Text h1={h1} h2={h2} h3={h3} h4={h4} h5={h5}>{snipText(text)}</Geist.Text>
-    </Tooltip>
-)
+const SnipText: FC<SnipTextProps> = ({text, h1, h2, h3, h4, h5}) => {
+    return (
+        <>
+            {text && text.length < 25
+                ? <Geist.Text h1={h1} h2={h2} h3={h3} h4={h4} h5={h5}>{snipText(text)}</Geist.Text>
+                : <Tooltip text={text}>
+                    <Geist.Text h1={h1} h2={h2} h3={h3} h4={h4} h5={h5}>{snipText(text)}</Geist.Text>
+                </Tooltip>
+            }
+        </>
+    )
+}
 
 export default SnipText;

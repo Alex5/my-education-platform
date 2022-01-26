@@ -7,12 +7,13 @@ import {
     deleteDoc,
     addDoc,
     updateDoc,
-    writeBatch, getDoc, setDoc, deleteField, serverTimestamp
+    writeBatch, getDoc, serverTimestamp, setDoc
 } from "firebase/firestore";
 import {db} from "../fbconfig";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'
-import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
+import {ICourse, ICourseStatus, ILesson} from "../redux/slices/coursesSlice/types";
+import {IAccount} from "../redux/slices/userSlice/types";
 
 export class AuthorRequests {
     public static async getAuth() {
@@ -152,5 +153,36 @@ export class AuthorRequests {
         } else {
             return {} as ICourse;
         }
+    }
+
+    public static async addAccount(account: IAccount): Promise<IAccount[]> {
+        const {currentUser} = await getAuth();
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        const docId = nanoid();
+
+        await setDoc(doc(db, "users", currentUser.uid, "accounts", docId), {...account, id: docId});
+
+        return this.getAccounts();
+    }
+
+    public static async getAccounts(): Promise<IAccount[]>{
+        const {currentUser} = await getAuth();
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        const querySnapshot = await getDocs(collection(db, "users", `${currentUser.uid}/accounts`));
+
+        const accounts: IAccount[] = [];
+        querySnapshot.forEach((doc) => {
+            accounts.push(doc.data() as IAccount)
+        });
+
+        return accounts;
     }
 }

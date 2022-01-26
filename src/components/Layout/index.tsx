@@ -7,16 +7,13 @@ import {getUser} from "../../redux/slices/userSlice/userSlice";
 import styled from "styled-components";
 
 const Layout = () => {
-    const location = useLocation();
     const {author} = useSelector(getUser);
-    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author') && !location.pathname.includes('/videos');
 
     return (
         <>
             <Header isAuthor={author}/>
             <StyledPage>
                 <Page.Content>
-                    {isAuthorUrl && <Breadcrumbs/>}
                     <Outlet/>
                 </Page.Content>
             </StyledPage>

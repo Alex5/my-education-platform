@@ -23,19 +23,19 @@ const Tag = () => {
 
     return (
         <div>
-            <Text h2>{tagName || ''}</Text>
+            <Text h1>{tagName || ''}</Text>
             <Spacer/>
             {courses.length > 0
-                ? <Grid.Container gap={1}>
+                ? <Grid.Container gap={2}>
                     {tagLoad
                         ? <Loading/>
                         : courses.map(course => (
-                            <Grid>
+                            <Grid xs={24} md={8}>
                                 <Card onClick={() => navigate(`/${course.direction}/${course.courseId}`)}
                                       style={{cursor: 'pointer'}}
-                                      width="400px">
+                                      >
                                     <Image style={{objectFit: 'cover'}} src={course.cover}
-                                           height="200px" width="400px" draggable={false}/>
+                                           height="200px" width="100%" draggable={false}/>
                                     <Text h4 mb={0}>{course.name.slice(0, 30)}...</Text>
                                     <div style={{height: "50px"}}>
                                         <Text type="secondary" small>{course.description.slice(0, 100)}...</Text>

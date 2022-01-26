@@ -24,8 +24,8 @@ const Videos = () => {
             {videos && videos.map(video => (
                 <Grid xs={24} md={8} key={video.videoId}>
                     <Card onClick={() => navigate(`/videos/${video.videoId}`)} style={{cursor: 'pointer'}} hoverable>
-                        <Image height={"118px"} width={"210px"} src={video.cover}/>
-                        <Text h5 mb={0} children={video.name}/>
+                        <Image height={"155px"} width={"100%"} src={video.cover}/>
+                        <Text h5 mb={0} mt={0} children={video.name}/>
                         {/*<Text type={"secondary"} small mb={0} children={video.ownerId}/>*/}
                     </Card>
                 </Grid>

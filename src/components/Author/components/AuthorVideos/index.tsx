@@ -24,6 +24,7 @@ import {getUser} from "../../../../redux/slices/userSlice/userSlice";
 import Iframe from "../shared/Iframe";
 import {MoreVertical} from "@geist-ui/react-icons";
 import SnipText from "../../../shared/SnipText";
+import {Button} from '@geist-ui/core';
 
 const AuthorVideos = () => {
     const {visible, setVisible, bindings} = useModal()
@@ -92,28 +93,36 @@ const AuthorVideos = () => {
 
     const menuContent = (video: IVideo) => {
         return (
-            <div style={{width: '170px'}}>
+            <>
                 <Popover.Item title>
                     <span>Действия</span>
                 </Popover.Item>
                 <Popover.Item>
                     {video.published
-                        ? <span onClick={handleUpdateVideo({...video, published: false})}>Снять с публикации</span>
+                        ? <Button scale={1 / 2} onClick={handleUpdateVideo({...video, published: false})}>Снять с
+                            публикации</Button>
                         : (
                             <Badge.Anchor>
                                 <Badge scale={0.5} type="error" dot/>
-                                <span onClick={handleUpdateVideo({...video, published: true})}>Опубликовать</span>
+                                <Button
+                                    onClick={handleUpdateVideo({...video, published: true})}
+                                    loading={load}
+                                    type="secondary"
+                                    scale={1 / 2}
+                                >
+                                    Опубликовать
+                                </Button>
                             </Badge.Anchor>
                         )
                     }
                 </Popover.Item>
                 <Popover.Item>
-                    <span onClick={handleEditVideo(video)}>Редактировать</span>
+                    <Button scale={1 / 2} onClick={handleEditVideo(video)}>Редактировать</Button>
                 </Popover.Item>
                 <Popover.Item>
-                    <Text mb={0} mt={0} type={"error"} onClick={handleDeleteVideo(video)}>Удалить</Text>
+                    <Button scale={1 / 2} type={"error"} onClick={handleDeleteVideo(video)}>Удалить</Button>
                 </Popover.Item>
-            </div>
+            </>
         )
     }
 

@@ -1,12 +1,13 @@
 import {createDraftSafeSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../../store";
-import {IUser} from "./types";
+import {IAccount, IUser} from "./types";
 
 const initialState: IUser = {
     author: false,
     appointment: '',
     loggedIn: false,
-    uid: ''
+    uid: '',
+    accounts: [],
 }
 
 export const userSlice = createSlice({
@@ -23,6 +24,9 @@ export const userSlice = createSlice({
             state.author = initialState.author;
             state.appointment = initialState.appointment;
             state.loggedIn = false
+        },
+        setAccounts(state, action: PayloadAction<IAccount[]>){
+            state.accounts = action.payload;
         }
     },
 })
@@ -30,8 +34,9 @@ export const userSlice = createSlice({
 const selectSelf = (state: RootState) => state.user;
 export const getUser = createDraftSafeSelector(selectSelf, (state) => state)
 export const getLoggedIn = createDraftSafeSelector(selectSelf, (state) => state.loggedIn)
+export const getAccounts = createDraftSafeSelector(selectSelf, (state) => state.accounts)
 
 // Action creators are generated for each case reducer function
-export const { setUser, signOut } = userSlice.actions
+export const { setUser, signOut, setAccounts } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {Breadcrumbs as GBreadcrumbs, Spacer} from "@geist-ui/react";
 import useBreadcrumbs, {BreadcrumbMatch} from 'use-react-router-breadcrumbs';
 import {PublicRequests} from "../../api/publicRequests";
 import {useSelector} from "react-redux";
 import {getVideos} from "../../redux/slices/videosSlice";
 import {getCourses} from "../../redux/slices/coursesSlice/coursesSlice";
+import {useMediaQuery} from '@geist-ui/core';
 
 interface IBreadcrumb {
     id: string;
@@ -60,9 +61,13 @@ const Breadcrumbs = () => {
 
     const breadcrumbs = useBreadcrumbs(routes)
 
+    const location = useLocation();
+    const isAuthorUrl = location.pathname !== "/" && !location.pathname.includes('/author') && !location.pathname.includes('/videos');
+    const isXS = useMediaQuery('xs')
+
     return (
         <>
-            <GBreadcrumbs style={{display: 'flex',flexWrap: 'wrap'}}>
+            <GBreadcrumbs style={{display: 'flex', flexWrap: 'wrap'}}>
                 {breadcrumbs.map(({match, breadcrumb}) =>
                     <GBreadcrumbs.Item
                         href={''}
@@ -76,7 +81,7 @@ const Breadcrumbs = () => {
                     </GBreadcrumbs.Item>
                 )}
             </GBreadcrumbs>
-            <Spacer h={3}/>
+            <Spacer/>
         </>
     );
 };

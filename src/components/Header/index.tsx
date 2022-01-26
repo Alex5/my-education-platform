@@ -23,6 +23,8 @@ import {getUser, setUser} from "../../redux/slices/userSlice/userSlice";
 import {PublicRequests} from "../../api/publicRequests";
 import {EStatus} from "../../redux/enums";
 import AuthorTabs from "../Author/components/AuthorTabs";
+import {Image} from "@geist-ui/core";
+import mepLogo from '../../assets/mep_logo.svg';
 
 interface HeaderProps {
     isAuthor: boolean;

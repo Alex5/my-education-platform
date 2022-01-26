@@ -80,6 +80,7 @@ const AppRouter = () => {
                     </Route>
                     <Route path="settings" element={<AuthorSettingsLayout/>}>
                         <Route index element={<AuthorSettings/>}/>
+                        <Route path="additional" element={<div>Additional</div>}/>
                     </Route>
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
