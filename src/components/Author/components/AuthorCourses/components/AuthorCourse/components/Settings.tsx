@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Fieldset, Input, Spacer, Text, useClipboard, useToasts} from "@geist-ui/react";
+import {Button, Fieldset, Input, Spacer, Text, useClipboard, useToasts} from "@geist-ui/core";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";

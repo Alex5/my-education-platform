@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
-import {Button, Grid, Spacer, Text} from "@geist-ui/react";
+import {Button, Grid, Spacer, Text} from "@geist-ui/core";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice/coursesSlice";

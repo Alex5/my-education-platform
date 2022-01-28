@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Spacer, Text} from "@geist-ui/react";
+import {Button, Spacer, Text} from "@geist-ui/core";
 
 const Mentoring = () => {
     return (

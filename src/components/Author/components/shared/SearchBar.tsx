@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
-import * as Geist from "@geist-ui/react";
 import {useLocation} from "react-router-dom";
-import {Grid, Spacer} from "@geist-ui/react";
+import {Grid, Spacer, Button} from "@geist-ui/core";
 
 interface SearchBarProps {
     onClick: () => void
@@ -17,7 +16,7 @@ const SearchBar: FC<SearchBarProps> = ({onClick}) => {
                     {/*<Geist.Input scale={1.3} icon={<Search/>} width={'100%'} placeholder="Поиск по курсам"/>*/}
                 </Grid>
                 <Grid xs={24} md={4}>
-                    <Geist.Button
+                    <Button
                         onClick={onClick}
                         width={"100%"}
                         type="secondary"

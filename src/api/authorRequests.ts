@@ -12,8 +12,8 @@ import {
 import {db} from "../fbconfig";
 import {getAuth} from "firebase/auth";
 import {nanoid} from 'nanoid'
-import {ICourse, ICourseStatus, ILesson} from "../redux/slices/coursesSlice/types";
-import {IAccount} from "../redux/slices/userSlice/types";
+import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
+import {IAccount} from "../redux/slices/authorSlice/author.types";
 
 export class AuthorRequests {
     public static async getAuth() {

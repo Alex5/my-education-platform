@@ -1,11 +1,14 @@
-import {Button, Card, Description, Divider, Fieldset, Grid, Input, Modal, Spacer, useModal} from '@geist-ui/core';
+import {Button, Card, Description, Fieldset, Grid, Input, Modal, Spacer, useModal} from '@geist-ui/core';
 import React, {useEffect, useState} from 'react';
 import {AuthorRequests} from "../../../../api/authorRequests";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccounts, setAccounts} from "../../../../redux/slices/userSlice/userSlice";
-import {IAccount} from "../../../../redux/slices/userSlice/types";
+import {IAccount} from "../../../../redux/slices/authorSlice/author.types";
 import {updateObjectProp} from "../../../../services/helpers";
 import SnipText from "../../../shared/SnipText";
+import {Edit} from '@geist-ui/react-icons'
+import AccountCard from "./components/AccountCard";
+
 
 const Settings = () => {
     const {visible, setVisible, bindings} = useModal();
@@ -26,7 +29,10 @@ const Settings = () => {
     }
 
     useEffect(() => {
-        AuthorRequests.getAccounts().then(accounts => dispatch(setAccounts(accounts)))
+        (async () => {
+            const accounts = await AuthorRequests.getAccounts();
+            dispatch(setAccounts(accounts))
+        })()
     }, [])
 
     return (
@@ -38,22 +44,17 @@ const Settings = () => {
                 </Fieldset.Title>
                 <Spacer/>
                 <Fieldset.Subtitle>
-                    <Grid.Container gap={2}>
+                    <Grid.Container gap={1}>
                         {accounts && accounts.map(account => (
-                            <Grid xs={24} md={8}>
-                                <Card>
-                                    <Description title="Имя" content={<SnipText text={account.name}/>}/>
-                                    <Spacer/>
-                                    <Description title="Ссылка на канал" content={<SnipText text={account.channelLink}/>}/>
-                                    <Spacer/>
-                                    <Description title="Уровень знаний или должность" content={<SnipText text={account.knowledge}/>}/>
-                                    <Spacer/>
-                                    <Description title="Ссылка на фото" content={<SnipText text={account.photoLink}/>}/>
-                                </Card>
+                            <Grid xs={8}>
+                                <AccountCard account={account}/>
                             </Grid>
                         ))}
                     </Grid.Container>
                 </Fieldset.Subtitle>
+                <Fieldset.Footer>
+                    Можно добавить максимально 6 аккаунтов
+                </Fieldset.Footer>
             </Fieldset>
             <Modal {...bindings}>
                 <Modal.Title>Добавление аккаунта</Modal.Title>

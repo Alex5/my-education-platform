@@ -1,7 +1,4 @@
-import React, {useState} from 'react';
 import styled from "styled-components";
-import {Tabs} from "@geist-ui/react";
-import {Outlet, useNavigate} from 'react-router-dom';
 
 const AuthorHeader = () => {
     return (

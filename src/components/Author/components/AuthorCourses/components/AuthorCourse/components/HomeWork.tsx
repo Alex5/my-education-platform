@@ -1,5 +1,5 @@
 import React from 'react';
-import {Fieldset, Spacer, Text, Textarea} from "@geist-ui/react";
+import {Fieldset, Spacer, Text, Textarea} from "@geist-ui/core";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import {vs} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import {IHomeWork} from "../../../../../../../redux/slices/coursesSlice/types";

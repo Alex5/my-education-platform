@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Button, Collapse, Fieldset, Image, Spacer, useToasts} from "@geist-ui/react";
+import {Button, Collapse, Fieldset, Image, Spacer, useToasts} from "@geist-ui/core";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {setSelectedCourse} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {useDispatch} from "react-redux";

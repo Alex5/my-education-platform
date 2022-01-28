@@ -1,6 +1,6 @@
 import React from 'react';
 import {Outlet, useLocation} from "react-router-dom";
-import {Link, Page, Spacer, Text} from "@geist-ui/react";
+import {Link, Page, Spacer, Text} from "@geist-ui/core";
 import {Breadcrumbs, Header} from "../index";
 import {useSelector} from "react-redux";
 import {getUser} from "../../redux/slices/userSlice/userSlice";

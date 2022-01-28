@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Button, Grid, Input, Note, Text} from "@geist-ui/react";
+import {Button, Card, Grid, Input, Note, Text} from "@geist-ui/core";
 import {ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
 import styled from "styled-components";
 import {PlusCircle, Trash} from "@geist-ui/react-icons";
@@ -59,10 +59,12 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
             return (
                 <StyledTags>
                     {data && data.map((tag: string) => (
-                        <StyledTag key={tag}>
-                            <Text mr={0.5} b key={tag}>{tag} </Text>
-                            <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
-                        </StyledTag>
+                        <Card key={tag}>
+                            <Card.Content style={{display: "flex",alignItems: "center"}} padding={0.3}>
+                                <Text mr={0.5} b key={tag}>{tag} </Text>
+                                <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
+                            </Card.Content>
+                        </Card>
                     ))}
                     {data.length !== 5 && (
                         <Input

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Display, Image} from "@geist-ui/react";
+import {Display, Image} from "@geist-ui/core";
 import noMatch from "../../assets/404.svg";
 
 const NoMatch = () => {

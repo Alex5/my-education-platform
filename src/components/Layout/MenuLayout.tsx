@@ -1,10 +1,18 @@
 import React, {FC} from 'react';
-import {Grid} from "@geist-ui/react";
+import {Badge, Button, Grid, Link, Text} from "@geist-ui/core";
 import {NavLink, NavLinkProps, Outlet} from "react-router-dom";
 import styled from "styled-components";
 
+interface IMenu {
+    to: string;
+    children: string;
+    end?: boolean;
+    label?: string;
+    disabled?: boolean
+}
+
 interface MenuLayoutProps {
-    menu: { to: string, children: string, end?: boolean }[];
+    menu: IMenu[];
 }
 
 const MenuLayout: FC<MenuLayoutProps> = ({menu}) => {
@@ -13,9 +21,21 @@ const MenuLayout: FC<MenuLayoutProps> = ({menu}) => {
             <Grid xs={24} md={4}>
                 <StyledSidebar>
                     {menu && menu.map(menuItem => (
-                        <NavLink end={menuItem.end} to={menuItem.to}
-                                 className={({isActive}) => isActive ? "active" : ''}
-                                 children={menuItem.children}/>
+                        <NavLink
+                            onClick={event => menuItem.disabled && event.preventDefault()}
+                            style={{cursor: menuItem.disabled ? "not-allowed" : ''}}
+                            end={menuItem.end}
+                            to={menuItem.to}
+                            className={({isActive}) => isActive ? "active" : ''}
+                        >
+                            {menuItem.label
+                                ? <Badge.Anchor style={{width: '100%'}}>
+                                    <Badge type="success" scale={0.5}>{menuItem.label}</Badge>
+                                    <Text mt={0} mb={0} children={menuItem.children}/>
+                                </Badge.Anchor>
+                                : <Text mt={0} mb={0} children={menuItem.children}/>
+                            }
+                        </NavLink>
                     ))}
                 </StyledSidebar>
             </Grid>
@@ -42,11 +62,13 @@ const StyledSidebar = styled.nav`
   }
 
   .active {
-    font-weight: 500;
+    font-weight: bold;
     color: #0070F3;
     background-color: #f7f7f7;
     border: 1px solid #eeeeee;
   }
+  
+  
 `
 
 export default MenuLayout;

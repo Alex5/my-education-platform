@@ -4,7 +4,7 @@ import * as Geist from "@geist-ui/core";
 import {AuthorRequests} from '../../../../api/authorRequests';
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
-import {Grid, Spacer, Tooltip} from "@geist-ui/core";
+import {Grid, Spacer} from "@geist-ui/core";
 import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
 import {getUser} from "../../../../redux/slices/userSlice/userSlice";
 import SearchBar from "../shared/SearchBar";

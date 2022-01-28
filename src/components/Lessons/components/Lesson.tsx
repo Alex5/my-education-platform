@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Loading, Spacer} from "@geist-ui/react";
+import {Loading, Spacer} from "@geist-ui/core";
 import Testimonials from "../../Testimonials";
 import {ILesson} from "../../../redux/slices/coursesSlice/types";
 

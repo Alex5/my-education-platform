@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Grid} from "@geist-ui/react";
 import {useParams} from "react-router-dom";
 import PageLayout from "../../Layout/PageLayout";
 import {useDispatch, useSelector} from "react-redux";
 import {getSelectedVideo, setSelectedVideo} from "../../../redux/slices/videosSlice";
 import Testimonials from "../../Testimonials";
 import {VideosRequests} from "../../../api/videosRequests";
-import {Card, Description, Fieldset, Loading, Text} from '@geist-ui/core';
+import {Grid,  Fieldset, Loading} from '@geist-ui/core';
 
 const Video = () => {
     const {videoId} = useParams<"videoId">();
@@ -41,7 +40,6 @@ const Video = () => {
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                   allowFullScreen/>
                     }
-
                 </Grid>
                 <Grid xs={24}>
                     <Fieldset>

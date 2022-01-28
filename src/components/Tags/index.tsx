@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {Button, Grid, Spinner} from "@geist-ui/react";
+import {Button, Grid, Spinner} from "@geist-ui/core";
 import {PublicRequests} from "../../api/publicRequests";
 import {snipText} from "../../services/helpers";
 import styled from "styled-components";

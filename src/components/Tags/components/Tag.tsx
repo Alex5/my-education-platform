@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {PublicRequests} from "../../../api/publicRequests";
 import {useDispatch, useSelector} from "react-redux";
 import {getCourses, setCourses} from "../../../redux/slices/coursesSlice/coursesSlice";
-import {Card, Text, Image, Spacer, Grid, Loading} from "@geist-ui/react";
+import {Card, Text, Image, Spacer, Grid, Loading} from "@geist-ui/core";
 
 const Tag = () => {
     const {tagName} = useParams<"tagName">()

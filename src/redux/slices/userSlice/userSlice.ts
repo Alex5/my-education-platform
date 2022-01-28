@@ -1,6 +1,7 @@
 import {createDraftSafeSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from "../../store";
-import {IAccount, IUser} from "./types";
+import {IUser} from "./types";
+import {IAccount} from "../authorSlice/author.types";
 
 const initialState: IUser = {
     author: false,

@@ -1,4 +1,4 @@
-import {Button, Card, Grid, Loading, Spacer, Tag, Text, Tooltip} from '@geist-ui/react';
+import {Button, Card, Grid, Loading, Spacer, Tag, Text, Tooltip} from '@geist-ui/core';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {

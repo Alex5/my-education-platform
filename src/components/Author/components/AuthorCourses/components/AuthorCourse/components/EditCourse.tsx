@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, Grid, useToasts, Tooltip, Spacer, Tag} from "@geist-ui/react";
+import {Button, Text, Grid, useToasts, Tooltip, Spacer, Tag} from "@geist-ui/core";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {

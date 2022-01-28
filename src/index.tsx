@@ -1,7 +1,7 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import {GeistProvider, CssBaseline} from '@geist-ui/react'
+import {GeistProvider, CssBaseline} from '@geist-ui/core'
 import {BrowserRouter as Router} from "react-router-dom";
 import {getAuth, Auth} from "firebase/auth";
 import { store } from './redux/store';

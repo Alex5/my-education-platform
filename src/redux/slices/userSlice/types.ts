@@ -1,3 +1,5 @@
+import {IAccount} from "../authorSlice/author.types";
+
 export interface IUser {
     author: boolean,
     appointment: string,
@@ -6,9 +8,3 @@ export interface IUser {
     accounts: IAccount[]
 }
 
-export interface IAccount {
-    name: string;
-    channelLink: string;
-    photoLink: string;
-    knowledge: string;
-}

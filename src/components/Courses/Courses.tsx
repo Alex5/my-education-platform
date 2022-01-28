@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Description, Display, Divider, Grid, Image, Loading, Spacer, Text} from "@geist-ui/react";
+import {Card, Description, Divider, Grid, Image, Loading, Spacer, Text} from "@geist-ui/core";
 import {useNavigate, useParams} from "react-router-dom";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";

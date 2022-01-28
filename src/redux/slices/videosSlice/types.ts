@@ -1,3 +1,5 @@
+import {IAccount} from "../authorSlice/author.types";
+
 export interface IVideoState {
     videos: IVideo[]
     authorVideos: IVideo[],
@@ -12,4 +14,5 @@ export interface IVideo {
     published: boolean;
     cover: string;
     description: string;
+    account: IAccount
 }

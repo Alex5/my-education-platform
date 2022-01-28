@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {Breadcrumbs as GBreadcrumbs, Spacer} from "@geist-ui/react";
+import {Breadcrumbs as GBreadcrumbs, Spacer} from "@geist-ui/core";
 import useBreadcrumbs, {BreadcrumbMatch} from 'use-react-router-breadcrumbs';
-import {PublicRequests} from "../../api/publicRequests";
 import {useSelector} from "react-redux";
 import {getVideos} from "../../redux/slices/videosSlice";
 import {getCourses} from "../../redux/slices/coursesSlice/coursesSlice";

@@ -1,9 +1,9 @@
 import {collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit} from "firebase/firestore";
-import {db} from "../fbconfig";
 import {EStatus} from "../redux/enums";
 import {IYouTubeComment} from "../components/Testimonials/types";
 import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
 import {IUser} from "../redux/slices/userSlice/types";
+import {db} from "../fbconfig";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -99,16 +99,6 @@ export const PublicRequests = {
             .then((data) => {
                 return data.items;
             });
-    },
-    async getCourseNamesMap(): Promise<any> {
-        const courseRef = doc(db, "courses", '--coursesNames--');
-        const courseNamesSnap = await getDoc(courseRef);
-
-        if (courseNamesSnap.exists()) {
-            return courseNamesSnap.data();
-        } else {
-            return {};
-        }
     },
     async getCoursesByTag(tagName: string): Promise<ICourse[]> {
         const q = query(collection(db, "courses"), where(`tags`, 'array-contains', tagName))

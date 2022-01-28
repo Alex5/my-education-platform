@@ -10,7 +10,7 @@ import {
     User,
     useToasts,
     Avatar
-} from "@geist-ui/react";
+} from "@geist-ui/core";
 import styled from "styled-components";
 import googleLogo from "../../assets/GoogleLogo.svg";
 import {AuthContext} from "../../index";

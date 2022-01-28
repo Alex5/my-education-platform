@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import * as Geist from "@geist-ui/react";
-import {Tooltip} from "@geist-ui/react";
+import * as Geist from "@geist-ui/core";
+import {Tooltip} from "@geist-ui/core";
 import {snipText} from "../../services/helpers";
 
 interface TextSnippetProps {

@@ -1,10 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {PublicRequests} from "../../api/publicRequests";
 import {getUser, setUser} from "../../redux/slices/userSlice/userSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {AuthContext} from "../../index";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {Button, Fieldset, Grid, Input, Loading, Radio, Spacer, Text, useClipboard, useToasts} from '@geist-ui/react';
+import {Button, Fieldset, Grid, Input, Radio, Spacer, Text, useClipboard, useToasts} from '@geist-ui/core';
 import {Copy} from "@geist-ui/react-icons";
 import {EStatus} from "../../redux/enums";
 

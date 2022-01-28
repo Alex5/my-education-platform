@@ -1,4 +1,4 @@
-import {Image, Spacer, Text, Display} from '@geist-ui/react';
+import {Image, Spacer, Text, Display} from '@geist-ui/core';
 import React from 'react';
 import dev from "../../../../assets/developer.svg"
 

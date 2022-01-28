@@ -1,18 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {
-    Button,
-    Card,
-    Fieldset,
-    Note,
-    Spacer,
-    Tag,
-    Text,
-    useInput,
-} from "@geist-ui/react";
-import {useNavigate, useParams} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {Card, Spacer, Tag, Text} from "@geist-ui/core";
+import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
-    getLessons,
     getSelectedCourse,
     setLessons,
     setSelectedCourse

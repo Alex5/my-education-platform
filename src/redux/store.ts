@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import coursesSlice from "./slices/coursesSlice/coursesSlice";
 import userSlice from "./slices/userSlice/userSlice";
 import videosSlice from "./slices/videosSlice";
+import authorSlice from "./slices/authorSlice/author.slice";
 
 export const store = configureStore({
     reducer: {
         courses: coursesSlice,
         user: userSlice,
-        videos: videosSlice
+        videos: videosSlice,
+        author: authorSlice
     },
 })
 

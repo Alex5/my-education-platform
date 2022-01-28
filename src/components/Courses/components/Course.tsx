@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {
-    Button, ButtonGroup,
+    Button,
     Description, Display,
     Fieldset,
     Grid, Image, Link,
@@ -10,7 +10,7 @@ import {
     Spacer, Tag,
     Text,
     useModal
-} from "@geist-ui/react";
+} from "@geist-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {
     getSelectedCourse,

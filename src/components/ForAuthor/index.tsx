@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Page, Text} from "@geist-ui/react";
+import {Page, Text} from "@geist-ui/core";
 import {useSelector} from "react-redux";
 import {getUser} from "../../redux/slices/userSlice/userSlice";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";

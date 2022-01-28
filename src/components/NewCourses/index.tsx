@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {ICourse} from "../../redux/slices/coursesSlice/types";
 import {PublicRequests} from "../../api/publicRequests";
 import styled from "styled-components";
-import {Card, Description, Grid, Link, Spacer} from "@geist-ui/react";
+import {Card, Description, Grid, Link, Spacer} from "@geist-ui/core";
 import {Youtube} from "@geist-ui/react-icons";
 import {snipText} from "../../services/helpers";
 import {useNavigate} from "react-router-dom";

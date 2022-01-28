@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Grid, Spacer, Text} from "@geist-ui/react";
+import {Grid, Spacer, Text} from "@geist-ui/core";
 import {Breadcrumbs} from "../index";
 
 interface PageLayoutProps {

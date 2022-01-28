@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {Card, Grid, Image, Text} from "@geist-ui/react";
+import {Card, Divider, Grid, Image, Link, Text, User} from "@geist-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {VideosRequests} from "../../api/videosRequests";
 import {getVideos, setVideos} from "../../redux/slices/videosSlice";
 import {useNavigate} from "react-router-dom";
+import SnipText from "../shared/SnipText";
 
 const Videos = () => {
     const dispatch = useDispatch();
@@ -25,8 +26,11 @@ const Videos = () => {
                 <Grid xs={24} md={8} key={video.videoId}>
                     <Card onClick={() => navigate(`/videos/${video.videoId}`)} style={{cursor: 'pointer'}} hoverable>
                         <Image height={"155px"} width={"100%"} src={video.cover}/>
-                        <Text h5 mb={0} mt={0} children={video.name}/>
-                        {/*<Text type={"secondary"} small mb={0} children={video.ownerId}/>*/}
+                        <SnipText h5 text={video.name}/>
+                        <Divider/>
+                        <User src={video.account?.photoLink} name={video.account?.name}>
+                            <SnipText text={video.account?.knowledge}/>
+                        </User>
                     </Card>
                 </Grid>
             ))}

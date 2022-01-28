@@ -1,5 +1,5 @@
 import React from 'react';
-import {Page} from "@geist-ui/react";
+import {Page} from "@geist-ui/core";
 
 const Footer = () => {
     return (

@@ -1,13 +1,6 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
-import {Button, Card, Description, Fieldset, Loading, Spacer, Text, Textarea} from "@geist-ui/react";
+import React, {FC, useEffect, useState} from 'react';
+import {Button, Card, Description, Fieldset, Loading, Spacer, Text} from "@geist-ui/core";
 import {PublicRequests} from "../../api/publicRequests";
-import {UserRequests} from "../../api/userRequests";
-import {useDispatch, useSelector} from "react-redux";
-import {getTestimonials, setTestimonials} from "../../redux/slices/coursesSlice/coursesSlice";
-import {nanoid} from "nanoid";
-import {AuthContext} from "../../index";
-import {serverTimestamp, Timestamp} from "firebase/firestore";
-import {useParams} from "react-router-dom";
 import {IYouTubeComment} from "./types";
 import {Heart} from "@geist-ui/react-icons";
 

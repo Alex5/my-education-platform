@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import SearchBar from "../shared/SearchBar";
 import {
     Badge,
@@ -13,10 +13,9 @@ import {
     Text,
     useModal,
     useToasts
-} from "@geist-ui/react";
-import {formatEmbedLink, snipText, updateObjectProp} from "../../../../services/helpers";
+} from "@geist-ui/core";
+import {formatEmbedLink, updateObjectProp} from "../../../../services/helpers";
 import {IVideo} from "../../../../redux/slices/videosSlice/types";
-import {nanoid} from "nanoid";
 import {VideosRequests} from "../../../../api/videosRequests";
 import {useDispatch, useSelector} from "react-redux";
 import {getVideos, setVideos} from "../../../../redux/slices/videosSlice";
@@ -25,21 +24,23 @@ import Iframe from "../shared/Iframe";
 import {MoreVertical} from "@geist-ui/react-icons";
 import SnipText from "../../../shared/SnipText";
 import {Button} from '@geist-ui/core';
+import AuthorAccountsSelect from "../AuthorAccountsSelect";
+import {getSelectedAccount, setSelectedAccount} from "../../../../redux/slices/authorSlice/author.slice";
+import {IAccount} from "../../../../redux/slices/authorSlice/author.types";
+import styled from "styled-components";
 
 const AuthorVideos = () => {
     const {visible, setVisible, bindings} = useModal()
     const user = useSelector(getUser);
-
+    const selectedAccount = useSelector(getSelectedAccount);
     const [load, setLoad] = useState<boolean>(false);
     const [video, setVideo] = useState<IVideo>({ownerId: user.uid} as IVideo);
     const [saveType, setSaveType] = useState<'save' | 'update'>('save')
 
-    const [, setToast] = useToasts();
-
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
 
-    const handleUpdateState = (key: keyof IVideo, newValue: string) => {
+    const handleUpdateState = (key: keyof IVideo, newValue: any) => {
         if (key === 'embedLink') {
             const formattedLink = formatEmbedLink(newValue)
             const videoId = formattedLink.split("embed/")[1] || ''
@@ -68,6 +69,7 @@ const AuthorVideos = () => {
         return () => {
             setSaveType('update')
             setVideo(video);
+            dispatch(setSelectedAccount(video.account))
             setVisible(true);
         }
     }
@@ -79,17 +81,25 @@ const AuthorVideos = () => {
         }
     }
 
-    const handleUpdateVideo = (video: IVideo) => {
-        return async () => {
-            setLoad(true)
-            const videos = await VideosRequests.updateVideo(video);
-            dispatch(setVideos(videos));
-            setSaveType('save');
-            setVideo({} as IVideo);
-            setLoad(false)
-            setVisible(false);
-        }
+    const handleUpdateVideo = async (video: IVideo) => {
+        setLoad(true)
+        const videos = await VideosRequests.updateVideo(Object.keys(selectedAccount).length > 0 ? {
+            ...video,
+            account: selectedAccount
+        } : video);
+        dispatch(setVideos(videos));
+        setSaveType('save');
+        setVideo({} as IVideo);
+        setLoad(false)
+        setVisible(false);
+
     }
+
+    useEffect(() => {
+        if (Object.keys(selectedAccount).length > 0) {
+            handleUpdateState('account', selectedAccount)
+        }
+    }, [selectedAccount])
 
     const menuContent = (video: IVideo) => {
         return (
@@ -99,13 +109,13 @@ const AuthorVideos = () => {
                 </Popover.Item>
                 <Popover.Item>
                     {video.published
-                        ? <Button scale={1 / 2} onClick={handleUpdateVideo({...video, published: false})}>Снять с
+                        ? <Button scale={1 / 2} onClick={() => handleUpdateVideo({...video, published: false})}>Снять с
                             публикации</Button>
                         : (
                             <Badge.Anchor>
                                 <Badge scale={0.5} type="error" dot/>
                                 <Button
-                                    onClick={handleUpdateVideo({...video, published: true})}
+                                    onClick={() => handleUpdateVideo({...video, published: true})}
                                     loading={load}
                                     type="secondary"
                                     scale={1 / 2}
@@ -211,6 +221,8 @@ const AuthorVideos = () => {
                                     </Collapse>
                                 )}
                                 <Spacer/>
+                                <Text children={"Привязанный аккаунт"}/>
+                                <AuthorAccountsSelect/>
                             </Grid>
                         </Grid.Container>
                     </Grid.Container>
