@@ -1,15 +1,11 @@
 import React, {FC, useContext} from 'react';
 import {Popover} from "@geist-ui/core";
-import {AuthContext} from "../../../index";
+import {AuthContext} from "../../../../index";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {signOut} from "../../../redux/slices/userSlice/userSlice";
+import {signOut} from "../../../../redux/slices/userSlice/userSlice";
 
-interface HeaderMenuProps {
-    isAuthor: boolean;
-}
-
-const HeaderMenu: FC<HeaderMenuProps> = ({isAuthor}) => {
+const HeaderMenu: FC = () => {
     const {auth} = useContext(AuthContext);
     const dispatch = useDispatch();
 

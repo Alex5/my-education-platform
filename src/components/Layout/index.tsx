@@ -1,17 +1,13 @@
 import React from 'react';
-import {Outlet, useLocation} from "react-router-dom";
-import {Link, Page, Spacer, Text} from "@geist-ui/core";
-import {Breadcrumbs, Header} from "../index";
-import {useSelector} from "react-redux";
-import {getUser} from "../../redux/slices/userSlice/userSlice";
+import {Outlet} from "react-router-dom";
+import {Page} from "@geist-ui/core";
+import {Header} from "../index";
 import styled from "styled-components";
 
 const Layout = () => {
-    const {author} = useSelector(getUser);
-
     return (
         <>
-            <Header isAuthor={author}/>
+            <Header/>
             <StyledPage>
                 <Page.Content>
                     <Outlet/>

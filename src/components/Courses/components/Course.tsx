@@ -23,6 +23,7 @@ import {UserRequests} from "../../../api/userRequests";
 import {AnalyticsLogs} from "../../../services/analytics";
 import styled from "styled-components";
 import {Heart, Youtube} from "@geist-ui/react-icons";
+import VideoLayout from "../../Layout/VideoLayout";
 
 const Course = () => {
     const [load, setLoad] = useState(false);
@@ -66,95 +67,44 @@ const Course = () => {
 
     return (
         <>
-            <Grid.Container gap={2} justify="space-between" direction={"row"}>
-                <Grid>
-                    <Text h3 mb={0} mt={0}>
-                        {load ? <Loading/> : selectedCourse.name}
-                    </Text>
-                </Grid>
-                <Grid>
-                    <div style={{display: 'flex'}}>
-                        <Button disabled mr={1} auto icon={<Heart/>}/>
+            <VideoLayout
+                title={selectedCourse.name}
+                headerActions={[
+                    <Button disabled mr={1} auto icon={<Heart/>}/>,
+                    load
+                        ? <Loading/>
+                        : courseStatus && courseStatus.start
+                        ?
+                        <Button loading={load} type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
+                                children="Продолжить"/>
+                        :
+                        <Button loading={load} onClick={handleStartCourse} type="secondary"
+                                children="Начать"/>
+                ]}
+                cover={selectedCourse.cover}
+                info={{author: selectedCourse.author, tags: selectedCourse.tags}}
+            >
+                <Fieldset>
+                    <Fieldset.Title>Об этом курсе</Fieldset.Title>
+                    <Fieldset.Subtitle>
+                        {load ? <Loading/> : <Text>{selectedCourse.description}</Text>}
+                    </Fieldset.Subtitle>
+                </Fieldset>
+                <Spacer/>
+                <Fieldset>
+                    <Fieldset.Title children="Уроки"/>
+                    <Fieldset.Subtitle>
                         {load
                             ? <Loading/>
-                            : courseStatus && courseStatus.start
-                                ?
-                                <Button loading={load} type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
-                                        children="Продолжить"/>
-                                :
-                                <Button loading={load} onClick={handleStartCourse} type="secondary"
-                                        children="Начать"/>
+                            : <ul>
+                                {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
+                                    <li key={lesson.lessonId}>{lesson.name}</li>
+                                )}
+                            </ul>
                         }
-                    </div>
-                </Grid>
-            </Grid.Container>
-            <Spacer h={2}/>
-            <Grid.Container gap={2} justify="center">
-                <Grid direction="column" xs={24} md={16}>
-                    {selectedCourse.cover
-                        ? <Image src={selectedCourse.cover}/>
-                        : <Display caption="Нет доступного изображения">
-                            <span style={{fontSize: '120px'}}>😢</span>
-                        </Display>
-                    }
-                </Grid>
-                <Grid xs={24} md={8} direction={"column"}>
-                    <StyledBubble>
-                        <Description title="Краткое описание" content={<Text small>-</Text>}/>
-                    </StyledBubble>
-                    <Spacer/>
-                    <StyledBubble>
-                        <Description title="Автор курса" content={load ? <Loading/> : selectedCourse.author?.name}/>
-                    </StyledBubble>
-                    <Spacer/>
-                    <StyledBubble>
-                        <Description title="Соц. сети автора" content={<>
-                            <Link target={"_blank"} href={selectedCourse.author?.channelLink}>
-                                <Youtube/>
-                            </Link>
-                        </>}/>
-                    </StyledBubble>
-                    <Spacer/>
-                    <StyledBubble>
-                        <Description title="Популярные теги" content={<StyledTags>
-                            {selectedCourse.tags
-                                ? selectedCourse.tags.map(tag =>
-                                    <Tag
-                                        style={{cursor: 'pointer'}}
-                                        onClick={() => navigate(`/tags/${tag}`)}
-                                        type={"lite"}
-                                        key={tag}
-                                        scale={1 / 2}>{tag}
-                                    </Tag>
-                                )
-                                : <span>Пока пусто</span>}
-                        </StyledTags>}/>
-                    </StyledBubble>
-                    <Spacer/>
-                </Grid>
-            </Grid.Container>
-            <Spacer h={3}/>
-            <Fieldset>
-                <Fieldset.Title>Об этом курсе</Fieldset.Title>
-                <Fieldset.Subtitle>
-                    {load ? <Loading/> : <Text>{selectedCourse.description}</Text>}
-                </Fieldset.Subtitle>
-            </Fieldset>
-            <Spacer/>
-            <Fieldset>
-                <Fieldset.Title children="Уроки"/>
-                <Fieldset.Subtitle>
-                    {load
-                        ? <Loading/>
-                        : <ul>
-                            {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
-                                <li key={lesson.lessonId}>{lesson.name}</li>
-                            )}
-                        </ul>
-                    }
-                </Fieldset.Subtitle>
-            </Fieldset>
-            <Spacer/>
+                    </Fieldset.Subtitle>
+                </Fieldset>
+            </VideoLayout>
             <Modal {...bindings}>
                 <Modal.Title>Уведомление</Modal.Title>
                 <Modal.Content>
