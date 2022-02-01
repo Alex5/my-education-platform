@@ -1,21 +1,16 @@
-import React, {FC, useContext} from 'react';
-import {Loading, Text} from "@geist-ui/core";
+import React, {FC} from 'react';
+import {Text} from "@geist-ui/core";
 import styled from "styled-components";
-import {AuthContext} from "../../index";
-import {useAuthState} from "react-firebase-hooks/auth";
 import {Link, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "../../redux/slices/userSlice/userSlice";
 import AuthorTabs from "../Author/components/AuthorTabs";
-import AuthBox from "./components/AuthBox";
+import AuthBox from "../AuthBox";
 
 const Header: FC = () => {
     const {author} = useSelector(getUser);
 
     const location = useLocation();
-
-    const {auth} = useContext(AuthContext);
-    const [user, loading] = useAuthState(auth);
 
     return (
         <div style={{padding: '0 24px'}}>
@@ -26,12 +21,7 @@ const Header: FC = () => {
                             My Education Platform
                         </Text>
                     </Link>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        {loading
-                            ? <Loading mr={0} ml={0} width={10}/>
-                            : <AuthBox auth={auth} user={user}/>
-                        }
-                    </div>
+                    <AuthBox/>
                 </StyledHeaderContent>
                 {location.pathname.includes('/author') && (
                     <StyledAuthorTabs>

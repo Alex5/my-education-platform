@@ -42,12 +42,12 @@ const VideoLayout: FC<VideoLayoutProps> = (
                 </Grid>
                 <Grid xs={24} md={6} direction={"column"}>
                     <StyledBubble>
-                        <Description title="Автор" content={info.author.name}/>
+                        <Description title="Автор" content={info.author?.name}/>
                     </StyledBubble>
                     <Spacer/>
                     <StyledBubble>
                         <Description title="Соц. сети автора" content={<>
-                            <Link target={"_blank"} href={info.author.channelLink}>
+                            <Link target={"_blank"} href={info.author?.channelLink}>
                                 <Youtube/>
                             </Link>
                         </>}/>

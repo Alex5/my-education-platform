@@ -55,7 +55,7 @@ const StyledSidebar = styled.nav`
   a {
     text-decoration: none;
     color: black;
-    padding: 10px;
+    padding: 5px 5px 5px 10px;
     border-radius: 10px;
     transition: ease-in-out 0.1s;
     border: 1px solid transparent;

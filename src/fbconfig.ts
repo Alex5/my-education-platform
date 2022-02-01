@@ -4,7 +4,7 @@ import {getFirestore} from "firebase/firestore";
 import {getAuth} from "firebase/auth";
 import {initializeAppCheck, ReCaptchaV3Provider} from "firebase/app-check"
 
-const firebaseApp = initializeApp({
+export const firebaseApp = initializeApp({
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
     projectId: process.env.REACT_APP_PROJECT_ID,

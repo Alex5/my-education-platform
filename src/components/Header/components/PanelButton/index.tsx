@@ -3,7 +3,7 @@ import {Auth, User} from 'firebase/auth';
 import {Avatar, Button} from "@geist-ui/core";
 import {PublicRequests} from "../../../../api/publicRequests";
 import {EStatus} from "../../../../redux/enums";
-import {getUser, setUser} from "../../../../redux/slices/userSlice/userSlice";
+import {getUser, getUserLoading, setUser} from "../../../../redux/slices/userSlice/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useLocation} from "react-router-dom";
 
@@ -20,7 +20,6 @@ const PanelButton: FC<PanelButtonProps> = () => {
     const navigate = useNavigate();
     const location = useLocation()
 
-
     const transformToAuthor = async () => {
         setTransformLoad(true)
         const updatedUser = await PublicRequests.transformAccount(user?.uid || '', EStatus.author);
@@ -28,15 +27,19 @@ const PanelButton: FC<PanelButtonProps> = () => {
         setTransformLoad(false)
     }
 
+    const userLoading = useSelector(getUserLoading);
+
     return (
         <>
-            {user.author
-                ? !location.pathname.includes('/author') &&
-                <Button scale={1 / 2} onClick={() => navigate('/author')} auto
-                        children="Панель автора"/>
-                : <Button loading={transformLoad} onClick={transformToAuthor} scale={1 / 2}
-                          type="secondary"
-                          children="Стать автором"/>}
+            {!location.pathname.includes('/author') && (
+                <Button
+                    loading={userLoading && transformLoad}
+                    scale={1 / 2}
+                    onClick={() => user.author ? navigate('/author') : transformToAuthor}
+                    auto
+                    children={user.author ? "Панель автора" : "Стать автором"}
+                />
+            )}
         </>
     )
 };
