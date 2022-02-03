@@ -1,6 +1,8 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface AuthorState {
     selectedAccount: IAccount,
-    accounts: IAccount[]
+    accounts: IAccount[],
 }
 
 export interface IAccount {
@@ -9,3 +11,4 @@ export interface IAccount {
     photoLink: string;
     knowledge: string;
 }
+

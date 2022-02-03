@@ -1,8 +1,10 @@
-import React, {FC, useState} from 'react';
-import {Button, Card, Grid, Input, Note, Text} from "@geist-ui/core";
-import {ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
+import { FC, useState } from 'react';
+import { Button, Card, CssBaseline, Grid, Input, Note, Text } from "@geist-ui/core";
+import { ICourse } from "../../../../../../../redux/slices/coursesSlice/types";
 import styled from "styled-components";
-import {PlusCircle, Trash} from "@geist-ui/react-icons";
+import { PlusCircle, Trash } from "@geist-ui/react-icons";
+import AuthorAccountsSelect from '../../../../AuthorAccountsSelect';
+
 
 interface Props {
     handleUpdateState: (key: keyof ICourse, targetValue: any) => void
@@ -10,63 +12,69 @@ interface Props {
     courseKey: keyof ICourse;
 }
 
-const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => {
-    const [tagInput, setTagInput] = useState('')
+
+const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) => {
+    const [tagInput, setTagInput] = useState('');
 
     switch (courseKey) {
         case "author":
             return (
-                <Grid.Container mb={1.5} gap={1}>
-                    <Grid xs={8}>
-                        <Input
-                            value={data.name}
-                            onChange={e => handleUpdateState('author', {
-                                ...data,
-                                name: e.target.value
-                            })} width="100%"
-                            placeholder="Иван Иванов"
-                        >
-                            Имя Фамилия
-                        </Input>
-                    </Grid>
-                    <Grid xs={8}>
-                        <Input
-                            value={data.appointment}
-                            onChange={e => handleUpdateState('author', {
-                                ...data,
-                                appointment: e.target.value
-                            })}
-                            width="100%"
-                            placeholder="Senior Pomidor JavaScript Developer"
-                        >
-                            Должность
-                        </Input>
-                    </Grid>
-                    <Grid xs={8}>
-                        <Input value={data.channelLink}
-                               onChange={e => handleUpdateState('author', {
-                                   ...data,
-                                   channelLink: e.target.value
-                               })}
-                               width="100%"
-                               placeholder="https://www.youtube.com/c/">
-                            Ссылка на YouTube-канал
-                        </Input>
-                    </Grid>
-                </Grid.Container>
+                // <Grid.Container mb={1.5} gap={1}>
+                //     <Grid xs={8}>
+                //         <Input
+                //             value={data?.name}
+                //             onChange={e => handleUpdateState('author', {
+                //                 ...data,
+                //                 name: e.target.value
+                //             })} width="100%"
+                //             placeholder="Иван Иванов"
+                //         >
+                //             Имя Фамилия
+                //         </Input>
+                //     </Grid>
+                //     <Grid xs={8}>
+                //         <Input
+                //             value={data?.appointment}
+                //             onChange={e => handleUpdateState('author', {
+                //                 ...data,
+                //                 appointment: e.target.value
+                //             })}
+                //             width="100%"
+                //             placeholder="Senior Pomidor JavaScript Developer"
+                //         >
+                //             Должность
+                //         </Input>
+                //     </Grid>
+                //     <Grid xs={8}>
+                //         <Input value={data?.channelLink}
+                //             onChange={e => handleUpdateState('author', {
+                //                 ...data,
+                //                 channelLink: e.target.value
+                //             })}
+                //             width="100%"
+                //             placeholder="https://www.youtube.com/c/">
+                //             Ссылка на YouTube-канал
+                //         </Input>
+                //     </Grid>
+                // </Grid.Container>
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+                    <span>{data?.name}</span>
+                    <AuthorAccountsSelect />
+                </div>
+
             )
         case "tags":
             return (
                 <StyledTags>
                     {data && data.map((tag: string) => (
                         <Card key={tag}>
-                            <Card.Content style={{display: "flex",alignItems: "center"}} padding={0.3}>
+                            <Card.Content style={{ display: "flex", alignItems: "center" }} padding={0.3}>
                                 <Text mr={0.5} b key={tag}>{tag} </Text>
-                                <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15}/>
+                                <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15} />
                             </Card.Content>
                         </Card>
                     ))}
-                    {data.length !== 5 && (
+                    {data?.length !== 5 && (
                         <Input
                             onIconClick={() => {
                                 handleUpdateState('tags', tagInput.toLowerCase())
@@ -74,7 +82,7 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
                             }}
                             value={tagInput}
                             iconClickable
-                            iconRight={<PlusCircle/>}
+                            iconRight={<PlusCircle />}
                             placeholder="Название тега"
                             onChange={e => setTagInput(e.target.value)}
                         />
@@ -85,13 +93,13 @@ const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => 
             return (
                 data && data.length > 0
                     ? data.map((lesson: any) =>
-                    <StyledLessonItem key={lesson.lessonId}>
-                        &#8226; {lesson.name}
-                    </StyledLessonItem>
-                )
-                    : <Note style={{display: 'flex', justifyContent: 'space-between'}} type="warning" label={false}>
+                        <StyledLessonItem key={lesson.lessonId}>
+                            &#8226; {lesson.name}
+                        </StyledLessonItem>
+                    )
+                    : <Note style={{ display: 'flex', justifyContent: 'space-between' }} type="warning" label={false}>
                         В курсе пока что нет ни одного урока.
-                        <Button auto type="warning" children="Добавить" scale={1 / 3}/>
+                        <Button auto type="warning" children="Добавить" scale={1 / 3} />
                     </Note>
             )
         case "description":

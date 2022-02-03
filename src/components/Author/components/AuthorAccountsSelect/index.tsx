@@ -1,14 +1,14 @@
-import {Card, Loading, Select, Spacer, User} from '@geist-ui/core';
-import React, {useEffect, useState} from 'react';
-import {IAccount} from "../../../../redux/slices/authorSlice/author.types";
-import {useDispatch, useSelector} from "react-redux";
+import { Card, Loading, Select, Spacer, User } from '@geist-ui/core';
+import React, { useEffect, useState } from 'react';
+import { IAccount } from "../../../../redux/slices/authorSlice/author.types";
+import { useDispatch, useSelector } from "react-redux";
 import {
     setAccounts,
     setSelectedAccount,
     getAccounts,
     getSelectedAccount
 } from '../../../../redux/slices/authorSlice/author.slice';
-import {AuthorRequests} from "../../../../api/authorRequests";
+import { AuthorRequests } from "../../../../api/authorRequests";
 
 const AuthorAccountsSelect = () => {
     const accounts = useSelector(getAccounts);
@@ -35,29 +35,14 @@ const AuthorAccountsSelect = () => {
     }, [])
 
     return (
-        <>
-            <Select placeholder="Выберите аккаунт для привязки"
-                    onChange={handleSetAccount}>
-                {accountsLoad
-                    ? <Loading/>
-                    : accounts && accounts.map(account => (
+        <Select placeholder="Выберите аккаунт для привязки"
+            onChange={handleSetAccount}>
+            {accountsLoad
+                ? <Loading />
+                : accounts && accounts.map(account => (
                     <Select.Option value={JSON.stringify(account)}>{account.name}</Select.Option>
                 ))}
-            </Select>
-            {Object.keys(selectedAccount).length > 0 && (
-                <>
-                    <Spacer/>
-                    <Card>
-                        <Card.Content padding={0.5}>
-                            <User src={selectedAccount.photoLink} name={selectedAccount.name}>
-                                {selectedAccount.knowledge}
-                            </User>
-                        </Card.Content>
-                    </Card>
-                </>
-            )}
-
-        </>
+        </Select>
 
     );
 };

@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {NavLink, Outlet, useParams, useNavigate, useLocation} from "react-router-dom";
-import {Button, Grid, Spacer, Text} from "@geist-ui/core";
+import React, { useEffect, useState } from 'react';
+import { NavLink, Outlet, useParams, useNavigate, useLocation } from "react-router-dom";
+import { Button, Grid, Spacer, Text } from "@geist-ui/core";
 import styled from "styled-components";
-import {useDispatch, useSelector} from "react-redux";
-import {getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
-import {AuthorRequests} from "../../../../../../api/authorRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { getSelectedCourse, setSelectedCourse } from "../../../../../../redux/slices/coursesSlice/coursesSlice";
+import { AuthorRequests } from "../../../../../../api/authorRequests";
 
 
 const AuthorCourse = () => {
     const [load, setLoading] = useState(false);
 
-    const {authorCourseId} = useParams<"authorCourseId">();
+    const { authorCourseId } = useParams<"authorCourseId">();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -31,8 +31,8 @@ const AuthorCourse = () => {
     return (
         <>
             <StyledInfoHeader>
-                <Text mb={0} mt={0} h3 children={selectedCourse.name}/>
-                <div style={{display: 'flex', alignItems: 'center'}}>
+                <Text mb={0} mt={0} h3 children={selectedCourse.name} />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Button
                         onClick={() => handlePublishCourse(!selectedCourse.published)}
                         loading={load}
@@ -40,23 +40,23 @@ const AuthorCourse = () => {
                         children={selectedCourse.published ? "Снять с публикации" : "Опубликовать"}
                         type={selectedCourse.published ? "default" : "success"}
                     />
-                    <Spacer/>
+                    <Spacer />
                     <Button onClick={() => navigate(`/${selectedCourse.direction}/${selectedCourse.courseId}`)}
-                            disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"}/>
+                        disabled={!selectedCourse.published} auto type={"secondary"} children={"Открыть"} />
                 </div>
             </StyledInfoHeader>
-            <Spacer h={3}/>
+            <Spacer h={3} />
             <Grid.Container gap={2} justify="center" height="100px">
                 <Grid xs={24} md={4}>
                     <StyledSidebar>
                         <NavLink
-                            style={({isActive}) => isActive ? selectedStyle : {}}
+                            style={({ isActive }) => isActive ? selectedStyle : {}}
                             to={`/author/courses/${authorCourseId}/general`}
                         >
                             Курс
                         </NavLink>
                         <NavLink
-                            style={({isActive}) => isActive ? selectedStyle : {}}
+                            style={({ isActive }) => isActive ? selectedStyle : {}}
                             to={`/author/courses/${authorCourseId}/settings`}
                         >
                             Настройки
@@ -65,7 +65,7 @@ const AuthorCourse = () => {
                 </Grid>
                 <Grid xs={24} md={20}>
                     <StyledContent>
-                        <Outlet/>
+                        <Outlet />
                     </StyledContent>
                 </Grid>
             </Grid.Container>

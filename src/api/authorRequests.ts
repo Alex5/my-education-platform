@@ -9,15 +9,16 @@ import {
     updateDoc,
     writeBatch, getDoc, serverTimestamp, setDoc
 } from "firebase/firestore";
-import {db} from "../fbconfig";
-import {getAuth} from "firebase/auth";
-import {nanoid} from 'nanoid'
-import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
-import {IAccount} from "../redux/slices/authorSlice/author.types";
+import { db, firebaseApp } from "../fbconfig";
+import { getAuth } from "firebase/auth";
+import { nanoid } from 'nanoid'
+import { ICourse, ILesson } from "../redux/slices/coursesSlice/types";
+import { IAccount } from "../redux/slices/authorSlice/author.types";
+import { IArticle } from "../redux/slices/articlesSlice/articles.types";
 
 export class AuthorRequests {
     public static async getAuth() {
-        const {currentUser} = await getAuth();
+        const { currentUser } = await getAuth();
         return currentUser;
     }
 
@@ -74,7 +75,7 @@ export class AuthorRequests {
                 ...lesson,
                 lessonId: lessonRef.id,
                 videoId: lesson.videoLink.split("embed/")[1] || ''
-            }, {merge: true});
+            }, { merge: true });
         })
 
         await batch.commit();
@@ -99,7 +100,7 @@ export class AuthorRequests {
     }
 
     public static async addCourse(course: ICourse): Promise<ICourse[]> {
-        const docRef = await addDoc(collection(db, "courses"), {...course, createdAt: serverTimestamp()});
+        const docRef = await addDoc(collection(db, "courses"), { ...course, createdAt: serverTimestamp() });
         const courseRef = doc(db, "courses", docRef.id);
 
         await updateDoc(courseRef, {
@@ -156,7 +157,7 @@ export class AuthorRequests {
     }
 
     public static async addAccount(account: IAccount): Promise<IAccount[]> {
-        const {currentUser} = await getAuth();
+        const { currentUser } = await getAuth();
 
         if (!currentUser) {
             return Promise.reject('not_authorized');
@@ -164,13 +165,13 @@ export class AuthorRequests {
 
         const docId = nanoid();
 
-        await setDoc(doc(db, "users", currentUser.uid, "accounts", docId), {...account, id: docId});
+        await setDoc(doc(db, "users", currentUser.uid, "accounts", docId), { ...account, id: docId });
 
         return this.getAccounts();
     }
 
-    public static async getAccounts(): Promise<IAccount[]>{
-        const {currentUser} = await getAuth();
+    public static async getAccounts(): Promise<IAccount[]> {
+        const { currentUser } = await getAuth();
 
         if (!currentUser) {
             return Promise.reject('not_authorized');
@@ -184,5 +185,23 @@ export class AuthorRequests {
         });
 
         return accounts;
+    }
+
+    public static async addArticle(article: IArticle): Promise<IArticle[]> {
+        const { currentUser } = getAuth(firebaseApp);
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        const articleId = nanoid();
+
+        await setDoc(doc(db, "articles", articleId), { ...article, createdAt: serverTimestamp() });
+
+        return await this.getAuthorArticles(currentUser.uid);
+    }
+
+    public static async getAuthorArticles(ownerId: string): Promise<IArticle[]> {
+        return [];
     }
 }

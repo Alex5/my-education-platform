@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {useDispatch} from "react-redux";
 import {setFirebaseUser, setUser, setUserLoading} from "./redux/slices/userSlice/userSlice";
 import {getAuth} from "firebase/auth"
@@ -11,7 +11,7 @@ import {AuthRequests} from "./api/authRequests";
 function App() {
     const dispatch = useDispatch();
     const auth = getAuth(firebaseApp);
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
 
     const handleUserLoading = async () => {
         if (user) {

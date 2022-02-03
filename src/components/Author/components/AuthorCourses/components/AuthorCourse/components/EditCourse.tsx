@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Text, Grid, useToasts, Tooltip, Spacer, Tag} from "@geist-ui/core";
+import React, { useEffect, useState } from 'react';
+import { Button, Text, Grid, useToasts, Tooltip, Spacer, Tag } from "@geist-ui/core";
 import styled from "styled-components";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     getLessons,
     getSelectedCourse,
     setLessons,
     updateSelectedCourseLessons
 } from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
-import {XCircle} from "@geist-ui/react-icons";
-import {nanoid} from "nanoid";
+import { XCircle } from "@geist-ui/react-icons";
+import { nanoid } from "nanoid";
 import Lesson from "./Lesson";
-import {AuthorRequests} from "../../../../../../../api/authorRequests";
-import {ILesson} from "../../../../../../../redux/slices/coursesSlice/types";
+import { AuthorRequests } from "../../../../../../../api/authorRequests";
+import { ILesson } from "../../../../../../../redux/slices/coursesSlice/types";
 
 const EditCourse = () => {
     const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const EditCourse = () => {
     return (
         <div>
             <StyledEditLessonsHeader>
-                <Text mt={0} style={{fontWeight: 600, fontSize: '1.5rem'}}>Редактирование уроков</Text>
+                <Text mt={0} style={{ fontWeight: 600, fontSize: '1.5rem' }}>Редактирование уроков</Text>
                 <Button
                     onClick={handleLessonsSave}
                     type="secondary"
@@ -76,10 +76,10 @@ const EditCourse = () => {
             </StyledEditLessonsHeader>
             <Grid.Container gap={2}>
                 <Grid xs={24} md={16} direction={'column'}>
-                    <Lesson selectedLesson={selectedLesson}/>
+                    <Lesson selectedLesson={selectedLesson} />
                 </Grid>
                 <Grid direction="column" xs={24} md={8}>
-                    <div style={{height: '500px', overflow: 'auto'}}>
+                    <div style={{ height: '500px', overflow: 'auto' }}>
                         {lessons && [...lessons].sort((a, b) => a.position - b.position).map(lesson =>
                             <StyledLessonItem
                                 key={lesson.lessonId}
@@ -89,20 +89,20 @@ const EditCourse = () => {
                             >
                                 <Tag type="lite">{lesson.position}</Tag>
                                 <Tooltip text={lesson.name}>
-                                 <span style={{fontWeight: 500, fontSize: '1rem'}}
-                                       children={
-                                           lesson.name.length > 15
-                                               ? `${lesson.name.slice(0, 13)}...`
-                                               : lesson.name
-                                       }
-                                 />
+                                    <span style={{ fontWeight: 500, fontSize: '1rem' }}
+                                        children={
+                                            lesson.name.length > 15
+                                                ? `${lesson.name.slice(0, 13)}...`
+                                                : lesson.name
+                                        }
+                                    />
                                 </Tooltip>
-                                {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)}/>}
+                                {lessons.length > 1 && <XCircle onClick={() => handleLessonDelete(lesson.lessonId)} />}
                             </StyledLessonItem>
                         )}
                     </div>
-                    <Spacer/>
-                    <Button onClick={handleAddLesson} children="Добавить урок"/>
+                    <Spacer />
+                    <Button onClick={handleAddLesson} children="Добавить урок" />
                 </Grid>
             </Grid.Container>
         </div>

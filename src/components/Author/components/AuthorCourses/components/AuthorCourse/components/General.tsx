@@ -47,7 +47,7 @@ const General = () => {
                 <Card.Body style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text mb={0} mt={0} h4>Статус</Text>
                     <Tag type={selectedCourse.published ? "success" : "secondary"}>
-                        {selectedCourse.published ? "Черновик" : "Опубликован"}
+                        {selectedCourse.published ? "Опубликован" : "Черновик"}
                     </Tag>
                 </Card.Body>
             </Card>

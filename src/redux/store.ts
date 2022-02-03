@@ -3,13 +3,15 @@ import coursesSlice from "./slices/coursesSlice/coursesSlice";
 import userSlice from "./slices/userSlice/userSlice";
 import videosSlice from "./slices/videosSlice";
 import authorSlice from "./slices/authorSlice/author.slice";
+import articlesSlice from './slices/articlesSlice/articles.slice';
 
 export const store = configureStore({
     reducer: {
         courses: coursesSlice,
         user: userSlice,
         videos: videosSlice,
-        author: authorSlice
+        author: authorSlice,
+        articles: articlesSlice
     },
 })
 
