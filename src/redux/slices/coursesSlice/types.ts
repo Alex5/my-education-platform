@@ -13,23 +13,16 @@ export interface ICourse {
     ownerId: string,
     published: boolean,
     description: string,
-    author: IAuthor,
     direction: string,
     lessons: Pick<ILesson, "lessonId" | "name" | "position">[];
     cover: string;
     tags: string[];
+    accountId: string;
 }
 
 export interface ICourseStatus {
     start: boolean,
     viewedLessons: string[]
-}
-
-export interface IAuthor {
-    name: string,
-    appointment: string,
-    avatar: string,
-    channelLink: string
 }
 
 export interface IHomeWork {

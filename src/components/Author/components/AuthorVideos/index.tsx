@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SearchBar from "../shared/SearchBar";
 import {
     Badge,
@@ -14,27 +14,25 @@ import {
     useModal,
     useToasts
 } from "@geist-ui/core";
-import {formatEmbedLink, updateObjectProp} from "../../../../services/helpers";
-import {IVideo} from "../../../../redux/slices/videosSlice/types";
-import {VideosRequests} from "../../../../api/videosRequests";
-import {useDispatch, useSelector} from "react-redux";
-import {getVideos, setVideos} from "../../../../redux/slices/videosSlice";
-import {getUser} from "../../../../redux/slices/userSlice/userSlice";
+import { formatEmbedLink, updateObjectProp } from "../../../../services/helpers";
+import { IVideo } from "../../../../redux/slices/videosSlice/types";
+import { VideosRequests } from "../../../../api/videosRequests";
+import { useDispatch, useSelector } from "react-redux";
+import { getVideos, setVideos } from "../../../../redux/slices/videosSlice";
+import { getUser } from "../../../../redux/slices/userSlice/userSlice";
 import Iframe from "../shared/Iframe";
-import {MoreVertical} from "@geist-ui/react-icons";
+import { MoreVertical } from "@geist-ui/react-icons";
 import SnipText from "../../../shared/SnipText";
-import {Button} from '@geist-ui/core';
+import { Button } from '@geist-ui/core';
 import AuthorAccountsSelect from "../AuthorAccountsSelect";
-import {getSelectedAccount, setSelectedAccount} from "../../../../redux/slices/authorSlice/author.slice";
-import {IAccount} from "../../../../redux/slices/authorSlice/author.types";
-import styled from "styled-components";
+import { getSelectedAccount, setSelectedAccount } from "../../../../redux/slices/authorSlice/author.slice";
 
 const AuthorVideos = () => {
-    const {visible, setVisible, bindings} = useModal()
+    const { visible, setVisible, bindings } = useModal()
     const user = useSelector(getUser);
     const selectedAccount = useSelector(getSelectedAccount);
     const [load, setLoad] = useState<boolean>(false);
-    const [video, setVideo] = useState<IVideo>({ownerId: user.uid} as IVideo);
+    const [video, setVideo] = useState<IVideo>({ ownerId: user.uid } as IVideo);
     const [saveType, setSaveType] = useState<'save' | 'update'>('save')
 
     const dispatch = useDispatch();
@@ -69,7 +67,6 @@ const AuthorVideos = () => {
         return () => {
             setSaveType('update')
             setVideo(video);
-            dispatch(setSelectedAccount(video.account))
             setVisible(true);
         }
     }
@@ -85,7 +82,7 @@ const AuthorVideos = () => {
         setLoad(true)
         const videos = await VideosRequests.updateVideo(Object.keys(selectedAccount).length > 0 ? {
             ...video,
-            account: selectedAccount
+            accountId: selectedAccount.id
         } : video);
         dispatch(setVideos(videos));
         setSaveType('save');
@@ -95,12 +92,6 @@ const AuthorVideos = () => {
 
     }
 
-    useEffect(() => {
-        if (Object.keys(selectedAccount).length > 0) {
-            handleUpdateState('account', selectedAccount)
-        }
-    }, [selectedAccount])
-
     const menuContent = (video: IVideo) => {
         return (
             <>
@@ -109,13 +100,15 @@ const AuthorVideos = () => {
                 </Popover.Item>
                 <Popover.Item>
                     {video.published
-                        ? <Button scale={1 / 2} onClick={() => handleUpdateVideo({...video, published: false})}>Снять с
-                            публикации</Button>
+                        ? <Button
+                            onClick={() => handleUpdateVideo({ ...video, published: false })}
+                            scale={1 / 2}
+                        >Снять с публикации</Button>
                         : (
                             <Badge.Anchor>
-                                <Badge scale={0.5} type="error" dot/>
+                                <Badge scale={0.5} type="error" dot />
                                 <Button
-                                    onClick={() => handleUpdateVideo({...video, published: true})}
+                                    onClick={() => handleUpdateVideo({ ...video, published: true })}
                                     loading={load}
                                     type="secondary"
                                     scale={1 / 2}
@@ -147,23 +140,23 @@ const AuthorVideos = () => {
 
     return (
         <>
-            <SearchBar onClick={() => setVisible(true)}/>
+            <SearchBar onClick={() => setVisible(true)} />
             <Grid.Container>
                 <Grid.Container gap={2}>
                     {videos && videos.map(video => (
                         <Grid key={video.videoId} xs={24} md={8}>
                             <Card>
-                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                    <SnipText h5 text={video.name}/>
-                                    <Spacer/>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <SnipText h5 text={video.name} />
+                                    <Spacer />
                                     <Popover content={menuContent(video)}>
                                         <Badge.Anchor>
-                                            {!video.published && <Badge scale={0.5} type="error" dot/>}
-                                            <MoreVertical/>
+                                            {!video.published && <Badge scale={0.5} type="error" dot />}
+                                            <MoreVertical />
                                         </Badge.Anchor>
                                     </Popover>
                                 </div>
-                                <Iframe height={"165px"} src={video.embedLink}/>
+                                <Iframe height={"165px"} src={video.embedLink} />
                             </Card>
                         </Grid>
                     ))}
@@ -185,44 +178,44 @@ const AuthorVideos = () => {
                                         Название видео
                                     </Input>
                                 </div>
-                                <Spacer/>
+                                <Spacer />
                                 <div>
-                                    <Text small type={"secondary"} children={"Описание"}/>
+                                    <Text small type={"secondary"} children={"Описание"} />
                                     <Input.Textarea placeholder={"Me at the zoo"} value={video.description}
-                                                    onChange={e => handleUpdateState('description', e.target.value)}
-                                                    resize={"vertical"}
-                                                    width={"100%"}/>
+                                        onChange={e => handleUpdateState('description', e.target.value)}
+                                        resize={"vertical"}
+                                        width={"100%"} />
                                 </div>
-                                <Spacer/>
+                                <Spacer />
                                 <div>
                                     <Input placeholder={"<iframe..."} width={"100%"} value={video.embedLink}
-                                           onChange={e => handleUpdateState('embedLink', e.target.value)}>
+                                        onChange={e => handleUpdateState('embedLink', e.target.value)}>
                                         Ссылка для встраивания
                                     </Input>
                                 </div>
-                                <Spacer/>
+                                <Spacer />
                                 {video.embedLink && (
-                                    <Collapse shadow style={{fontSize: "10px"}} title="Предварительный просмотр видео">
-                                        <Iframe src={video.embedLink} height={"185px"}/>
+                                    <Collapse shadow style={{ fontSize: "10px" }} title="Предварительный просмотр видео">
+                                        <Iframe src={video.embedLink} height={"185px"} />
                                     </Collapse>
                                 )}
-                                <Spacer/>
+                                <Spacer />
                                 <div>
                                     <Input placeholder={""} width={"100%"} value={video.cover}
-                                           onChange={e => handleUpdateState('cover', e.target.value)}>
+                                        onChange={e => handleUpdateState('cover', e.target.value)}>
                                         Обложка
                                     </Input>
                                 </div>
-                                <Spacer/>
+                                <Spacer />
                                 {video.cover && (
-                                    <Collapse shadow style={{fontSize: "10px"}}
-                                              title={"Предварительный просмотр обложки"}>
-                                        <Image src={video.cover}/>
+                                    <Collapse shadow style={{ fontSize: "10px" }}
+                                        title={"Предварительный просмотр обложки"}>
+                                        <Image src={video.cover} />
                                     </Collapse>
                                 )}
-                                <Spacer/>
-                                <Text children={"Привязанный аккаунт"}/>
-                                <AuthorAccountsSelect/>
+                                <Spacer />
+                                <Text children={"Привязанный аккаунт"} />
+                                <AuthorAccountsSelect accountId={video.accountId} />
                             </Grid>
                         </Grid.Container>
                     </Grid.Container>

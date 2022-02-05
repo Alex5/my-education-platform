@@ -4,7 +4,7 @@ import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import {setSelectedCourse} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {IAuthor, ICourse, ITag} from "../../../../../../../redux/slices/coursesSlice/types";
+import {ICourse, ITag} from "../../../../../../../redux/slices/coursesSlice/types";
 import SwitchBlockContent from "./SwitchBlockContent";
 
 interface EditBlockProps {
@@ -27,9 +27,9 @@ const EditBlock: FC<EditBlockProps> = (
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [, setToast] = useToasts();
+    const {setToast} = useToasts();
 
-    const handleUpdate = async (key: keyof ICourse, data: string | IAuthor | ITag[]) => {
+    const handleUpdate = async (key: keyof ICourse, data: string | ITag[]) => {
         setLoading(true)
         const course = await AuthorRequests.updateCourse(authorCourseId || '', key, data);
         dispatch(setSelectedCourse(course));

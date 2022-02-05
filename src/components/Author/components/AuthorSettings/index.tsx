@@ -70,7 +70,7 @@ const Settings = () => {
                     <Input onChange={e => onAccountStateEdit('knowledge', e.target.value)}
                            value={account.knowledge}
                            placeholder={"senior pomidor engineer"} width={"100%"}>
-                        Уровень знаний или должность
+                        О чём канал, или должность, или уровень знаний
                     </Input>
                     <Spacer/>
                     <Input onChange={e => onAccountStateEdit('channelLink', e.target.value)}

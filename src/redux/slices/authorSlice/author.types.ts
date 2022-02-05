@@ -10,5 +10,6 @@ export interface IAccount {
     channelLink: string;
     photoLink: string;
     knowledge: string;
+    id: string;
 }
 

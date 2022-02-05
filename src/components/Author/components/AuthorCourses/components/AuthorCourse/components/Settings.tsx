@@ -23,7 +23,7 @@ const Settings = () => {
     }
 
     const {copy} = useClipboard()
-    const [, setToast] = useToasts()
+    const {setToast} = useToasts()
     const handleCopy = () => {
         copy(authorCourseId || "")
         setToast({text: 'ID Скопированно'})

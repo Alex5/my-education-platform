@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Geist from "@geist-ui/core";
-import {AuthorRequests} from '../../../../api/authorRequests';
-import {useDispatch, useSelector} from "react-redux";
-import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
-import {Grid, Spacer} from "@geist-ui/core";
-import {IAuthor, ICourse} from "../../../../redux/slices/coursesSlice/types";
-import {getUser} from "../../../../redux/slices/userSlice/userSlice";
+import { AuthorRequests } from '../../../../api/authorRequests';
+import { useDispatch, useSelector } from "react-redux";
+import { getCourses, setCourses, setSelectedCourse } from "../../../../redux/slices/coursesSlice/coursesSlice";
+import { Spacer } from "@geist-ui/core";
+import { ICourse } from "../../../../redux/slices/coursesSlice/types";
+import { getUser } from "../../../../redux/slices/userSlice/userSlice";
 import SearchBar from "../shared/SearchBar";
 import { Select } from '@geist-ui/core';
 import SnipText from "../../../shared/SnipText";
+import AuthorAccountPreview from '../AuthorAccountPreview';
 
 const AuthorCourses = () => {
     const courses = useSelector(getCourses);
@@ -19,7 +20,7 @@ const AuthorCourses = () => {
     const [courseDirection, setCourseDirection] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [addCourseLoading, setAddCourseLoading] = useState<boolean>(false);
-    const {author, uid} = useSelector(getUser);
+    const { author, uid } = useSelector(getUser);
     const dispatch = useDispatch();
 
     const handleAddCourse = async () => {
@@ -31,7 +32,7 @@ const AuthorCourses = () => {
             published: false,
             direction: courseDirection,
             lessons: [],
-            author: {} as IAuthor,
+            accountId: '',
             description: '',
             cover: '',
             tags: []
@@ -65,20 +66,20 @@ const AuthorCourses = () => {
     return (
         <Geist.Grid.Container gap={2}>
             <Geist.Grid xs={24}>
-                <SearchBar onClick={() => setAddCourseModal(true)}/>
+                <SearchBar onClick={() => setAddCourseModal(true)} />
             </Geist.Grid>
             {loading
-                ? <Geist.Loading style={{height: '200px'}}/>
+                ? <Geist.Loading style={{ height: '200px' }} />
                 : courses.length > 0
                     ? courses.map(course =>
                         <Geist.Grid key={course.courseId} xs={24} sm={12} md={8}>
                             <Geist.Card
-                                style={{cursor: 'pointer'}} hoverable width="100%"
+                                style={{ cursor: 'pointer' }} hoverable width="100%"
                                 onClick={handleSelectCourse(course)}
                             >
-                                <SnipText h4 text={course.name}/>
-                                <Geist.Divider/>
-                                <Geist.Spacer/>
+                                <SnipText h4 text={course.name} />
+                                <Geist.Divider />
+                                <Geist.Spacer />
                                 <Geist.Description
                                     title={"Статус"}
                                     content={course.published
@@ -86,19 +87,16 @@ const AuthorCourses = () => {
                                         : <Geist.Dot>черновик</Geist.Dot>
                                     }
                                 />
-                                <Geist.Spacer h={1}/>
+                                <Geist.Spacer h={1} />
                                 <Geist.Description
                                     title={"Автор"}
-                                    content={course.author
-                                        ? <Geist.User name={course.author?.name}>
-                                            {course.author?.appointment}
-                                        </Geist.User>
-                                        : <span>Автор пока не добавлен</span>
-                                    }/>
+                                    content={
+                                        <AuthorAccountPreview ownerId={course.ownerId} accountId={course.accountId} />
+                                    } />
                             </Geist.Card>
                         </Geist.Grid>)
                     : <Geist.Grid xs={24} alignItems="center" justify="center">
-                        <Geist.Text children={"Нет курсов"}/>
+                        <Geist.Text children={"Нет курсов"} />
                     </Geist.Grid>
             }
 
@@ -111,7 +109,7 @@ const AuthorCourses = () => {
                         onChange={e => setCourseName(e.target.value)}
                         width={"100%"}
                     />
-                    <Spacer/>
+                    <Spacer />
                     <Select
                         width={"100%"}
                         placeholder="Выберите направление"

@@ -14,5 +14,5 @@ export interface IVideo {
     published: boolean;
     cover: string;
     description: string;
-    account: IAccount
+    accountId: string;
 }

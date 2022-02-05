@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, Grid, useToasts, Tooltip, Spacer, Tag } from "@geist-ui/core";
+import { Button, Text, Grid, Tooltip, Spacer, Tag, useToasts } from "@geist-ui/core";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +18,7 @@ const EditCourse = () => {
     const dispatch = useDispatch();
     const [selectedLesson, setSelectedLesson] = useState<ILesson | undefined>(undefined)
     const [load, setLoad] = useState<boolean>(false)
-    const [, setToast] = useToasts()
+    const { setToast } = useToasts()
     const lessons = useSelector(getLessons);
     const selectedCourse = useSelector(getSelectedCourse);
 

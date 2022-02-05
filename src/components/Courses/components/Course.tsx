@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
     Button,
     Description, Display,
@@ -11,18 +11,18 @@ import {
     Text,
     useModal
 } from "@geist-ui/core";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
     getSelectedCourse,
     setSelectedCourse,
     setCourseStatus,
     getCourseStatus
 } from "../../../redux/slices/coursesSlice/coursesSlice";
-import {PublicRequests} from "../../../api/publicRequests";
-import {UserRequests} from "../../../api/userRequests";
-import {AnalyticsLogs} from "../../../services/analytics";
+import { PublicRequests } from "../../../api/publicRequests";
+import { UserRequests } from "../../../api/userRequests";
+import { AnalyticsLogs } from "../../../services/analytics";
 import styled from "styled-components";
-import {Heart, Youtube} from "@geist-ui/react-icons";
+import { Heart, Youtube } from "@geist-ui/react-icons";
 import VideoLayout from "../../Layout/VideoLayout";
 
 const Course = () => {
@@ -33,11 +33,11 @@ const Course = () => {
     const selectedCourse = useSelector(getSelectedCourse);
     const courseStatus = useSelector(getCourseStatus);
 
-    let {courseId} = useParams<"courseId">();
+    let { courseId } = useParams<"courseId">();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {setVisible, bindings} = useModal()
+    const { setVisible, bindings } = useModal()
 
     const handleStartCourse = async () => {
         try {
@@ -70,32 +70,34 @@ const Course = () => {
             <VideoLayout
                 title={selectedCourse.name}
                 headerActions={[
-                    <Button disabled mr={1} auto icon={<Heart/>}/>,
+                    <Button disabled mr={1} auto icon={<Heart />} />,
                     load
-                        ? <Loading/>
+                        ? <Loading />
                         : courseStatus && courseStatus.start
-                        ?
-                        <Button loading={load} type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
-                                children="Продолжить"/>
-                        :
-                        <Button loading={load} onClick={handleStartCourse} type="secondary"
-                                children="Начать"/>
+                            ?
+                            <Button loading={load} type={"success"} onClick={() => navigate(`${location.pathname}/lessons`)}
+                                children="Продолжить" />
+                            :
+                            <Button loading={load} onClick={handleStartCourse} type="secondary"
+                                children="Начать" />
                 ]}
                 cover={selectedCourse.cover}
-                info={{author: selectedCourse.author, tags: selectedCourse.tags}}
+                tags={selectedCourse.tags}
+                ownerId={selectedCourse.ownerId}
+                accountId={selectedCourse.accountId}
             >
                 <Fieldset>
                     <Fieldset.Title>Об этом курсе</Fieldset.Title>
                     <Fieldset.Subtitle>
-                        {load ? <Loading/> : <Text>{selectedCourse.description}</Text>}
+                        {load ? <Loading /> : <Text>{selectedCourse.description}</Text>}
                     </Fieldset.Subtitle>
                 </Fieldset>
-                <Spacer/>
+                <Spacer />
                 <Fieldset>
-                    <Fieldset.Title children="Уроки"/>
+                    <Fieldset.Title children="Уроки" />
                     <Fieldset.Subtitle>
                         {load
-                            ? <Loading/>
+                            ? <Loading />
                             : <ul>
                                 {selectedCourse.lessons && selectedCourse.lessons.map(lesson =>
                                     <li key={lesson.lessonId}>{lesson.name}</li>

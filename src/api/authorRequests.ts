@@ -194,9 +194,7 @@ export class AuthorRequests {
             return Promise.reject('not_authorized');
         }
 
-        const articleId = nanoid();
-
-        await setDoc(doc(db, "articles", articleId), { ...article, createdAt: serverTimestamp() });
+        await setDoc(doc(db, "articles", article.id), { ...article, createdAt: serverTimestamp() });
 
         return await this.getAuthorArticles(currentUser.uid);
     }

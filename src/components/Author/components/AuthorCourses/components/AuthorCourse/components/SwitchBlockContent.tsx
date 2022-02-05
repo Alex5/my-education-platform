@@ -4,6 +4,8 @@ import { ICourse } from "../../../../../../../redux/slices/coursesSlice/types";
 import styled from "styled-components";
 import { PlusCircle, Trash } from "@geist-ui/react-icons";
 import AuthorAccountsSelect from '../../../../AuthorAccountsSelect';
+import { useSelector } from 'react-redux';
+import { getSelectedAccount } from '../../../../../../../redux/slices/authorSlice/author.slice';
 
 
 interface Props {
@@ -15,53 +17,15 @@ interface Props {
 
 const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) => {
     const [tagInput, setTagInput] = useState('');
+    const { name, id } = useSelector(getSelectedAccount);
 
     switch (courseKey) {
-        case "author":
+        case "accountId":
             return (
-                // <Grid.Container mb={1.5} gap={1}>
-                //     <Grid xs={8}>
-                //         <Input
-                //             value={data?.name}
-                //             onChange={e => handleUpdateState('author', {
-                //                 ...data,
-                //                 name: e.target.value
-                //             })} width="100%"
-                //             placeholder="Иван Иванов"
-                //         >
-                //             Имя Фамилия
-                //         </Input>
-                //     </Grid>
-                //     <Grid xs={8}>
-                //         <Input
-                //             value={data?.appointment}
-                //             onChange={e => handleUpdateState('author', {
-                //                 ...data,
-                //                 appointment: e.target.value
-                //             })}
-                //             width="100%"
-                //             placeholder="Senior Pomidor JavaScript Developer"
-                //         >
-                //             Должность
-                //         </Input>
-                //     </Grid>
-                //     <Grid xs={8}>
-                //         <Input value={data?.channelLink}
-                //             onChange={e => handleUpdateState('author', {
-                //                 ...data,
-                //                 channelLink: e.target.value
-                //             })}
-                //             width="100%"
-                //             placeholder="https://www.youtube.com/c/">
-                //             Ссылка на YouTube-канал
-                //         </Input>
-                //     </Grid>
-                // </Grid.Container>
-                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-                    <span>{data?.name}</span>
-                    <AuthorAccountsSelect />
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                    <span>{data?.name || name}</span>
+                    <AuthorAccountsSelect onChange={() => handleUpdateState('accountId', id)}/>
                 </div>
-
             )
         case "tags":
             return (

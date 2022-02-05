@@ -9,7 +9,7 @@ import {
 } from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {AuthorRequests} from "../../../../../../../api/authorRequests";
 import EditBlock from "./EditBlock";
-import {IAuthor, ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
+import {ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
 import {generalTitleNames} from "../../../../../../../services/maps";
 import {BLOCK_KEYS} from "./types";
 
@@ -19,7 +19,7 @@ const General = () => {
 
     const selectedCourse = useSelector(getSelectedCourse);
 
-    const handleUpdateState = (key: keyof ICourse, value: string | IAuthor) => {
+    const handleUpdateState = (key: keyof ICourse, value: string) => {
         dispatch(setSelectedCourse({
             ...selectedCourse,
             [`${key}`]: key === 'tags'

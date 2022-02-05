@@ -16,7 +16,7 @@ const Account = () => {
     }
 
     const {copy} = useClipboard()
-    const [, setToast] = useToasts()
+    const {setToast} = useToasts()
     const handleCopy = () => {
         copy(uid)
         setToast({text: 'ID Скопированно'})

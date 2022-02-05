@@ -1,19 +1,18 @@
-import React, {FC} from 'react';
-import {Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text} from "@geist-ui/core";
+import React, { FC } from 'react';
+import { Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text } from "@geist-ui/core";
 import styled from "styled-components";
 import Iframe from "../Author/components/shared/Iframe";
-import {Youtube} from "@geist-ui/react-icons";
-import {IAuthor} from "../../redux/slices/coursesSlice/types";
-import {useNavigate} from 'react-router-dom';
+import { Youtube } from "@geist-ui/react-icons";
+import { useNavigate } from 'react-router-dom';
+import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 
 interface VideoLayoutProps {
     title: string;
-    headerActions: React.ReactNode[],
-    cover: string,
-    info: {
-        author: IAuthor,
-        tags: string[]
-    }
+    headerActions: React.ReactNode[];
+    cover: string;
+    accountId: string;
+    ownerId: string;
+    tags: string[]
 }
 
 const VideoLayout: FC<VideoLayoutProps> = (
@@ -21,7 +20,9 @@ const VideoLayout: FC<VideoLayoutProps> = (
         title,
         headerActions,
         cover,
-        info,
+        accountId,
+        ownerId,
+        tags,
         children
     }) => {
 
@@ -30,47 +31,47 @@ const VideoLayout: FC<VideoLayoutProps> = (
     return (
         <>
             <StyledVideoLayoutHeader>
-                <Text h3 children={title}/>
+                <Text h3 children={title} />
                 <StyledHeaderActions>
                     {headerActions && headerActions.map(action => action)}
                 </StyledHeaderActions>
             </StyledVideoLayoutHeader>
-            <Spacer/>
+            <Spacer />
             <Grid.Container gap={2}>
                 <Grid xs={24} md={18}>
-                    <Image src={cover}/>
+                    <Image src={cover} />
                 </Grid>
                 <Grid xs={24} md={6} direction={"column"}>
                     <StyledBubble>
-                        <Description title="Автор" content={info.author?.name}/>
+                        <AuthorAccountPreview accountId={accountId} ownerId={ownerId} />
                     </StyledBubble>
-                    <Spacer/>
+                    <Spacer />
                     <StyledBubble>
                         <Description title="Соц. сети автора" content={<>
-                            <Link target={"_blank"} href={info.author?.channelLink}>
-                                <Youtube/>
-                            </Link>
-                        </>}/>
+                            {/* <Link target={"_blank"} href={info.author?.channelLink}>
+                                <Youtube />
+                            </Link> */}
+                        </>} />
                     </StyledBubble>
-                    <Spacer/>
+                    <Spacer />
                     <StyledBubble>
                         <Description title="Теги" content={<StyledTags>
-                            {info.tags && info.tags.map(tag => (
-                                    <Tag
-                                        style={{cursor: 'pointer'}}
-                                        onClick={() => navigate(`/tags/${tag}`)}
-                                        type={"lite"}
-                                        key={tag}
-                                        scale={1 / 2}>{tag}
-                                    </Tag>
-                                )
+                            {tags && tags.map(tag => (
+                                <Tag
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => navigate(`/tags/${tag}`)}
+                                    type={"lite"}
+                                    key={tag}
+                                    scale={1 / 2}>{tag}
+                                </Tag>
+                            )
                             )}
-                        </StyledTags>}/>
+                        </StyledTags>} />
                     </StyledBubble>
-                    <Spacer/>
+                    <Spacer />
                 </Grid>
             </Grid.Container>
-            <Spacer/>
+            <Spacer />
             <StyledVideoLayoutBody>
                 {children}
             </StyledVideoLayoutBody>

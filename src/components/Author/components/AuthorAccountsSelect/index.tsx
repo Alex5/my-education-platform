@@ -1,5 +1,5 @@
 import { Card, Loading, Select, Spacer, User } from '@geist-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { IAccount } from "../../../../redux/slices/authorSlice/author.types";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,7 +10,12 @@ import {
 } from '../../../../redux/slices/authorSlice/author.slice';
 import { AuthorRequests } from "../../../../api/authorRequests";
 
-const AuthorAccountsSelect = () => {
+interface AuthorAccountsSelectProps {
+    accountId?: string;
+    onChange?: () => void
+}
+
+const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChange }) => {
     const accounts = useSelector(getAccounts);
     const selectedAccount = useSelector(getSelectedAccount);
 
@@ -18,12 +23,15 @@ const AuthorAccountsSelect = () => {
 
     const dispatch = useDispatch();
 
-    const handleSetAccount = (account: string | string[]) => {
-        if (typeof account === "string") {
-            const parsedAccount: IAccount = JSON.parse(account);
-            dispatch(setSelectedAccount(parsedAccount));
+    const handleSetAccount = (accountId: string | string[]) => {
+        if (typeof accountId === "string") {
+            const account = accounts.find(account => account.id === accountId) || {} as IAccount;
+            dispatch(setSelectedAccount(account));
+            onChange && onChange();
         }
     }
+
+    const accountExist = accounts.find(account => account.id === accountId);
 
     useEffect(() => {
         (async () => {
@@ -35,15 +43,22 @@ const AuthorAccountsSelect = () => {
     }, [])
 
     return (
-        <Select placeholder="Выберите аккаунт для привязки"
-            onChange={handleSetAccount}>
+        <>
             {accountsLoad
                 ? <Loading />
-                : accounts && accounts.map(account => (
-                    <Select.Option value={JSON.stringify(account)}>{account.name}</Select.Option>
-                ))}
-        </Select>
-
+                : (
+                    <Select
+                        onChange={handleSetAccount}
+                        placeholder="Выберите аккаунт для привязки"
+                        value={accountExist ? accountExist.id : selectedAccount.name}
+                    >
+                        {accounts && accounts.map(account => (
+                            <Select.Option value={account.id}>{account.name}</Select.Option>
+                        ))}
+                    </Select>
+                )
+            }
+        </>
     );
 };
 

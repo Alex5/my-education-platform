@@ -5,6 +5,8 @@ import { ICourse, ILesson } from "../redux/slices/coursesSlice/types";
 import { IUser } from "../redux/slices/userSlice/types";
 import { db } from "../fbconfig";
 import { IArticle } from "../redux/slices/articlesSlice/articles.types";
+import { Collections } from "./types";
+import { IAccount } from "../redux/slices/authorSlice/author.types";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -156,7 +158,7 @@ export const PublicRequests = {
         }
     },
     async getArticles() {
-        const q = query(collection(db, "articles"), where("published", "==", true))
+        const q = query(collection(db, Collections.ARTICLES), where("published", "==", true))
 
         const querySnapshot = await getDocs(q);
 
@@ -171,5 +173,24 @@ export const PublicRequests = {
         } else {
             return [];
         }
+    },
+    async getArticleById(articleId: string): Promise<IArticle> {
+        const articleRef = doc(db, Collections.ARTICLES, articleId);
+        const articleSnap = await getDoc(articleRef);
+
+        debugger
+
+        if (articleSnap.exists()) {
+            return articleSnap.data() as IArticle;
+        } else {
+            return {} as IArticle;
+        }
+
+    },
+    async getAuthorAccount(uid: string, accountId: string): Promise<IAccount> {
+        const docRef = doc(db, `users/${uid}/accounts`, accountId);
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data());
+        return docSnap.data() as IAccount;
     }
 }

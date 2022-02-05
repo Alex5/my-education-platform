@@ -17,7 +17,6 @@ const PageLayout: FC<PageLayoutProps> = ({ title, subTitle, children, headerActi
             {title && (
                 <StyledPageLayoutHeader>
                     <StyledPageLayoutHeaderTitle>
-                        <ArrowLeft onClick={() => navigate(-1)} />
                         {typeof title === 'string'
                             ? <Text h3 mb={0} mt={0} children={title} />
                             : title}

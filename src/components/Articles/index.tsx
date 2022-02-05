@@ -18,18 +18,23 @@ const ArticlesLayout = () => {
       dispatch(setArticles(articles));
     })()
   }, [])
-  
+
   return (
     <PageLayout>
       <Grid.Container gap={2}>
         {articles
           ? articles.map(article => (
             <Grid xs={24} md={12}>
-              <Card style={{ cursor: 'pointer' }} width={'100%'} onClick={() => navigate(`/articles/${article.id}`, { state: article })} hoverable>
+              <Card
+                onClick={() => navigate(`/articles/${article.id}`, { state: article })}
+                style={{ cursor: 'pointer' }}
+                width={'100%'}
+                hoverable
+              >
                 <User src={article.account.photoLink} name={article.account.name}>
                   {article.account.knowledge}
                 </User>
-                <Spacer/>
+                <Spacer />
                 <h4>{article.title}</h4>
                 <p>{article.content.slice(0, 100)}...</p>
               </Card>
