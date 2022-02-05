@@ -1,32 +1,35 @@
 import React, { FC } from 'react';
-import { Button, Grid, Spacer, Text } from "@geist-ui/core";
-import { Breadcrumbs } from "../index";
+import { Grid, Spacer, Text } from "@geist-ui/core";
 import styled from 'styled-components';
+import { ArrowLeft } from '@geist-ui/react-icons';
+import { useNavigate } from 'react-router-dom';
 
 interface PageLayoutProps {
-    title: string | React.ReactNode;
+    title?: string | React.ReactNode;
     subTitle?: string;
     headerActions?: React.ReactNode[];
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ title, subTitle, children, headerActions }) => {
+    const navigate = useNavigate();
     return (
         <Grid.Container>
-            <Grid.Container>
+            {title && (
                 <StyledPageLayoutHeader>
                     <StyledPageLayoutHeaderTitle>
+                        <ArrowLeft onClick={() => navigate(-1)} />
                         {typeof title === 'string'
                             ? <Text h3 mb={0} mt={0} children={title} />
                             : title}
-                            <Spacer/>
+                        <Spacer />
                         <Text type={'secondary'} small mb={0} mt={0} children={subTitle} />
                     </StyledPageLayoutHeaderTitle>
                     <StyledPageLayoutHeaderActions>
                         {headerActions && headerActions.map(action => action)}
                     </StyledPageLayoutHeaderActions>
                 </StyledPageLayoutHeader>
-            </Grid.Container>
-            <Spacer h={3} />
+            )}
+
             <Grid direction='column' xs={24} md={24}>
                 {children}
             </Grid>
@@ -43,6 +46,7 @@ const StyledPageLayoutHeader = styled.div`
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #eeeeee;
+    margin-bottom: 25px
 `
 
 const StyledPageLayoutHeaderActions = styled.div`

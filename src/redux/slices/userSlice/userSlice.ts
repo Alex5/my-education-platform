@@ -1,8 +1,8 @@
-import {createDraftSafeSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RootState} from "../../store";
-import {IUser} from "./types";
-import {IAccount} from "../authorSlice/author.types";
-import {User} from "firebase/auth";
+import { createDraftSafeSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from "../../store";
+import { IUser } from "./types";
+import { IAccount } from "../authorSlice/author.types";
+import { User } from "firebase/auth";
 
 const initialState: IUser = {
     author: false,
@@ -40,13 +40,13 @@ export const userSlice = createSlice({
 })
 
 const selectSelf = (state: RootState) => state.user;
-export const getUser = createDraftSafeSelector(selectSelf, (state) => state)
-export const getLoggedIn = createDraftSafeSelector(selectSelf, (state) => state.loggedIn)
-export const getAccounts = createDraftSafeSelector(selectSelf, (state) => state.accounts)
-export const getFirebaseUser = createDraftSafeSelector(selectSelf, (state) => state.firebaseUser)
-export const getUserLoading = createDraftSafeSelector(selectSelf, (state) => state.userLoading)
+export const getUser = createDraftSafeSelector(selectSelf, (state) => state);
+export const getLoggedIn = createDraftSafeSelector(selectSelf, (state) => state.loggedIn);
+export const getAccounts = createDraftSafeSelector(selectSelf, (state) => state.accounts);
+export const getFirebaseUser = createDraftSafeSelector(selectSelf, (state) => state.firebaseUser);
+export const getUserLoading = createDraftSafeSelector(selectSelf, (state) => state.userLoading);
 
 // Action creators are generated for each case reducer function
-export const {setUser, signOut, setAccounts, setFirebaseUser, setUserLoading} = userSlice.actions
+export const { setUser, signOut, setAccounts, setFirebaseUser, setUserLoading } = userSlice.actions
 
 export default userSlice.reducer

@@ -1,6 +1,6 @@
 import React from 'react';
-import {Outlet} from 'react-router-dom';
-import {Grid} from "@geist-ui/core";
+import { Outlet } from 'react-router-dom';
+import { Grid } from "@geist-ui/core";
 import MenuLayout from "../Layout/MenuLayout";
 
 const HomeLayout = () => {
@@ -15,14 +15,27 @@ const HomeLayout = () => {
                 children: 'Видео',
             },
             {
+                to: '/articles',
+                children: 'Статьи',
+                label: {
+                    text: 'Новинка',
+                    type: 'success',
+                    enable: true
+                },
+            },
+            {
                 to: '/intensives',
                 children: 'Интенсивы',
-                label: 'Скоро',
-                disabled: true
+                label: {
+                    text: 'Скоро',
+                    type: 'secondary',
+                    disabled: true,
+                    enable: true
+                },
             },
         ]}>
             <Grid direction={"column"} xs={24} md={20}>
-                <Outlet/>
+                <Outlet />
             </Grid>
         </MenuLayout>
     );

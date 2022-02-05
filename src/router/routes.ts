@@ -12,6 +12,9 @@ export const appRoutes = {
         },
         videos: {
             path: '/videos'
+        },
+        articles: {
+            path: '/articles'
         }
     },
     noMatch: {

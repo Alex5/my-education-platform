@@ -1,46 +1,52 @@
-import React, {FC} from 'react';
-import {Badge, Button, Grid, Link, Text} from "@geist-ui/core";
-import {NavLink, NavLinkProps, Outlet} from "react-router-dom";
+import React, { FC } from 'react';
+import { Badge, Button, Grid, Link, Text } from "@geist-ui/core";
+import { NavLink, NavLinkProps, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 interface IMenu {
     to: string;
     children: string;
     end?: boolean;
-    label?: string;
-    disabled?: boolean
+    label?: {
+        text: string,
+        disabled?: boolean;
+        type: "default" | "secondary" | "success" | "warning" | "error";
+        enable: boolean;
+    }
 }
 
 interface MenuLayoutProps {
     menu: IMenu[];
 }
 
-const MenuLayout: FC<MenuLayoutProps> = ({menu}) => {
+const MenuLayout: FC<MenuLayoutProps> = ({ menu }) => {
     return (
         <Grid.Container gap={2}>
             <Grid xs={24} md={4}>
                 <StyledSidebar>
                     {menu && menu.map(menuItem => (
                         <NavLink
-                            onClick={event => menuItem.disabled && event.preventDefault()}
-                            style={{cursor: menuItem.disabled ? "not-allowed" : ''}}
+                            onClick={event => menuItem.label?.disabled && event.preventDefault()}
+                            style={{ cursor: menuItem.label?.disabled ? "not-allowed" : '' }}
                             end={menuItem.end}
                             to={menuItem.to}
-                            className={({isActive}) => isActive ? "active" : ''}
+                            className={({ isActive }) => isActive ? "active" : ''}
                         >
-                            {menuItem.label
-                                ? <Badge.Anchor style={{width: '100%'}}>
-                                    <Badge type="success" scale={0.5}>{menuItem.label}</Badge>
-                                    <Text mt={0} mb={0} children={menuItem.children}/>
-                                </Badge.Anchor>
-                                : <Text mt={0} mb={0} children={menuItem.children}/>
+                            {menuItem.label?.enable
+                                ? (
+                                    <Badge.Anchor style={{ width: '100%' }}>
+                                        <Badge type={menuItem.label.type} scale={0.5}>{menuItem.label?.text}</Badge>
+                                        <Text mt={0} mb={0} children={menuItem.children} />
+                                    </Badge.Anchor>
+                                )
+                                : <Text mt={0} mb={0} children={menuItem.children} />
                             }
                         </NavLink>
                     ))}
                 </StyledSidebar>
             </Grid>
             <Grid direction={"column"} xs={24} md={20}>
-                <Outlet/>
+                <Outlet />
             </Grid>
         </Grid.Container>
     );

@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 import { Button, Tabs, Textarea, useTabs, Text, Input, Spacer } from '@geist-ui/core';
 import PageLayout from '../../../../Layout/PageLayout'
 import styled from 'styled-components'
@@ -13,6 +10,8 @@ import { AuthorRequests } from '../../../../../api/authorRequests'
 import { nanoid } from 'nanoid'
 import { getFirebaseUser } from '../../../../../redux/slices/userSlice/userSlice'
 import { setArticles } from '../../../../../redux/slices/articlesSlice/articles.slice'
+import MarkdownRender from '../../shared/MarkdownRender';
+import { useNavigate } from 'react-router-dom';
 
 const AuthorArticle = () => {
     const [saveLoad, setSaveLoad] = useState<boolean>(false);
@@ -20,12 +19,12 @@ const AuthorArticle = () => {
     const [articleTitle, setArticleTitle] = useState<string>('');
 
     const selectedAccount = useSelector(getSelectedAccount);
-
     const user = useSelector(getFirebaseUser);
     const dispatch = useDispatch();
 
     const { setState, bindings } = useTabs('1');
 
+    const navigate = useNavigate();
 
     const saveArticle = async () => {
         try {
@@ -40,6 +39,7 @@ const AuthorArticle = () => {
             });
             dispatch(setArticles(articles))
             setSaveLoad(false);
+            navigate('/author/articles')
         } catch (error) {
             setSaveLoad(false);
         }
@@ -47,7 +47,7 @@ const AuthorArticle = () => {
 
     return (
         <PageLayout
-            title={<Input value={articleTitle} onChange={e => setArticleTitle(e.target.value)} width={"100%"} mt={0} mb={0} placeholder='Название списка' />}
+            title={<Input value={articleTitle} onChange={e => setArticleTitle(e.target.value)} width={"100%"} mt={0} mb={0} placeholder='Название статьи' />}
             headerActions={[
                 <AuthorAccountsSelect />,
                 <Button
@@ -68,28 +68,7 @@ const AuthorArticle = () => {
                 </Tabs.Item>
                 <Tabs.Item label="Предварительный просмотр" value="2">
                     {article.length > 0
-                        ? <ReactMarkdown
-                            children={article}
-                            remarkPlugins={[remarkGfm]}
-                            components={{
-                                code({ node, inline, className, children, ...props }) {
-                                    const match = /language-(\w+)/.exec(className || '')
-                                    return !inline && match ? (
-                                        <SyntaxHighlighter
-                                            children={String(children).replace(/\n$/, '')}
-                                            style={darcula}
-                                            language={match[1]}
-                                            PreTag="div"
-                                            {...props}
-                                        />
-                                    ) : (
-                                        <code className={className} {...props}>
-                                            {children}
-                                        </code>
-                                    )
-                                }
-                            }}
-                        />
+                        ? <MarkdownRender markdownString={article}/>
                         : <Text small type={'secondary'} children={'Ничего нет для предварительного просмотра'} />
                     }
                 </Tabs.Item>

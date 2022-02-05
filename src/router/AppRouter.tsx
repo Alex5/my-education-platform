@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Course, Courses, CoursesIndex, ForAuthor, Home, Layout, NoMatch } from "../components";
 import HomeLayout from "../components/Home/HomeLayout";
@@ -24,6 +23,8 @@ import { Auth, getAuth } from "firebase/auth";
 import AuthorArticles from '../components/Author/components/AuthorArticles/AuthorArticles';
 import AuthorArticlesLayout from '../components/Author/components/AuthorArticles/AuthorArticlesLayout';
 import AuthorArticle from '../components/Author/components/AuthorArticles/components/AuthorArticle';
+import Articles from "../components/Articles";
+import Article from "../components/Articles/components/Article";
 
 const AppRouter = () => {
     function RequireAuth({ children }: { children: JSX.Element }) {
@@ -54,6 +55,7 @@ const AppRouter = () => {
                 <Route element={<HomeLayout />}>
                     <Route index element={<Home />} />
                     <Route path={appRoutes.home.videos.path} element={<Videos />} />
+                    <Route path={appRoutes.home.articles.path} element={<Articles />} />
                     <Route path={appRoutes.noMatch.path} element={<NoMatch />} />
                 </Route>
                 <Route path={appRoutes.home.courseDirection.path} element={<Courses />}>
@@ -106,6 +108,9 @@ const AppRouter = () => {
                 </Route>
                 <Route path="/videos/:videoId">
                     <Route index element={<Video />} />
+                </Route>
+                <Route path="/articles/:articleId">
+                    <Route index element={<Article />} />
                 </Route>
                 <Route path="*" element={<NoMatch />} />
             </Route>

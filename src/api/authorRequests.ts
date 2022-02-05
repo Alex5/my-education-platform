@@ -202,6 +202,27 @@ export class AuthorRequests {
     }
 
     public static async getAuthorArticles(ownerId: string): Promise<IArticle[]> {
-        return [];
+        const { currentUser } = getAuth(firebaseApp);
+
+        if (!currentUser) {
+            return Promise.reject('not_authorized');
+        }
+
+        const articlesRef = collection(db, "articles");
+        const q = query(articlesRef, where("ownerId", "==", currentUser.uid));
+
+        const querySnapshot = await getDocs(q);
+
+        const articles: IArticle[] = []
+
+        querySnapshot.forEach((doc) => {
+            articles.push(doc.data() as IArticle);
+        });
+
+        if (articles.length > 0) {
+            return articles;
+        } else {
+            return [];
+        }
     }
 }
