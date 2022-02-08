@@ -15,4 +15,16 @@ export const formatEmbedLink = (iframeLink: string): string => {
     }
 }
 
-export const updateObjectProp = (key: string, obj: any, newValue: any) => ({...obj, [key]: newValue});
+export const updateObjectProp = (key: string, obj: any, newValue: any) => ({ ...obj, [key]: newValue });
+
+export const courseDeclinations = (size: number) => {
+    return size === 0
+        ? 'курсов'
+        : size === 1
+            ? 'курс'
+            : size > 1 && size < 5
+                ? 'курса'
+                : size > 4
+                    ? 'курсов'
+                    : ''
+}

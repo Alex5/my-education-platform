@@ -3,7 +3,7 @@ import { Badge, Button, Grid, Link, Text } from "@geist-ui/core";
 import { NavLink, NavLinkProps, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-interface IMenu {
+export interface IMenu {
     to: string;
     children: string;
     end?: boolean;
@@ -65,6 +65,7 @@ const StyledSidebar = styled.nav`
     border-radius: 10px;
     transition: ease-in-out 0.1s;
     border: 1px solid transparent;
+    margin-bottom: 5px
   }
 
   .active {

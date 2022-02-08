@@ -6,9 +6,11 @@ import {PublicRequests} from "../../api/publicRequests";
 import {NavLink, useNavigate} from "react-router-dom";
 import Tags from "../Tags";
 import NewCourses from "../NewCourses";
+import { courseDeclinations } from '../../services/helpers';
 
 const Home: FC = () => {
     const navigate = useNavigate();
+
     const CourseSize = memo(({direction}: any) => {
         const [size, setSize] = useState(0);
         const [load, setLoad] = useState(false);
@@ -22,7 +24,7 @@ const Home: FC = () => {
             })()
         }, [direction])
 
-        return load ? <Loading/> : <Text>{size} курса</Text>
+        return load ? <Loading/> : <Text>{size} {courseDeclinations(size)}</Text>
     })
 
     return (

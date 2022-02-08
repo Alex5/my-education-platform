@@ -7,13 +7,13 @@ export interface ITag {
 }
 
 export interface ICourse {
-    createdAt?: Timestamp,
-    name: string,
-    courseId: string,
-    ownerId: string,
-    published: boolean,
-    description: string,
-    direction: string,
+    createdAt: number;
+    name: string;
+    courseId: string;
+    ownerId: string;
+    published: boolean;
+    description: string;
+    direction: string;
     lessons: Pick<ILesson, "lessonId" | "name" | "position">[];
     cover: string;
     tags: string[];
@@ -42,8 +42,8 @@ export interface ILesson {
 }
 
 export interface ITestimonial {
-    id: string,
-    name: string,
-    text: string,
-    date: Timestamp
+    id: string;
+    name: string;
+    text: string;
+    date: number;
 }

@@ -1,4 +1,5 @@
 import { Card, Link, User } from '@geist-ui/core';
+import { Timestamp } from 'firebase/firestore';
 import React, { FC, useEffect, useState } from 'react';
 import { PublicRequests } from '../../../../api/publicRequests';
 import { IAccount } from '../../../../redux/slices/authorSlice/author.types';
@@ -9,9 +10,10 @@ interface AuthorAccountPreviewProps {
     accountId: string
     snipLength?: number;
     disableLink?: boolean;
+    updateAt?: number;
 }
 
-const AuthorAccountPreview: FC<AuthorAccountPreviewProps> = ({ ownerId, accountId, snipLength, disableLink }) => {
+const AuthorAccountPreview: FC<AuthorAccountPreviewProps> = ({ ownerId, accountId, snipLength, disableLink, updateAt }) => {
     const [account, setAccount] = useState<IAccount>({} as IAccount);
 
     useEffect(() => {
@@ -19,8 +21,7 @@ const AuthorAccountPreview: FC<AuthorAccountPreviewProps> = ({ ownerId, accountI
             const account = await PublicRequests.getAuthorAccount(ownerId, accountId);
             setAccount(account);
         })()
-    }, []);
-
+    }, [accountId, updateAt]);
 
     return (
         <Link onClick={e => disableLink && e.preventDefault()} href={account?.channelLink} target="_blank">

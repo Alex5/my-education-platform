@@ -90,6 +90,7 @@ const AppRouter = () => {
                     <Route path="articles" element={<AuthorArticlesLayout />}>
                         <Route index element={<AuthorArticles />} />
                         <Route path="create" element={<AuthorArticle />} />
+                        <Route path=":id/edit" element={<AuthorArticle />} />
                     </Route>
                     <Route path="*" element={<NoMatch />} />
                 </Route>

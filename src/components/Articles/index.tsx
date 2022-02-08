@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PublicRequests } from '../../api/publicRequests';
 import { getArticles, setArticles } from '../../redux/slices/articlesSlice/articles.slice';
-import MarkdownRender from '../Author/components/shared/MarkdownRender';
+import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 import PageLayout from '../Layout/PageLayout';
 
 const ArticlesLayout = () => {
@@ -31,12 +31,10 @@ const ArticlesLayout = () => {
                 width={'100%'}
                 hoverable
               >
-                <User src={article.account.photoLink} name={article.account.name}>
-                  {article.account.knowledge}
-                </User>
+               <AuthorAccountPreview ownerId={article.ownerId} accountId={article.accountId}/>
                 <Spacer />
                 <h4>{article.title}</h4>
-                <p>{article.content.slice(0, 100)}...</p>
+                <p>{article.sketch}</p>
               </Card>
             </Grid>
           ))

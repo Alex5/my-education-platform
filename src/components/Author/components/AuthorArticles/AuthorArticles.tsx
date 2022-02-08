@@ -17,7 +17,7 @@ const AuthorArticles = () => {
 
     useEffect(() => {
         (async () => {
-            const articles = await AuthorRequests.getAuthorArticles(firebaseUser?.uid || '');
+            const articles = await AuthorRequests.getAuthorArticles();
             setAuthorArticles(articles);
         })()
     }, [])
@@ -29,15 +29,17 @@ const AuthorArticles = () => {
                 <Button auto onClick={() => navigate(`/author/articles/create`)} children={'Добавить статью'} />
             ]}
         >
-            <Grid.Container>
-                {authorArticles.length > 0
+            <Grid.Container gap={2}>
+                {authorArticles?.length > 0
                     ? authorArticles.map(article => (
                         <Grid xs={24} md={8}>
-                            <Card>
+                            <Card
+                                onClick={() => navigate(`/author/articles/${article.id}/edit`, { state: article })} hoverable
+                                width={'100%'}
+                            >
                                 {article.title}
                             </Card>
                         </Grid>
-
                     ))
                     : <Text small children={'Нет созданных статей'} />}
             </Grid.Container>

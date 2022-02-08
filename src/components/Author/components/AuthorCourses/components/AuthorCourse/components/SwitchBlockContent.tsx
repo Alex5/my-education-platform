@@ -6,6 +6,8 @@ import { PlusCircle, Trash } from "@geist-ui/react-icons";
 import AuthorAccountsSelect from '../../../../AuthorAccountsSelect';
 import { useSelector } from 'react-redux';
 import { getSelectedAccount } from '../../../../../../../redux/slices/authorSlice/author.slice';
+import AuthorAccountPreview from '../../../../AuthorAccountPreview';
+import { getFirebaseUser } from '../../../../../../../redux/slices/userSlice/userSlice';
 
 
 interface Props {
@@ -17,14 +19,15 @@ interface Props {
 
 const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) => {
     const [tagInput, setTagInput] = useState('');
-    const { name, id } = useSelector(getSelectedAccount);
+    const { id } = useSelector(getSelectedAccount);
+    const user = useSelector(getFirebaseUser);
 
     switch (courseKey) {
         case "accountId":
             return (
                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
-                    <span>{data?.name || name}</span>
-                    <AuthorAccountsSelect onChange={() => handleUpdateState('accountId', id)}/>
+                    <AuthorAccountPreview ownerId={user?.uid || ''} accountId={id || data} />
+                    <AuthorAccountsSelect accountId={id || data} onChange={() => handleUpdateState('accountId', id)} />
                 </div>
             )
         case "tags":
@@ -33,7 +36,7 @@ const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) =
                     {data && data.map((tag: string) => (
                         <Card key={tag}>
                             <Card.Content style={{ display: "flex", alignItems: "center" }} padding={0.3}>
-                                <Text mr={0.5} b key={tag}>{tag} </Text>
+                                <Text mr={0.5} b key={tag}>{tag}</Text>
                                 <Trash cursor={'pointer'} onClick={() => handleUpdateState('tags', tag)} size={15} />
                             </Card.Content>
                         </Card>
@@ -98,14 +101,6 @@ const StyledTags = styled.div`
   flex-direction: row;
   display: flex;
   grid-gap: 5px;
-`
-
-const StyledTag = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 5px;
-  border: 1px solid black;
-  padding: 5px;
 `
 
 export default SwitchBlockContent;

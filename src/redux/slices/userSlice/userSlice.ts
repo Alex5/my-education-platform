@@ -1,6 +1,6 @@
 import { createDraftSafeSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from "../../store";
-import { IUser } from "./types";
+import { IFirebaseUser, IUser } from "./types";
 import { IAccount } from "../authorSlice/author.types";
 import { User } from "firebase/auth";
 
@@ -10,7 +10,7 @@ const initialState: IUser = {
     loggedIn: false,
     uid: '',
     accounts: [],
-    firebaseUser: {} as User,
+    firebaseUser: {} as IFirebaseUser,
     userLoading: false
 }
 
@@ -30,7 +30,7 @@ export const userSlice = createSlice({
         setAccounts(state, action: PayloadAction<IAccount[]>) {
             state.accounts = action.payload;
         },
-        setFirebaseUser(state, action: PayloadAction<User | null | undefined>) {
+        setFirebaseUser(state, action: PayloadAction<IFirebaseUser>) {
             state.firebaseUser = action.payload
         },
         setUserLoading(state, action: PayloadAction<boolean>) {

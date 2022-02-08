@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { Grid, Spacer, Text } from "@geist-ui/core";
 import styled from 'styled-components';
-import { ArrowLeft } from '@geist-ui/react-icons';
-import { useNavigate } from 'react-router-dom';
 
 interface PageLayoutProps {
     title?: string | React.ReactNode;
@@ -11,7 +9,6 @@ interface PageLayoutProps {
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ title, subTitle, children, headerActions }) => {
-    const navigate = useNavigate();
     return (
         <Grid.Container>
             {title && (

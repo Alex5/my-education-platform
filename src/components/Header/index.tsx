@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Spacer, Text } from "@geist-ui/core";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getUser } from "../../redux/slices/userSlice/userSlice";
 import AuthorTabs from "../Author/components/AuthorTabs";
@@ -13,12 +13,13 @@ const Header: FC = () => {
     const { author } = useSelector(getUser);
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     return (
         <StyledHeaderContanier>
             <StyledHeader author={author}>
                 <StyledHeaderContent>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Link to={"/"}>
                             <Text style={{ color: 'black', fontFamily: 'TTNormsBold' }} mb={0} mt={0} h4>
                                 My Education Platform
@@ -28,6 +29,14 @@ const Header: FC = () => {
                         <GeistLink block href='https://github.com/Alex5/my-education-platform' target={'_blank'}>
                             <Github />
                         </GeistLink>
+                        <Spacer />
+                        <StyledHeaderGeistLink
+                            onClick={() => navigate('/articles/fWbjvhubvRI9_DN5IBt-j')}
+                            mb={0}
+                            mt={0}
+                            type='secondary'
+                            children={'О проекте'}
+                        />
                     </div>
                     <AuthBox />
                 </StyledHeaderContent>
@@ -72,6 +81,14 @@ const StyledAuthorTabs = styled.div`
   margin: auto;
   width: 100%;
   height: 50px
+`
+
+const StyledHeaderGeistLink = styled(Text)`
+cursor: pointer;
+
+    &:hover {
+        color: black;
+    }
 `
 
 export default Header;

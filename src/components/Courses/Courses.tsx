@@ -8,6 +8,8 @@ import { PublicRequests } from "../../api/publicRequests";
 import TextSnippet from "../TextSnippet";
 import { ICourse } from "../../redux/slices/coursesSlice/types";
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
+import { courseDeclinations } from '../../services/helpers';
+import { courseDirectionsNames } from '../../services/maps';
 
 const Courses = () => {
     const dispatch = useDispatch()
@@ -30,9 +32,12 @@ const Courses = () => {
         })()
     }, [courseDirection])
 
+    const direction = courseDirectionsNames[courseDirection || ''];
+    const declination = courseDeclinations(courses.length);
+
     return (
         <>
-            <Text h3>{courses.length} курса по {courseDirection}</Text>
+            <Text h3>{courses.length} {declination} по {direction}</Text>
             <Spacer />
             <Grid.Container gap={2} justify="flex-start">
                 {coursesLoad

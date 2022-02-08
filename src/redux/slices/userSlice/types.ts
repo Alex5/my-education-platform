@@ -1,5 +1,11 @@
 import {IAccount} from "../authorSlice/author.types";
-import {User} from "firebase/auth";
+
+export interface IFirebaseUser {
+    uid: string;
+    photoURL: string;
+    email: string;
+    displayName: string;
+}
 
 export interface IUser {
     author: boolean,
@@ -7,7 +13,9 @@ export interface IUser {
     loggedIn: boolean,
     uid: string,
     accounts: IAccount[];
-    firebaseUser: User | null | undefined,
+    firebaseUser: IFirebaseUser,
     userLoading: boolean;
 }
+
+
 

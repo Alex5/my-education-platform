@@ -1,5 +1,5 @@
-import { Card, Loading, Select, Spacer, User } from '@geist-ui/core';
-import React, { FC, useEffect, useState } from 'react';
+import { Loading, Select } from '@geist-ui/core';
+import { FC, useEffect, useState } from 'react';
 import { IAccount } from "../../../../redux/slices/authorSlice/author.types";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -40,6 +40,10 @@ const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChan
             dispatch(setAccounts(accounts));
             setAccountsLoad(false);
         })()
+
+        return () => {
+            dispatch(setSelectedAccount({} as IAccount));
+        }
     }, [])
 
     return (
@@ -50,10 +54,10 @@ const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChan
                     <Select
                         onChange={handleSetAccount}
                         placeholder="Выберите аккаунт для привязки"
-                        value={accountExist ? accountExist.id : selectedAccount.name}
+                        value={accountExist ? accountExist.id : selectedAccount.id}
                     >
                         {accounts && accounts.map(account => (
-                            <Select.Option value={account.id}>{account.name}</Select.Option>
+                            <Select.Option key={account.id} value={account.id}>{account.name}</Select.Option>
                         ))}
                     </Select>
                 )

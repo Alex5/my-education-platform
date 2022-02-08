@@ -11,5 +11,7 @@ export interface IAccount {
     photoLink: string;
     knowledge: string;
     id: string;
+    ownerId: string;
+    updatedAt: number;
 }
 

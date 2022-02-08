@@ -1,4 +1,4 @@
-import { collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit } from "firebase/firestore";
+import { collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit, setDoc } from "firebase/firestore";
 import { EStatus } from "../redux/enums";
 import { IYouTubeComment } from "../components/Testimonials/types";
 import { ICourse, ILesson } from "../redux/slices/coursesSlice/types";
@@ -85,10 +85,8 @@ export const PublicRequests = {
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
             return docSnap.data() as IUser;
         } else {
-            console.log("No such document!");
             return {} as IUser;
         }
     },
@@ -178,8 +176,6 @@ export const PublicRequests = {
         const articleRef = doc(db, Collections.ARTICLES, articleId);
         const articleSnap = await getDoc(articleRef);
 
-        debugger
-
         if (articleSnap.exists()) {
             return articleSnap.data() as IArticle;
         } else {
@@ -190,7 +186,6 @@ export const PublicRequests = {
     async getAuthorAccount(uid: string, accountId: string): Promise<IAccount> {
         const docRef = doc(db, `users/${uid}/accounts`, accountId);
         const docSnap = await getDoc(docRef);
-        console.log(docSnap.data());
         return docSnap.data() as IAccount;
     }
 }

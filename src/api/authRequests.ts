@@ -4,9 +4,9 @@ import {
     signInWithPopup,
     GithubAuthProvider
 } from "firebase/auth";
-import {doc, setDoc, getDoc} from "firebase/firestore";
-import {db} from "../fbconfig";
-import {IUser} from "../redux/slices/userSlice/types";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../fbconfig";
+import { IUser } from "../redux/slices/userSlice/types";
 
 export class AuthRequests {
     public static async signIn(auth: Auth, providerName: keyof typeof provider): Promise<IUser> {
@@ -41,6 +41,21 @@ export class AuthRequests {
                     return error.message;
                 }
             });
+    }
+
+    public static async checkUserExist(uid: string): Promise<boolean> {
+        const docSnap = await getDoc(doc(db, "users", uid))
+        return docSnap.exists() ? true : false;
+    }
+
+    public static async createUser(uid: string): Promise<IUser> {
+        await setDoc(doc(db, 'users', uid), {
+            author: false,
+        })
+
+        const docSnap = await getDoc(doc(db, "users", uid))
+
+        return docSnap.data() as IUser;
     }
 
     public static async getUserInfo(uid: string): Promise<IUser> {

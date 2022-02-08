@@ -1,16 +1,20 @@
 import React from 'react';
-import {Outlet} from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import MenuLayout from "../../../Layout/MenuLayout";
+import PageLayout from '../../../Layout/PageLayout';
 
 const AuthorSettingsLayout = () => {
     return (
-        <MenuLayout menu={[{
-            to: '/author/settings',
-            children: 'Основные',
-            end: true
-        }]}>
-            <Outlet/>
-        </MenuLayout>
+        <PageLayout title='Настройки автора'>
+            <MenuLayout menu={[{
+                to: '/author/settings',
+                children: 'Основные',
+                end: true
+            }]}>
+                <Outlet />
+            </MenuLayout>
+        </PageLayout>
+
     )
 }
 

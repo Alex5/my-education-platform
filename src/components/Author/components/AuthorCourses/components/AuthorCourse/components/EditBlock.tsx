@@ -1,11 +1,13 @@
-import React, {FC, useState} from 'react';
-import {Button, Collapse, Fieldset, Image, Spacer, useToasts} from "@geist-ui/core";
-import {AuthorRequests} from "../../../../../../../api/authorRequests";
-import {setSelectedCourse} from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import {ICourse, ITag} from "../../../../../../../redux/slices/coursesSlice/types";
+import React, { FC, useState } from 'react';
+import { Button, Collapse, Fieldset, Image, Spacer, useToasts } from "@geist-ui/core";
+import { AuthorRequests } from "../../../../../../../api/authorRequests";
+import { setSelectedCourse } from "../../../../../../../redux/slices/coursesSlice/coursesSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ICourse, ITag } from "../../../../../../../redux/slices/coursesSlice/types";
 import SwitchBlockContent from "./SwitchBlockContent";
+import { getSelectedAccount } from '../../../../../../../redux/slices/authorSlice/author.slice';
+import Iframe from '../../../../shared/Iframe';
 
 interface EditBlockProps {
     name: string;
@@ -27,11 +29,12 @@ const EditBlock: FC<EditBlockProps> = (
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {setToast} = useToasts();
+    const { setToast } = useToasts();
+    const { id } = useSelector(getSelectedAccount);
 
     const handleUpdate = async (key: keyof ICourse, data: string | ITag[]) => {
         setLoading(true)
-        const course = await AuthorRequests.updateCourse(authorCourseId || '', key, data);
+        const course = await AuthorRequests.updateCourse(authorCourseId || '', key, key === 'accountId' ? id : data);
         dispatch(setSelectedCourse(course));
         setLoading(false)
         setToast({
@@ -69,11 +72,11 @@ const EditBlock: FC<EditBlockProps> = (
                 </Fieldset.Footer>
                 {courseKey === 'cover' && (
                     <Collapse shadow scale={1 / 2} title={'Предварительный просмотр'}>
-                        <Image src={data}/>
+                       <Image src={data} />
                     </Collapse>
                 )}
             </Fieldset>
-            <Spacer/>
+            <Spacer />
         </>
     );
 };

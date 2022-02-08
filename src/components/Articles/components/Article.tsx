@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { PublicRequests } from '../../../api/publicRequests';
 import { IArticle } from '../../../redux/slices/articlesSlice/articles.types';
+import AuthorAccountPreview from '../../Author/components/AuthorAccountPreview';
 import MarkdownRender from '../../Author/components/shared/MarkdownRender';
 import PageLayout from '../../Layout/PageLayout';
 
@@ -11,9 +12,7 @@ const Article = () => {
   const location = useLocation();
   const { articleId } = useParams<"articleId">();
 
-  const [article, setArticle] = useState<IArticle>(location.state as IArticle);
-
-  debugger
+  const [article, setArticle] = useState<IArticle>(location.state  as IArticle);
 
   useEffect(() => {
     if (!article) {
@@ -21,16 +20,13 @@ const Article = () => {
         const article = await PublicRequests.getArticleById(articleId || '');
         setArticle(article);
       })()
-
     }
   }, [article])
 
   return (
     <PageLayout title={article?.title}>
       <StyledArticleHeader>
-        <User name={article?.account?.name} src={article?.account?.photoLink}>
-          {article?.account?.knowledge}
-        </User>
+        <AuthorAccountPreview ownerId={article?.ownerId} accountId={article?.accountId} />
       </StyledArticleHeader>
       <MarkdownRender markdownString={article?.content} />
     </PageLayout>

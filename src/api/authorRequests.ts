@@ -7,7 +7,7 @@ import {
     deleteDoc,
     addDoc,
     updateDoc,
-    writeBatch, getDoc, serverTimestamp, setDoc
+    writeBatch, getDoc, serverTimestamp, setDoc, Timestamp
 } from "firebase/firestore";
 import { db, firebaseApp } from "../fbconfig";
 import { getAuth } from "firebase/auth";
@@ -29,7 +29,8 @@ export class AuthorRequests {
             const querySnapshot = await getDocs(q);
             const docs: ICourse[] = [];
             querySnapshot.forEach((doc) => {
-                docs.push(doc.data() as ICourse);
+                const course = doc.data() as ICourse;
+                docs.push(course);
             });
             return docs;
         } catch (e) {
@@ -52,7 +53,6 @@ export class AuthorRequests {
             });
             return docs;
         } else {
-            // No user is signed in.
             return [];
         }
     }
@@ -100,17 +100,13 @@ export class AuthorRequests {
     }
 
     public static async addCourse(course: ICourse): Promise<ICourse[]> {
-        const docRef = await addDoc(collection(db, "courses"), { ...course, createdAt: serverTimestamp() });
-        const courseRef = doc(db, "courses", docRef.id);
-
-        await updateDoc(courseRef, {
-            courseId: courseRef.id
-        });
+        await setDoc(doc(db, "courses", course.courseId), course,
+        );
 
         await this.saveLessons([{
             lessonId: '',
             name: 'Пример урока 1',
-            courseId: courseRef.id,
+            courseId: course.courseId,
             description: 'Описание урока.',
             homeWorks: [{
                 code: '-',
@@ -119,7 +115,7 @@ export class AuthorRequests {
             videoLink: '',
             videoId: '',
             position: 1
-        }], courseRef.id);
+        }], course.courseId);
 
         return await this.getCourses(course.ownerId);
     }
@@ -144,7 +140,7 @@ export class AuthorRequests {
 
         await updateDoc(courseRef, {
             [key]: data,
-            updatedAt: serverTimestamp()
+            updatedAt: Date.now()
         });
 
         const docSnap = await getDoc(courseRef)
@@ -156,22 +152,26 @@ export class AuthorRequests {
         }
     }
 
-    public static async addAccount(account: IAccount): Promise<IAccount[]> {
-        const { currentUser } = await getAuth();
+    public static async mutateAccount(account: IAccount): Promise<IAccount[]> {
+        const { currentUser } = await getAuth(firebaseApp);
 
         if (!currentUser) {
             return Promise.reject('not_authorized');
         }
 
-        const docId = nanoid();
+        if (account.id) {
+            const accountRef = doc(db, `users/${currentUser.uid}/accounts`, account.id);
+            await updateDoc(accountRef, { ...account, updatedAt: Date.now() });
+            return this.getAccounts();
+        }
 
-        await setDoc(doc(db, "users", currentUser.uid, "accounts", docId), { ...account, id: docId });
-
+        const accountId = nanoid();
+        await setDoc(doc(db, `users/${currentUser.uid}/accounts`, accountId), { ...account, id: accountId });
         return this.getAccounts();
     }
 
     public static async getAccounts(): Promise<IAccount[]> {
-        const { currentUser } = await getAuth();
+        const { currentUser } = await getAuth(firebaseApp);
 
         if (!currentUser) {
             return Promise.reject('not_authorized');
@@ -194,12 +194,23 @@ export class AuthorRequests {
             return Promise.reject('not_authorized');
         }
 
-        await setDoc(doc(db, "articles", article.id), { ...article, createdAt: serverTimestamp() });
+        if (article.id) {
+            const articleRef = doc(db, `articles`, article.id);
+            await updateDoc(articleRef, { ...article, updatedAt: Date.now() });
+            return await this.getAuthorArticles();
+        }
 
-        return await this.getAuthorArticles(currentUser.uid);
+        const articleId = nanoid();
+
+        await setDoc(doc(db, "articles", articleId), {
+            ...article,
+            id: articleId
+        });
+
+        return await this.getAuthorArticles();
     }
 
-    public static async getAuthorArticles(ownerId: string): Promise<IArticle[]> {
+    public static async getAuthorArticles(): Promise<IArticle[]> {
         const { currentUser } = getAuth(firebaseApp);
 
         if (!currentUser) {

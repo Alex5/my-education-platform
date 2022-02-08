@@ -25,7 +25,8 @@ import { MoreVertical } from "@geist-ui/react-icons";
 import SnipText from "../../../shared/SnipText";
 import { Button } from '@geist-ui/core';
 import AuthorAccountsSelect from "../AuthorAccountsSelect";
-import { getSelectedAccount, setSelectedAccount } from "../../../../redux/slices/authorSlice/author.slice";
+import { getSelectedAccount } from "../../../../redux/slices/authorSlice/author.slice";
+import PageLayout from '../../../Layout/PageLayout';
 
 const AuthorVideos = () => {
     const { visible, setVisible, bindings } = useModal()
@@ -89,7 +90,6 @@ const AuthorVideos = () => {
         setVideo({} as IVideo);
         setLoad(false)
         setVisible(false);
-
     }
 
     const menuContent = (video: IVideo) => {
@@ -139,27 +139,35 @@ const AuthorVideos = () => {
     }, [user.loggedIn])
 
     return (
-        <>
-            <SearchBar onClick={() => setVisible(true)} />
+        <PageLayout title='Ваши видео' headerActions={[
+            <Button
+                onClick={() => setVisible(true)}
+                width={"100%"}
+                type="secondary"
+                children={"Новое видео"}
+            />
+        ]}>
             <Grid.Container>
                 <Grid.Container gap={2}>
-                    {videos && videos.map(video => (
-                        <Grid key={video.videoId} xs={24} md={8}>
-                            <Card>
-                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <SnipText h5 text={video.name} />
-                                    <Spacer />
-                                    <Popover content={menuContent(video)}>
-                                        <Badge.Anchor>
-                                            {!video.published && <Badge scale={0.5} type="error" dot />}
-                                            <MoreVertical />
-                                        </Badge.Anchor>
-                                    </Popover>
-                                </div>
-                                <Iframe height={"165px"} src={video.embedLink} />
-                            </Card>
-                        </Grid>
-                    ))}
+                    {videos && videos.length > 0
+                        ? videos.map(video => (
+                            <Grid key={video.videoId} xs={24} md={8}>
+                                <Card>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                        <SnipText length={30} h5 text={video.name} />
+                                        <Spacer />
+                                        <Popover content={menuContent(video)}>
+                                            <Badge.Anchor>
+                                                {!video.published && <Badge scale={0.5} type="error" dot />}
+                                                <MoreVertical />
+                                            </Badge.Anchor>
+                                        </Popover>
+                                    </div>
+                                    <Image src={video.cover} />
+                                </Card>
+                            </Grid>
+                        ))
+                        : <span>Нет видео</span>}
                 </Grid.Container>
             </Grid.Container>
             <Modal {...bindings}>
@@ -239,7 +247,7 @@ const AuthorVideos = () => {
                     Сохранить
                 </Modal.Action>
             </Modal>
-        </>
+        </PageLayout>
     );
 };
 

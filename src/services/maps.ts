@@ -2,7 +2,7 @@ export const generalTitleNames: { [key: string]: string } = {
     'name': 'Название',
     'tags': 'Теги',
     'description': 'Описание',
-    'author': 'Автор',
+    'accountId': 'Автор',
     'lessons': 'Уроки',
     'cover': 'Обложка курса',
 
@@ -17,3 +17,7 @@ export const deactivatedBlocks = [
     "courseName",
     'createdAt'
 ];
+
+export const courseDirectionsNames: {[key: string]: string} = {
+    'programming': 'программированию'
+}
