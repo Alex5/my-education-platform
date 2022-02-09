@@ -19,5 +19,6 @@ export const deactivatedBlocks = [
 ];
 
 export const courseDirectionsNames: {[key: string]: string} = {
-    'programming': 'программированию'
+    'programming': 'программированию',
+    'design': 'дизайну'
 }

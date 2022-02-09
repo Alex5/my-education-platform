@@ -81,10 +81,10 @@ const AuthorVideos = () => {
 
     const handleUpdateVideo = async (video: IVideo) => {
         setLoad(true)
-        const videos = await VideosRequests.updateVideo(Object.keys(selectedAccount).length > 0 ? {
+        const videos = await VideosRequests.updateVideo({
             ...video,
             accountId: selectedAccount.id
-        } : video);
+        });
         dispatch(setVideos(videos));
         setSaveType('save');
         setVideo({} as IVideo);

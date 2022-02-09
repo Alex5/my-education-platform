@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Grid, Spacer, Text } from "@geist-ui/core";
 import styled from 'styled-components';
 
 interface PageLayoutProps {
     title?: string | React.ReactNode;
     subTitle?: string;
-    headerActions?: React.ReactNode[];
+    headerActions?: React.ReactNode;
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ title, subTitle, children, headerActions }) => {
@@ -21,7 +21,7 @@ const PageLayout: FC<PageLayoutProps> = ({ title, subTitle, children, headerActi
                         <Text type={'secondary'} small mb={0} mt={0} children={subTitle} />
                     </StyledPageLayoutHeaderTitle>
                     <StyledPageLayoutHeaderActions>
-                        {headerActions && headerActions.map(action => action)}
+                        {headerActions}
                     </StyledPageLayoutHeaderActions>
                 </StyledPageLayoutHeader>
             )}

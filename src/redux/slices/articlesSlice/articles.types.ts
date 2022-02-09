@@ -7,7 +7,7 @@ export interface ArticlesState {
 export interface IArticle {
     title: string;
     content: string;
-    id?: string;
+    id: string | null;
     accountId: string;
     ownerId: string;
     published: boolean;

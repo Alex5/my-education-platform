@@ -10,6 +10,7 @@ import { ICourse } from "../../redux/slices/coursesSlice/types";
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 import { courseDeclinations } from '../../services/helpers';
 import { courseDirectionsNames } from '../../services/maps';
+import PageLayout from '../Layout/PageLayout';
 
 const Courses = () => {
     const dispatch = useDispatch()
@@ -36,9 +37,7 @@ const Courses = () => {
     const declination = courseDeclinations(courses.length);
 
     return (
-        <>
-            <Text h3>{courses.length} {declination} по {direction}</Text>
-            <Spacer />
+        <PageLayout title={`${courses.length} ${declination} по ${direction}`}>
             <Grid.Container gap={2} justify="flex-start">
                 {coursesLoad
                     ? (
@@ -66,7 +65,7 @@ const Courses = () => {
                         </Grid>
                     )}
             </Grid.Container>
-        </>
+        </PageLayout>
     );
 };
 

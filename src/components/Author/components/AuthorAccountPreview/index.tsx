@@ -3,6 +3,7 @@ import { Timestamp } from 'firebase/firestore';
 import React, { FC, useEffect, useState } from 'react';
 import { PublicRequests } from '../../../../api/publicRequests';
 import { IAccount } from '../../../../redux/slices/authorSlice/author.types';
+import { snipText } from '../../../../services/helpers';
 import SnipText from '../../../shared/SnipText';
 
 interface AuthorAccountPreviewProps {
@@ -25,7 +26,7 @@ const AuthorAccountPreview: FC<AuthorAccountPreviewProps> = ({ ownerId, accountI
 
     return (
         <Link onClick={e => disableLink && e.preventDefault()} href={account?.channelLink} target="_blank">
-            <User src={account?.photoLink} name={account?.name}>
+            <User src={account?.photoLink} name={snipText(account?.name, 10)}>
                 <SnipText length={snipLength} text={account?.knowledge} />
             </User>
         </Link>

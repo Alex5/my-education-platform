@@ -121,18 +121,4 @@ const Course = () => {
     );
 };
 
-const StyledBubble = styled.div`
-  background-color: #f7f7f7;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #e3e3e3;
-`
-
-const StyledTags = styled.div`
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-`
-
-
 export default Course;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Spacer, Text } from "@geist-ui/core";
+import { Spacer, Text, useMediaQuery } from "@geist-ui/core";
 import styled from "styled-components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -14,29 +14,34 @@ const Header: FC = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
+    
+    const isXS = useMediaQuery('xs')
 
     return (
         <StyledHeaderContanier>
             <StyledHeader author={author}>
                 <StyledHeaderContent>
+
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Link to={"/"}>
                             <Text style={{ color: 'black', fontFamily: 'TTNormsBold' }} mb={0} mt={0} h4>
-                                My Education Platform
+                            {isXS ? 'MEP' : 'My Education Platform'}
                             </Text>
                         </Link>
                         <Spacer />
                         <GeistLink block href='https://github.com/Alex5/my-education-platform' target={'_blank'}>
                             <Github />
                         </GeistLink>
-                        <Spacer />
-                        <StyledHeaderGeistLink
-                            onClick={() => navigate('/articles/fWbjvhubvRI9_DN5IBt-j')}
-                            mb={0}
-                            mt={0}
-                            type='secondary'
-                            children={'О проекте'}
-                        />
+                        {!isXS && (
+                            <StyledHeaderGeistLink
+                                onClick={() => navigate('/articles/fWbjvhubvRI9_DN5IBt-j')}
+                                mb={0}
+                                mt={0}
+                                ml={1}
+                                type='secondary'
+                                children={'О проекте'}
+                            />
+                        )}
                     </div>
                     <AuthBox />
                 </StyledHeaderContent>
@@ -52,11 +57,12 @@ const Header: FC = () => {
 
 const StyledHeaderContanier = styled.div`
     padding: 0 24px;
-    box-shadow: inset 0 -1px #eaeaea;
+    backdrop-filter: saturate(180%) blur(5px);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 15px 0 rgb(0 0 0 / 10%);
     top: 0;
     position: sticky;
-    z-index: 1;
-    background-color: white;
+    z-index: 999;
 `
 
 const StyledHeader = styled.nav<{ author: boolean }>`

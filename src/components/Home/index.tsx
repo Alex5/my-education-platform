@@ -1,6 +1,6 @@
 import React, {FC, memo, useEffect, useState} from 'react';
 import {Card, Grid, Loading, Page, Spacer, Text} from "@geist-ui/core";
-import {Code} from "@geist-ui/react-icons";
+import {Code, Figma} from "@geist-ui/react-icons";
 import styled from "styled-components";
 import {PublicRequests} from "../../api/publicRequests";
 import {NavLink, useNavigate} from "react-router-dom";
@@ -32,7 +32,7 @@ const Home: FC = () => {
            <Text h4>Новые курсы</Text>
            <NewCourses courseLimit={3}/>
            <Spacer h={5}/>
-           <Text h4>Теги</Text>
+           <Text h4>Курсы по тегам</Text>
            <Tags length={8}/>
            <Page.Content>
                <Text h1>Направления</Text>
@@ -44,10 +44,22 @@ const Home: FC = () => {
                              hoverable>
                            <StyledCardContent>
                                <Code color={"#1482ff"}/>
-                               <Text h4 mb={0} mt={0}> Программирование</Text>
+                               <Text h4 mb={0} mt={0}>Программирование</Text>
                            </StyledCardContent>
                            <Card.Footer>
                                <CourseSize direction={"programming"}/>
+                           </Card.Footer>
+                       </Card>
+                   </Grid>
+                   <Grid xs={24} md={8}>
+                       <Card style={{cursor: 'pointer'}} onClick={() => navigate('/design')} width="100%"
+                             hoverable>
+                           <StyledCardContent>
+                               <Figma color={"#8a63d2"}/>
+                               <Text h4 mb={0} mt={0}>Дизайн</Text>
+                           </StyledCardContent>
+                           <Card.Footer>
+                               <CourseSize direction={"design"}/>
                            </Card.Footer>
                        </Card>
                    </Grid>
