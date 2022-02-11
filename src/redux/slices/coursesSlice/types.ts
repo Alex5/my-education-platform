@@ -18,6 +18,7 @@ export interface ICourse {
     cover: string;
     tags: string[];
     accountId: string;
+    socialAccounts: string[];
 }
 
 export interface ICourseStatus {

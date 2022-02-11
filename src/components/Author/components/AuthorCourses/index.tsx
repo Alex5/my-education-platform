@@ -38,7 +38,8 @@ const AuthorCourses = () => {
             description: '',
             cover: '',
             tags: [],
-            createdAt: Date.now()
+            createdAt: Date.now(),
+            socialAccounts: []
         })
         setAddCourseModal(false);
         setCourseName("");

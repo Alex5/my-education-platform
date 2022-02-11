@@ -6,5 +6,6 @@ export const BLOCK_KEYS: Array<keyof ICourse> = [
     'accountId',
     'lessons',
     'tags',
-    'cover'
+    'cover',
+    'socialAccounts'
 ]

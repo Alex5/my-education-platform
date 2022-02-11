@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { getSelectedAccount } from '../../../../../../../redux/slices/authorSlice/author.slice';
 import AuthorAccountPreview from '../../../../AuthorAccountPreview';
 import { getFirebaseUser } from '../../../../../../../redux/slices/userSlice/userSlice';
+import AuthorSocialMediaAccounts from '../../../../AuthorSocialMediaAccounts';
 
 
 interface Props {
@@ -77,6 +78,10 @@ const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) =
                     onChange={(e) => handleUpdateState(courseKey, e.target.value)}
                     value={data}
                 />
+            )
+        case "socialAccounts":
+            return (
+                <AuthorSocialMediaAccounts />
             )
         default:
             return (
