@@ -4,53 +4,44 @@
 
 ## Getting Started
 
+```
 yarn start
+```
 
 ### Prerequisites
 
-Для запуска проекта вам потребуется установленный node.js
+Для запуска проекта вам потребуется установленный node.js и yarn
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+#### Без firebase
 
-Say what the step will be
+* установить все зависимости ```yarn install```
+* запустить проект ```yarn start```
 
-```
-Give the example
-```
+#### С firebase
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+* Создать новый проект в firebase
+* Создать .env файл в корне проекта и перенести свои значения которые вам сгенерировал firebase (каких-то может не быть)
+  * REACT_APP_API_KEY=YOUR FIREBASE API KEY
+  * REACT_APP_AUTH_DOMAIN=YOUR FIREBASE AUTH DOMAIN
+  * REACT_APP_PROJECT_ID=YOUR FIREBASE PROJECT_ID
+  * REACT_APP_STORAGE_BUCKET=YOUR FIREBASE STORAGE_BUCKET
+  * REACT_APP_MESSAGING_SENDER_ID=YOUR FIREBASE MESSAGING_SENDER
+  * REACT_APP_APP_ID=YOUR FIREBASE APP_ID
+  * REACT_APP_MEASUREMENT_ID=YOUR FIREBASE MEASUREMENT_ID
+  * REACT_APP_YOUTUBE_API_KEY=YOUR FIREBASE YOUTUBE_API_KEY
+  * REACT_APP_RECAPTCHA_KEY=YOUR FIREBASE RECAPTCHA_KEY
+* установить все зависимости ```yarn install```
+* запустить проект ```yarn start```
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+Тесты появятся позже...
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Если вы настроили свой проект firebase ознакомтесь с документацией по развёртывание проекта: [Firebase hosting quickstart](https://firebase.google.com/docs/hosting/quickstart/)
 
 ## Built With
 * [React 17](https://ru.reactjs.org/)
@@ -63,28 +54,16 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Пожалуйста прочтите [CONTRIBUTING.md](https://github.com/Alex5/my-education-platform/blob/master/CONTRIBUTING.md) для получения подробной информации о нашем кодексе поведения и процессе отправки нам pull запросов.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+Мы используем [SemVer](http://semver.org/) для управления версиями. Доступные версии см. в [тегах в этом репозитории](https://github.com/Alex5/my-education-platform/tags).
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Ilin Aleksei** - *Автор проекта* - [Alex5](https://github.com/Alex5)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
-
-
-
+Этот проект находится под лицензией MIT — подробности см. в файле [LICENSE](https://github.com/Alex5/my-education-platform/blob/master/LICENSE)
