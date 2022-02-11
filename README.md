@@ -29,12 +29,14 @@
   REACT_APP_MESSAGING_SENDER_ID=YOUR FIREBASE MESSAGING_SENDER
   REACT_APP_APP_ID=YOUR FIREBASE APP_ID
   REACT_APP_MEASUREMENT_ID=YOUR FIREBASE MEASUREMENT_ID
-  REACT_APP_YOUTUBE_API_KEY=YOUR FIREBASE YOUTUBE_API_KEY
-  REACT_APP_RECAPTCHA_KEY=YOUR FIREBASE RECAPTCHA_KEY
   ```
 * установить все зависимости ```yarn install```
 * запустить проект ```yarn start```
 
+> Для работы комментариев используется YouTube API, вам нужно добавить ваш API-KEY в .env файл
+```
+REACT_APP_YOUTUBE_API_KEY=YOUR YOUTUBE_API_KEY
+```
 ## Running the tests
 
 Тесты появятся позже...
