@@ -18,6 +18,7 @@ jobs:
       - name: GitHub Action for Firebase
         uses: w9jds/firebase-action@v2.0.0
         with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_EDUCATION_PLATFORM }}'
+          projectId: my-education-platform
           args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MY_EDUCATION_PLATFORM }}
