@@ -1,8 +1,7 @@
-import { Card, Input, Image, Link, Spacer, Grid } from "@geist-ui/core"
-import { Github, Icon, PlusCircle } from "@geist-ui/react-icons";
+import { Input, Spacer, Grid } from "@geist-ui/core"
+import { PlusCircle } from "@geist-ui/react-icons";
 import { nanoid } from "nanoid";
-import { FC, useEffect, useState } from "react"
-import { ReactElement } from "react-markdown/lib/react-markdown";
+import { useState } from "react"
 import SocialCard from "./components/SocialCard";
 
 interface ISocial {
