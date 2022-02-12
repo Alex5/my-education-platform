@@ -4,7 +4,7 @@
 
 ## Getting Started
 
-Ознакомится с проектом вы можете по ссылке: [myeducationplatform.ru](https://myeducationplatform.ru/)
+Ознакомиться с проектом вы можете по ссылке: [myeducationplatform.ru](https://myeducationplatform.ru/)
 
 ### Prerequisites
 
