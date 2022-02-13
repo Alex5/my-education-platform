@@ -23,15 +23,7 @@
 
 * Создать новый проект в firebase
 * Создать .env файл в корне проекта и перенести свои значения которые вам сгенерировал firebase (каких-то может не быть)
-  ```
-  REACT_APP_API_KEY=YOUR FIREBASE API KEY
-  REACT_APP_AUTH_DOMAIN=YOUR FIREBASE AUTH DOMAIN
-  REACT_APP_PROJECT_ID=YOUR FIREBASE PROJECT_ID
-  REACT_APP_STORAGE_BUCKET=YOUR FIREBASE STORAGE_BUCKET
-  REACT_APP_MESSAGING_SENDER_ID=YOUR FIREBASE MESSAGING_SENDER
-  REACT_APP_APP_ID=YOUR FIREBASE APP_ID
-  REACT_APP_MEASUREMENT_ID=YOUR FIREBASE MEASUREMENT_ID
-  ```
+  https://github.com/Alex5/my-education-platform/blob/a3e64e3f42f857887ed4f7621594bd55dc330650/src/fbconfig.ts#L6-L13
 * установить все зависимости ```yarn install```
 * запустить проект ```yarn start```
 
