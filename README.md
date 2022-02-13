@@ -1,5 +1,3 @@
-[![Firebase CI](https://github.com/Alex5/my-education-platform/actions/workflows/firebase.yml/badge.svg)](https://github.com/Alex5/my-education-platform/actions/workflows/firebase.yml)
-
 # My Education Platform
 
 Бесплатная платформа для онлайн обучения где собраны полезные материалы по разным направлениям.
