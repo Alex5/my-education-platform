@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, Grid, Tooltip, Spacer, Tag, useToasts } from "@geist-ui/core";
+import { Button, Text, Grid, Tooltip, Spacer, Tag, useToasts, Breadcrumbs } from "@geist-ui/core";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,6 +13,7 @@ import { nanoid } from "nanoid";
 import Lesson from "./Lesson";
 import { AuthorRequests } from "../../../../../../../api/authorRequests";
 import { ILesson } from "../../../../../../../redux/slices/coursesSlice/types";
+import PageLayout from "../../../../../../Layout/PageLayout";
 
 const EditCourse = () => {
     const dispatch = useDispatch();
@@ -61,7 +62,7 @@ const EditCourse = () => {
     }, [lessons, selectedLesson])
 
     return (
-        <div>
+        <PageLayout title={selectedCourse.name} back>
             <StyledEditLessonsHeader>
                 <Text mt={0} style={{ fontWeight: 600, fontSize: '1.5rem' }}>Редактирование уроков</Text>
                 <Button
@@ -75,10 +76,10 @@ const EditCourse = () => {
                 </Button>
             </StyledEditLessonsHeader>
             <Grid.Container gap={2}>
-                <Grid xs={24} md={16} direction={'column'}>
+                <Grid xs={24} md={18} direction={'column'}>
                     <Lesson selectedLesson={selectedLesson} />
                 </Grid>
-                <Grid direction="column" xs={24} md={8}>
+                <Grid direction="column" xs={24} md={6}>
                     <div style={{ height: '500px', overflow: 'auto' }}>
                         {lessons && [...lessons].sort((a, b) => a.position - b.position).map(lesson =>
                             <StyledLessonItem
@@ -105,7 +106,7 @@ const EditCourse = () => {
                     <Button onClick={handleAddLesson} children="Добавить урок" />
                 </Grid>
             </Grid.Container>
-        </div>
+        </PageLayout>
     );
 };
 

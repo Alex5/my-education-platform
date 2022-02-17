@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
-import { Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text } from "@geist-ui/core";
+import React, {FC} from 'react';
+import {Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text} from "@geist-ui/core";
 import styled from "styled-components";
 import Iframe from "../Author/components/shared/Iframe";
-import { Youtube } from "@geist-ui/react-icons";
-import { useNavigate } from 'react-router-dom';
+import {Youtube} from "@geist-ui/react-icons";
+import {useNavigate} from 'react-router-dom';
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
+import {ISocialInfo} from "../Author/components/AuthorSocialMediaAccounts";
 
 interface VideoLayoutProps {
     title: string;
@@ -12,7 +13,8 @@ interface VideoLayoutProps {
     cover: string;
     accountId: string;
     ownerId: string;
-    tags: string[]
+    tags: string[];
+    socialAccounts: ISocialInfo[]
 }
 
 const VideoLayout: FC<VideoLayoutProps> = (
@@ -23,7 +25,8 @@ const VideoLayout: FC<VideoLayoutProps> = (
         accountId,
         ownerId,
         tags,
-        children
+        children,
+        socialAccounts
     }) => {
 
     const navigate = useNavigate()
@@ -31,47 +34,56 @@ const VideoLayout: FC<VideoLayoutProps> = (
     return (
         <>
             <StyledVideoLayoutHeader>
-                <Text h3 children={title} />
+                <Text h3 children={title}/>
                 <StyledHeaderActions>
                     {headerActions && headerActions.map(action => action)}
                 </StyledHeaderActions>
             </StyledVideoLayoutHeader>
-            <Spacer />
+            <Spacer/>
             <Grid.Container gap={2}>
                 <Grid xs={24} md={18}>
-                    <Image src={cover} />
+                    <Image src={cover}/>
                 </Grid>
                 <Grid xs={24} md={6} direction={"column"}>
                     <StyledBubble>
-                        <AuthorAccountPreview accountId={accountId} ownerId={ownerId} />
+                        <AuthorAccountPreview accountId={accountId} ownerId={ownerId}/>
                     </StyledBubble>
-                    <Spacer />
+                    <Spacer/>
                     <StyledBubble>
                         <Description title="Соц. сети автора" content={<>
-                            {/* <Link target={"_blank"} href={info.author?.channelLink}>
-                                <Youtube />
-                            </Link> */}
-                        </>} />
+                            <Spacer/>
+                            {socialAccounts && socialAccounts.map(social => (
+                                <Link key={social.id} style={{marginRight: '10px'}} href={social.link} target={'_blank'}>
+                                    <img
+                                        height={'24px'}
+                                        src={social.icon}
+                                        alt={social.company}
+                                        title={social.name}
+                                    />
+                                </Link>
+
+                            ))}
+                        </>}/>
                     </StyledBubble>
-                    <Spacer />
+                    <Spacer/>
                     <StyledBubble>
                         <Description title="Теги" content={<StyledTags>
                             {tags && tags.map(tag => (
-                                <Tag
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => navigate(`/tags/${tag}`)}
-                                    type={"lite"}
-                                    key={tag}
-                                    scale={1 / 2}>{tag}
-                                </Tag>
-                            )
+                                    <Tag
+                                        style={{cursor: 'pointer'}}
+                                        onClick={() => navigate(`/tags/${tag}`)}
+                                        type={"lite"}
+                                        key={tag}
+                                        scale={1 / 2}>{tag}
+                                    </Tag>
+                                )
                             )}
-                        </StyledTags>} />
+                        </StyledTags>}/>
                     </StyledBubble>
-                    <Spacer />
+                    <Spacer/>
                 </Grid>
             </Grid.Container>
-            <Spacer />
+            <Spacer/>
             <StyledVideoLayoutBody>
                 {children}
             </StyledVideoLayoutBody>
@@ -80,14 +92,14 @@ const VideoLayout: FC<VideoLayoutProps> = (
 };
 
 const StyledVideoLayoutHeader = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const StyledHeaderActions = styled.div`
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 `
 
 const StyledVideoLayoutBody = styled.div``

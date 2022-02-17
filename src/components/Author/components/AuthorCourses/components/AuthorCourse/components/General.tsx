@@ -12,6 +12,7 @@ import EditBlock from "./EditBlock";
 import {ICourse} from "../../../../../../../redux/slices/coursesSlice/types";
 import {generalTitleNames} from "../../../../../../../services/maps";
 import {BLOCK_KEYS} from "./types";
+import {ISocialInfo} from "../../../../AuthorSocialMediaAccounts";
 
 const General = () => {
     const {authorCourseId} = useParams<"authorCourseId">() || {authorCourseId: ''};
@@ -19,13 +20,22 @@ const General = () => {
 
     const selectedCourse = useSelector(getSelectedCourse);
 
-    const handleUpdateState = (key: keyof ICourse, value: string) => {
-        dispatch(setSelectedCourse({
+    const handleUpdateState = (key: keyof ICourse, value: any) => {
+        const switchKeyData = () => {
+            switch (key) {
+                case 'tags':
+                    return handleUpdateTags(value as string)
+                default:
+                    return value;
+            }
+        }
+
+        const updateData = {
             ...selectedCourse,
-            [`${key}`]: key === 'tags'
-                ? handleUpdateTags(value as string)
-                : value
-        }));
+            [`${key}`]: switchKeyData()
+        }
+        debugger
+        dispatch(setSelectedCourse(updateData));
     }
 
     const handleUpdateTags = (tag: string) => {
@@ -33,6 +43,12 @@ const General = () => {
             ? selectedCourse.tags.filter(t => t !== tag)
             : [...selectedCourse.tags, tag];
     };
+
+    const handleUpdateSocialAccounts = (social: ISocialInfo) => {
+        return selectedCourse.socialAccounts.some(s => s.id === social.id)
+            ? selectedCourse.socialAccounts.filter(s => s.id !== s.id)
+            : [...selectedCourse.socialAccounts, social];
+    }
 
     useEffect(() => {
         (async () => {

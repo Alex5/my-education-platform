@@ -1,10 +1,11 @@
 export const generalTitleNames: { [key: string]: string } = {
-    'name': 'Название',
-    'tags': 'Теги',
-    'description': 'Описание',
-    'accountId': 'Автор',
-    'lessons': 'Уроки',
-    'cover': 'Обложка курса',
+    name: 'Название',
+    tags: 'Теги',
+    description: 'Описание',
+    accountId: 'Автор',
+    lessons: 'Уроки',
+    cover: 'Обложка курса',
+    socialAccounts: 'Соц. сети'
 
 }
 
