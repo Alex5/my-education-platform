@@ -47,7 +47,7 @@ REACT_APP_YOUTUBE_API_KEY=YOUR YOUTUBE_API_KEY
 
 ## Built With
 * [React 17](https://ru.reactjs.org/)
-* [Redux Toolkit](https://redux-toolkit.js.org/)
+* [Redux Toolkit](https://redux-toolkit.js.org/) (Не используется с версии 1.1.0, вместо него [Recoil](https://recoiljs.org/))
 * [React Router 6](https://reactrouter.com/)
 * [Styled Components](https://styled-components.com/)
 * [Geist UI (как UI фреймворк)](https://geist-ui.dev/en-us)
