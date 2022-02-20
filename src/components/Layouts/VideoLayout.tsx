@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, Suspense} from 'react';
 import {Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text} from "@geist-ui/core";
 import styled from "styled-components";
 import Iframe from "../Author/components/shared/Iframe";
@@ -6,6 +6,7 @@ import {Youtube} from "@geist-ui/react-icons";
 import {useNavigate} from 'react-router-dom';
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 import {ISocialInfo} from "../Author/components/AuthorSocialMediaAccounts";
+import AppLoader from "../shared/AppLoader";
 
 interface VideoLayoutProps {
     title: string;
@@ -36,7 +37,7 @@ const VideoLayout: FC<VideoLayoutProps> = (
             <StyledVideoLayoutHeader>
                 <Text h3 children={title}/>
                 <StyledHeaderActions>
-                    {headerActions && headerActions.map(action => action)}
+                    {headerActions?.map((action, index) => <div key={index}>{action}</div>)}
                 </StyledHeaderActions>
             </StyledVideoLayoutHeader>
             <Spacer/>
@@ -46,14 +47,17 @@ const VideoLayout: FC<VideoLayoutProps> = (
                 </Grid>
                 <Grid xs={24} md={6} direction={"column"}>
                     <StyledBubble>
-                        <AuthorAccountPreview accountId={accountId} ownerId={ownerId}/>
+
+                            <AuthorAccountPreview accountId={accountId} ownerId={ownerId}/>
+
                     </StyledBubble>
                     <Spacer/>
                     <StyledBubble>
                         <Description title="Соц. сети автора" content={<>
                             <Spacer/>
                             {socialAccounts && socialAccounts.map(social => (
-                                <Link key={social.id} style={{marginRight: '10px'}} href={social.link} target={'_blank'}>
+                                <Link key={social.id} style={{marginRight: '10px'}} href={social.link}
+                                      target={'_blank'}>
                                     <img
                                         height={'24px'}
                                         src={social.icon}

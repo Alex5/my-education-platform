@@ -13,7 +13,7 @@ import { nanoid } from "nanoid";
 import Lesson from "./Lesson";
 import { AuthorRequests } from "../../../../../../../api/authorRequests";
 import { ILesson } from "../../../../../../../redux/slices/coursesSlice/types";
-import PageLayout from "../../../../../../Layout/PageLayout";
+import PageLayout from "../../../../../../Layouts/PageLayout";
 
 const EditCourse = () => {
     const dispatch = useDispatch();

@@ -1,12 +1,11 @@
-import { Card, Link, User } from '@geist-ui/core';
-import { Timestamp } from 'firebase/firestore';
-import React, { FC, useEffect, useState } from 'react';
-import { PublicRequests } from '../../../../api/publicRequests';
-import { IAccount } from '../../../../redux/slices/authorSlice/author.types';
-import { snipText } from '../../../../services/helpers';
+import {Link, User} from '@geist-ui/core';
+import React, {FC, Suspense} from 'react';
+import {snipText} from '../../../../services/helpers';
 import SnipText from '../../../shared/SnipText';
+import {useRecoilValue} from "recoil";
+import {authorAccountQuery} from "./selectors";
 
-interface AuthorAccountPreviewProps {
+interface AAPProps {
     ownerId: string
     accountId: string
     snipLength?: number;
@@ -14,24 +13,26 @@ interface AuthorAccountPreviewProps {
     updateAt?: number;
 }
 
-const AuthorAccountPreview: FC<AuthorAccountPreviewProps> = ({ ownerId, accountId, snipLength, disableLink, updateAt }) => {
-    const [account, setAccount] = useState<IAccount>({} as IAccount);
+const AuthorAccountPreview: FC<AAPProps> = (props) => {
+    const {ownerId, accountId, disableLink, snipLength} = props;
 
-    useEffect(() => {
-        (async () => {
-            const account = await PublicRequests.getAuthorAccount(ownerId, accountId);
-            setAccount(account);
-        })()
-    }, [accountId, updateAt]);
+    const AccountPreview = () => {
+        const account = useRecoilValue(authorAccountQuery(`${ownerId}&${accountId}`))
+
+        return (
+            <Link onClick={e => disableLink && e.preventDefault()} href={account?.channelLink} target="_blank">
+                <User src={account?.photoLink} name={snipText(account?.name, 10)}>
+                    {account?.knowledge && <SnipText length={snipLength} text={account?.knowledge}/>}
+                </User>
+            </Link>
+        )
+    }
 
     return (
-        <Link onClick={e => disableLink && e.preventDefault()} href={account?.channelLink} target="_blank">
-            <User src={account?.photoLink} name={snipText(account?.name, 10)}>
-                <SnipText length={snipLength} text={account?.knowledge} />
-            </User>
-        </Link>
-
-    )
+        <Suspense fallback={<span>downloading...</span>}>
+            <AccountPreview/>
+        </Suspense>
+    );
 };
 
 export default AuthorAccountPreview;

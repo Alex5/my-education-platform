@@ -26,6 +26,7 @@ const MenuLayout: FC<MenuLayoutProps> = ({ menu }) => {
                 <StyledSidebar>
                     {menu && menu.map(menuItem => (
                         <NavLink
+                            key={menuItem.to}
                             onClick={event => menuItem.label?.disabled && event.preventDefault()}
                             style={{ cursor: menuItem.label?.disabled ? "not-allowed" : '' }}
                             end={menuItem.end}

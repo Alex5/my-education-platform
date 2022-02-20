@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import PageLayout from "../../Layout/PageLayout";
+import PageLayout from "../../Layouts/PageLayout";
 import {useDispatch, useSelector} from "react-redux";
 import {getSelectedVideo, setSelectedVideo} from "../../../redux/slices/videosSlice";
 import Testimonials from "../../Testimonials";

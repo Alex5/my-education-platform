@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
-import SearchBar from "../shared/SearchBar";
+import React, { useEffect, useState } from 'react';
 import {
     Badge,
     Card,
@@ -12,7 +11,6 @@ import {
     Spacer,
     Text,
     useModal,
-    useToasts
 } from "@geist-ui/core";
 import { formatEmbedLink, updateObjectProp } from "../../../../services/helpers";
 import { IVideo } from "../../../../redux/slices/videosSlice/types";
@@ -26,10 +24,10 @@ import SnipText from "../../../shared/SnipText";
 import { Button } from '@geist-ui/core';
 import AuthorAccountsSelect from "../AuthorAccountsSelect";
 import { getSelectedAccount } from "../../../../redux/slices/authorSlice/author.slice";
-import PageLayout from '../../../Layout/PageLayout';
+import PageLayout from '../../../Layouts/PageLayout';
 
 const AuthorVideos = () => {
-    const { visible, setVisible, bindings } = useModal()
+    const { setVisible, bindings } = useModal();
     const user = useSelector(getUser);
     const selectedAccount = useSelector(getSelectedAccount);
     const [load, setLoad] = useState<boolean>(false);
@@ -58,9 +56,25 @@ const AuthorVideos = () => {
             return handleUpdateVideo(video);
         }
         setLoad(true)
-        const videos = await VideosRequests.saveVideo(video);
+        const videos = await VideosRequests.saveVideo({
+            ...video,
+            accountId: video.accountId || selectedAccount.id
+        });
         dispatch(setVideos(videos));
         setVisible(false);
+        setLoad(false)
+    }
+
+    const handleUpdateVideo = async (video: IVideo) => {
+        debugger
+        setLoad(true)
+        const videos = await VideosRequests.updateVideo({
+            ...video,
+            accountId: video.accountId || selectedAccount.id
+        });
+        dispatch(setVideos(videos));
+        setSaveType('save');
+        setVideo({} as IVideo);
         setLoad(false)
     }
 
@@ -79,18 +93,7 @@ const AuthorVideos = () => {
         }
     }
 
-    const handleUpdateVideo = async (video: IVideo) => {
-        setLoad(true)
-        const videos = await VideosRequests.updateVideo({
-            ...video,
-            accountId: selectedAccount.id
-        });
-        dispatch(setVideos(videos));
-        setSaveType('save');
-        setVideo({} as IVideo);
-        setLoad(false)
-        setVisible(false);
-    }
+
 
     const menuContent = (video: IVideo) => {
         return (

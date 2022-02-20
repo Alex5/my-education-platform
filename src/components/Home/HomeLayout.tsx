@@ -1,7 +1,7 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { Grid } from "@geist-ui/core";
-import MenuLayout, { IMenu } from "../Layout/MenuLayout";
+import {Outlet} from 'react-router-dom';
+import {Grid} from "@geist-ui/core";
+import MenuLayout, {IMenu} from "../Layouts/MenuLayout";
 
 const HomeLayout = () => {
     const homeMenu: IMenu[] = [
@@ -16,47 +16,16 @@ const HomeLayout = () => {
         {
             to: '/articles',
             children: 'Статьи',
-            label: {
-                text: 'Новинка',
-                type: 'success',
-                enable: true
-            },
         },
         {
             to: '/interviews',
             children: 'Собеседования',
-            label: {
-                text: 'Скоро',
-                type: 'secondary',
-                disabled: true,
-                enable: true
-            },
         },
-        // {
-        //     to: '/collections',
-        //     children: 'Коллекции',
-        //     label: {
-        //         text: 'Скоро',
-        //         type: 'secondary',
-        //         disabled: true,
-        //         enable: true
-        //     },
-        // },
-        // {
-        //     to: '/collections',
-        //     children: 'Менторы',
-        //     label: {
-        //         text: 'Скоро',
-        //         type: 'secondary',
-        //         disabled: true,
-        //         enable: true
-        //     },
-        // },
     ]
 
     return (
         <MenuLayout menu={homeMenu}>
-            <Outlet />
+            <Outlet/>
         </MenuLayout>
     );
 };

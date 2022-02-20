@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import MenuLayout from "../../../Layout/MenuLayout";
-import PageLayout from '../../../Layout/PageLayout';
+import MenuLayout from "../../../Layouts/MenuLayout";
+import PageLayout from '../../../Layouts/PageLayout';
 
 const AuthorSettingsLayout = () => {
     return (

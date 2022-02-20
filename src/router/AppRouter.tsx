@@ -3,7 +3,7 @@ import {Course, Courses, CoursesIndex, ForAuthor, Home, Layout, NoMatch} from ".
 import HomeLayout from "../components/Home/HomeLayout";
 import Videos from "../components/Videos";
 import Lessons from "../components/Lessons";
-import { AuthorCourse, AuthorCourses, AuthorHome, EditCourse, General } from "../components/Author";
+import {AuthorCourse, AuthorCourses, AuthorHome, EditCourse, General} from "../components/Author";
 import Settings from "../components/Author/components/AuthorCourses/components/AuthorCourse/components/Settings";
 import MentoringLayout from "../components/Author/components/Mentoring/MentoringLayout";
 import Mentoring from "../components/Author/components/Mentoring";
@@ -24,8 +24,12 @@ import AuthorArticlesLayout from '../components/Author/components/AuthorArticles
 import AuthorArticle from '../components/Author/components/AuthorArticles/components/AuthorArticle';
 import Articles from "../components/Articles";
 import Article from "../components/Articles/components/Article";
-import React from "react";
+import React, {Suspense} from "react";
 import AppLoader from "../components/shared/AppLoader";
+import Interview from "../components/Interviews";
+import InterviewsLayout from "../components/Interviews/InterviewsLayout";
+import Interviews from "../components/Interviews";
+import TodoList from "../components/RecoilTodo/TodoList";
 
 const AuthorCoursesLayout = React.lazy(() => import('../components/Author/components/AuthorCourses/AuthorCoursesLayout'));
 
@@ -55,10 +59,20 @@ const AppRouter = () => {
     return (
         <Routes>
             <Route path={appRoutes.home.path} element={<Layout/>}>
-                <Route element={<HomeLayout/>}>
-                    <Route index element={<Home/>}/>
+                <Route element={
+                    <HomeLayout/>
+                }>
+                    <Route index element={
+                        <Home/>
+                    }/>
                     <Route path={appRoutes.home.videos.path} element={<Videos/>}/>
                     <Route path={appRoutes.home.articles.path} element={<Articles/>}/>
+                    <Route path="interviews" element={<InterviewsLayout/>}>
+                        <Route index element={
+                            <Interviews/>
+                        }/>
+                    </Route>
+                    <Route path={"recoil-todo"} element={<TodoList/>}/>
                     <Route path={appRoutes.noMatch.path} element={<NoMatch/>}/>
                 </Route>
                 <Route path={appRoutes.home.courseDirection.path} element={<Courses/>}>
@@ -99,6 +113,7 @@ const AppRouter = () => {
                         <Route path="create" element={<AuthorArticle/>}/>
                         <Route path=":id/edit" element={<AuthorArticle/>}/>
                     </Route>
+
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
                 <Route path={'/account'} element={

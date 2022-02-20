@@ -34,7 +34,7 @@ const General = () => {
             ...selectedCourse,
             [`${key}`]: switchKeyData()
         }
-        debugger
+
         dispatch(setSelectedCourse(updateData));
     }
 
@@ -43,12 +43,6 @@ const General = () => {
             ? selectedCourse.tags.filter(t => t !== tag)
             : [...selectedCourse.tags, tag];
     };
-
-    const handleUpdateSocialAccounts = (social: ISocialInfo) => {
-        return selectedCourse.socialAccounts.some(s => s.id === social.id)
-            ? selectedCourse.socialAccounts.filter(s => s.id !== s.id)
-            : [...selectedCourse.socialAccounts, social];
-    }
 
     useEffect(() => {
         (async () => {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Tabs, Textarea, useTabs, Text, Input, Spacer } from '@geist-ui/core';
-import PageLayout from '../../../../Layout/PageLayout'
+import PageLayout from '../../../../Layouts/PageLayout'
 import MarkdownRender from '../../shared/MarkdownRender';
 import { useLocation } from 'react-router-dom';
 import { IArticle } from '../../../../../redux/slices/articlesSlice/articles.types';
