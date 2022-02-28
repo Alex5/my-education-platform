@@ -30,6 +30,7 @@ import Interview from "../components/Interviews";
 import InterviewsLayout from "../components/Interviews/InterviewsLayout";
 import Interviews from "../components/Interviews";
 import TodoList from "../components/RecoilTodo/TodoList";
+import ErrorBoundary from "../components/shared/ErrorBoundary";
 
 const AuthorCoursesLayout = React.lazy(() => import('../components/Author/components/AuthorCourses/AuthorCoursesLayout'));
 
@@ -113,7 +114,6 @@ const AppRouter = () => {
                         <Route path="create" element={<AuthorArticle/>}/>
                         <Route path=":id/edit" element={<AuthorArticle/>}/>
                     </Route>
-
                     <Route path="*" element={<NoMatch/>}/>
                 </Route>
                 <Route path={'/account'} element={

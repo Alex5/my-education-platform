@@ -13,7 +13,7 @@ const Video = () => {
     const [load, setLoad] = useState<boolean>(false);
 
     const dispatch = useDispatch();
-    const video = useSelector(getSelectedVideo);
+    const {embedLink, name, description} = useSelector(getSelectedVideo) || {};
 
     useEffect(() => {
         setLoad(true);
@@ -30,13 +30,13 @@ const Video = () => {
     }, [videoId])
 
     return (
-        <PageLayout title={video.name || ''}>
+        <PageLayout title={name}>
             <Grid.Container gap={2}>
                 <Grid xs={24}>
                     {load
                         ? <Loading/>
-                        : <iframe width="100%" height="590" src={video.embedLink}
-                                  title={video.name} frameBorder="0"
+                        : <iframe width="100%" height="590" src={embedLink}
+                                  title={name} frameBorder="0"
                                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                   allowFullScreen/>
                     }
@@ -45,7 +45,7 @@ const Video = () => {
                     <Fieldset>
                         <Fieldset.Title>Описание</Fieldset.Title>
                         <Fieldset.Subtitle>
-                            {video.description}
+                            {description}
                         </Fieldset.Subtitle>
                     </Fieldset>
                 </Grid>

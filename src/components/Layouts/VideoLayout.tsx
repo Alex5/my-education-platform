@@ -2,7 +2,7 @@ import React, {FC, Suspense} from 'react';
 import {Button, Description, Grid, Image, Link, Loading, Spacer, Tag, Text} from "@geist-ui/core";
 import styled from "styled-components";
 import Iframe from "../Author/components/shared/Iframe";
-import {Youtube} from "@geist-ui/react-icons";
+import {ArrowLeft, Youtube} from "@geist-ui/react-icons";
 import {useNavigate} from 'react-router-dom';
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 import {ISocialInfo} from "../Author/components/AuthorSocialMediaAccounts";
@@ -16,25 +16,24 @@ interface VideoLayoutProps {
     ownerId: string;
     tags: string[];
     socialAccounts: ISocialInfo[]
+    back?: boolean;
 }
 
-const VideoLayout: FC<VideoLayoutProps> = (
-    {
-        title,
-        headerActions,
-        cover,
-        accountId,
-        ownerId,
-        tags,
-        children,
-        socialAccounts
-    }) => {
+const VideoLayout: FC<VideoLayoutProps> = (props) => {
+    const {title, headerActions, cover, accountId} = props;
+    const {ownerId, tags, children, socialAccounts, back} = props;
 
     const navigate = useNavigate()
 
     return (
         <>
             <StyledVideoLayoutHeader>
+                {back && (
+                    <>
+                        <ArrowLeft cursor={'pointer'} onClick={() => navigate(-1)}/>
+                        <Spacer/>
+                    </>
+                )}
                 <Text h3 children={title}/>
                 <StyledHeaderActions>
                     {headerActions?.map((action, index) => <div key={index}>{action}</div>)}
@@ -48,7 +47,7 @@ const VideoLayout: FC<VideoLayoutProps> = (
                 <Grid xs={24} md={6} direction={"column"}>
                     <StyledBubble>
 
-                            <AuthorAccountPreview accountId={accountId} ownerId={ownerId}/>
+                        <AuthorAccountPreview accountId={accountId} ownerId={ownerId}/>
 
                     </StyledBubble>
                     <Spacer/>
@@ -97,8 +96,14 @@ const VideoLayout: FC<VideoLayoutProps> = (
 
 const StyledVideoLayoutHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #fafafa;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #eeeeee;
+  margin-bottom: 25px
 `
 
 const StyledHeaderActions = styled.div`

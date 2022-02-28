@@ -17,10 +17,6 @@ const HomeLayout = () => {
             to: '/articles',
             children: 'Статьи',
         },
-        {
-            to: '/interviews',
-            children: 'Собеседования',
-        },
     ]
 
     return (

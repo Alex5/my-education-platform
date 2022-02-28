@@ -21,10 +21,9 @@ const Header: FC = () => {
 
     return (
         <>
-            <StyledHeaderContanier isAuthorPages={isAuthorPages}>
+            <StyledHeaderContainer isAuthorPages={isAuthorPages}>
                 <StyledHeader author={author}>
                     <StyledHeaderContent>
-
                         <div style={{display: 'flex', alignItems: 'center'}}>
                             <Link to={"/"}>
                                 <Text style={{color: 'black', fontFamily: 'TTNormsBold'}} mb={0} mt={0} h4>
@@ -49,7 +48,7 @@ const Header: FC = () => {
                         <AuthBox/>
                     </StyledHeaderContent>
                 </StyledHeader>
-            </StyledHeaderContanier>
+            </StyledHeaderContainer>
             {isAuthorPages && (
                 <StyledAuthorTabsContainer isAuthorPages={isAuthorPages}>
                     <StyledAuthorTabs>
@@ -62,11 +61,11 @@ const Header: FC = () => {
     );
 };
 
-const StyledHeaderContanier = styled.div<{ isAuthorPages: boolean }>`
+const StyledHeaderContainer = styled.div<{ isAuthorPages: boolean }>`
   height: 80px;
   padding: 0 24px;
-  backdrop-filter: saturate(180%) blur(5px);
-  background-color: white;
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: ${props => props.isAuthorPages ? '' : '0 0 15px 0 rgb(0 0 0 / 10%)'};
   display: flex;
   flex-direction: column;
@@ -95,7 +94,8 @@ const StyledHeaderContent = styled.div`
 const StyledAuthorTabsContainer = styled.div<{ isAuthorPages: boolean }>`
   width: 100%;
   height: 48px;
-  background-color: white;
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.8);
   top: ${props => props.isAuthorPages ? '0' : ''};
   position: ${props => props.isAuthorPages ? 'sticky' : ''};
   z-index: 999;

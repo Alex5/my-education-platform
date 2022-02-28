@@ -3,7 +3,7 @@ import { createDraftSafeSelector, createSlice, PayloadAction } from "@reduxjs/to
 import { AuthorState, IAccount } from "./author.types";
 
 const initialState: AuthorState = {
-    selectedAccount: {} as IAccount,
+    selectedAccount: null,
     accounts: [],
 }
 

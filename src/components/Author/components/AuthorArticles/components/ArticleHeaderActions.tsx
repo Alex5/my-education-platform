@@ -41,7 +41,7 @@ const ArticleHeaderActions: FC<ArticleHeaderActionsProps> = ({
             title: title,
             content: content,
             ownerId: stateArticle.ownerId || user?.uid || '',
-            accountId: stateArticle?.accountId || selectedAccount.id,
+            accountId: selectedAccount ? selectedAccount.id : stateArticle?.accountId,
             published: stateArticle.published || false,
             sketch: sketch,
             createdAt: stateArticle.createdAt || Date.now(),

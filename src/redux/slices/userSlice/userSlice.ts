@@ -2,7 +2,6 @@ import { createDraftSafeSelector, createSlice, PayloadAction } from '@reduxjs/to
 import { RootState } from "../../store";
 import { IFirebaseUser, IUser } from "./types";
 import { IAccount } from "../authorSlice/author.types";
-import { User } from "firebase/auth";
 
 const initialState: IUser = {
     author: false,
@@ -10,7 +9,7 @@ const initialState: IUser = {
     loggedIn: false,
     uid: '',
     accounts: [],
-    firebaseUser: {} as IFirebaseUser,
+    firebaseUser: null,
     userLoading: false
 }
 

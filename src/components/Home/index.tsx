@@ -33,7 +33,7 @@ const Home: FC = () => {
            <NewCourses courseLimit={3}/>
            <Spacer h={5}/>
            <Text h4>Курсы по тегам</Text>
-           <Tags length={8}/>
+           <Tags maxTags={8}/>
            <Page.Content>
                <Text h1>Направления</Text>
                <Text>Все наши курсы разбиты по направлениям, выберите какое вам нравится.</Text>

@@ -21,7 +21,7 @@ const Interview = () => {
         <PageLayout>
             <Grid.Container>
                 {interviews.map(interview => (
-                    <Grid xs={3} md={24}>
+                    <Grid xs={24} md={8}>
                         <VideoCard video={interview}/>
                     </Grid>
                 ))}

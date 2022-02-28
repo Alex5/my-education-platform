@@ -1,4 +1,4 @@
-import {Suspense, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import * as Geist from "@geist-ui/core";
 import {AuthorRequests} from '../../../../api/authorRequests';
@@ -12,19 +12,23 @@ import SnipText from "../../../shared/SnipText";
 import AuthorAccountPreview from '../AuthorAccountPreview';
 import PageLayout from '../../../Layouts/PageLayout';
 import {nanoid} from 'nanoid';
-import AppLoader from "../../../shared/AppLoader";
 
 const AuthorCourses = () => {
-    const courses = useSelector(getCourses);
-    const [navigate, location] = [useNavigate(), useLocation()]
     const [addCourseModal, setAddCourseModal] = useState<boolean>(false);
     const [courseName, setCourseName] = useState<string>("");
     const [courseDirection, setCourseDirection] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [addCourseLoading, setAddCourseLoading] = useState<boolean>(false);
+
     const {author} = useSelector(getUser);
-    const {uid} = useSelector(getFirebaseUser);
+    const firebaseUser = useSelector(getFirebaseUser);
+    const courses = useSelector(getCourses);
+
+    const [navigate, location] = [useNavigate(), useLocation()]
+
     const dispatch = useDispatch();
+
+    const uid = firebaseUser ? firebaseUser.uid : '';
 
     const handleAddCourse = async () => {
         setAddCourseLoading(true)

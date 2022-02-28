@@ -170,7 +170,4 @@ export const PublicRequests = {
         const docSnap = await getDoc(docRef);
         return docSnap.data() as IAccount;
     },
-    async getVideosByTag() {
-
-    }
 }

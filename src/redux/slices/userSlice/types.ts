@@ -13,7 +13,7 @@ export interface IUser {
     loggedIn: boolean,
     uid: string,
     accounts: IAccount[];
-    firebaseUser: IFirebaseUser,
+    firebaseUser: IFirebaseUser | null,
     userLoading: boolean;
 }
 

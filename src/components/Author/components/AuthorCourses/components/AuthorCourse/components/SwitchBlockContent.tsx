@@ -21,8 +21,10 @@ interface Props {
 
 const SwitchBlockContent: FC<Props> = ({courseKey, data, handleUpdateState}) => {
     const [tagInput, setTagInput] = useState('');
-    const {id} = useSelector(getSelectedAccount);
+    const account = useSelector(getSelectedAccount);
     const user = useSelector(getFirebaseUser);
+
+    const id = account ? account.id : '';
 
     switch (courseKey) {
         case "accountId":

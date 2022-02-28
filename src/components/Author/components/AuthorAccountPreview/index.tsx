@@ -1,11 +1,11 @@
-import {Link, User} from '@geist-ui/core';
+import {Link, Spinner, User} from '@geist-ui/core';
 import React, {FC, Suspense} from 'react';
 import {snipText} from '../../../../services/helpers';
 import SnipText from '../../../shared/SnipText';
 import {useRecoilValue} from "recoil";
 import {authorAccountQuery} from "./selectors";
 
-interface AAPProps {
+interface P {
     ownerId: string
     accountId: string
     snipLength?: number;
@@ -13,7 +13,7 @@ interface AAPProps {
     updateAt?: number;
 }
 
-const AuthorAccountPreview: FC<AAPProps> = (props) => {
+const AuthorAccountPreview: FC<P> = (props) => {
     const {ownerId, accountId, disableLink, snipLength} = props;
 
     const AccountPreview = () => {
@@ -29,7 +29,7 @@ const AuthorAccountPreview: FC<AAPProps> = (props) => {
     }
 
     return (
-        <Suspense fallback={<span>downloading...</span>}>
+        <Suspense fallback={<Spinner />}>
             <AccountPreview/>
         </Suspense>
     );

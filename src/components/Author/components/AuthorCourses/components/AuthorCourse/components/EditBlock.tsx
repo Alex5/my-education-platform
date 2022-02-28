@@ -30,7 +30,9 @@ const EditBlock: FC<EditBlockProps> = (
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { setToast } = useToasts();
-    const { id } = useSelector(getSelectedAccount);
+    const account = useSelector(getSelectedAccount);
+
+    const id = account ? account.id : '';
 
     const handleUpdate = async (key: keyof ICourse, data: string | ITag[]) => {
         setLoading(true)
