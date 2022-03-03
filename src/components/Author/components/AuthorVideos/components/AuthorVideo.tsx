@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
-import {Badge, Card, Image, Popover, Spacer} from "@geist-ui/core";
+import {Card, Image} from "@geist-ui/core";
 import SnipText from "../../../../shared/SnipText";
-import {MoreVertical} from "@geist-ui/react-icons";
-import MenuContent from "./MenuContent";
-import {IVideo} from "../../../../../redux/slices/videosSlice/types";
 
 interface P {
     name: string;

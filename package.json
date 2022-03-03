@@ -1,6 +1,6 @@
 {
   "name": "education-platform",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "private": true,
   "dependencies": {
     "@geist-ui/core": "^2.3.0",
