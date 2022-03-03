@@ -26,7 +26,7 @@ const Footer = () => {
                 </StyledFooter>
             </StyledFooterContainer>
             <StyledSubFooter>
-                Выпущено под лицензией MIT.<Link block children={'Aleksei Ilin'}/>
+                Выпущено под лицензией MIT.<Link target={'_blank'} href={"https://github.com/Alex5"} block children={'Aleksei Ilin'}/>
             </StyledSubFooter>
         </>
 
