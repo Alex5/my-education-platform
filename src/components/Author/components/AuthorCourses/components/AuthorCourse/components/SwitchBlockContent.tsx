@@ -81,7 +81,7 @@ const SwitchBlockContent: FC<Props> = ({ courseKey, data, handleUpdateState }) =
             )
         case "socialAccounts":
             return (
-                <AuthorSocialMediaAccounts />
+                <AuthorSocialMediaAccounts existSocials={data} handleUpdateState={handleUpdateState}/>
             )
         default:
             return (

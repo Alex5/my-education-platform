@@ -1,5 +1,6 @@
 import firebase from "firebase/compat";
 import Timestamp = firebase.firestore.Timestamp;
+import {ISocialInfo} from "../../../components/Author/components/AuthorSocialMediaAccounts";
 
 export interface ITag {
     id: string,
@@ -18,7 +19,7 @@ export interface ICourse {
     cover: string;
     tags: string[];
     accountId: string;
-    socialAccounts: string[];
+    socialAccounts: ISocialInfo[];
 }
 
 export interface ICourseStatus {

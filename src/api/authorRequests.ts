@@ -5,9 +5,8 @@ import {
     query,
     where,
     deleteDoc,
-    addDoc,
     updateDoc,
-    writeBatch, getDoc, serverTimestamp, setDoc, Timestamp
+    writeBatch, getDoc, setDoc
 } from "firebase/firestore";
 import { db, firebaseApp } from "../fbconfig";
 import { getAuth } from "firebase/auth";

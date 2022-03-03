@@ -85,6 +85,7 @@ const Course = () => {
                 tags={selectedCourse.tags}
                 ownerId={selectedCourse.ownerId}
                 accountId={selectedCourse.accountId}
+                socialAccounts={selectedCourse.socialAccounts}
             >
                 <Fieldset>
                     <Fieldset.Title>Об этом курсе</Fieldset.Title>

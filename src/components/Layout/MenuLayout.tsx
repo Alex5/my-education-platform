@@ -70,12 +70,10 @@ const StyledSidebar = styled.nav`
 
   .active {
     font-weight: bold;
-    color: #0070F3;
-    background-color: #f7f7f7;
-    border: 1px solid #eeeeee;
+    color: #0070f3;
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
   }
-  
-  
 `
 
 export default MenuLayout;

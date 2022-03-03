@@ -57,24 +57,6 @@ export const PublicRequests = {
             return {} as ILesson;
         }
     },
-    async getLessons(courseId: string) {
-        const q = query(collection(db, "lessons"),
-            where("courseId", "==", courseId))
-
-        const querySnapshot = await getDocs(q);
-
-        const lessons: ILesson[] = [];
-
-        querySnapshot.forEach((doc) => {
-            lessons.push(doc.data() as ILesson);
-        });
-
-        if (lessons.length > 0) {
-            return lessons;
-        } else {
-            return [];
-        }
-    },
     async transformAccount(userId: string, status: string | number): Promise<IUser> {
         const userRef = doc(db, "users", userId);
 
