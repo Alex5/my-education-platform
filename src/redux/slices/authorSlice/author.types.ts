@@ -1,7 +1,7 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface AuthorState {
-    selectedAccount: IAccount,
+    selectedAccount: IAccount | null,
     accounts: IAccount[],
 }
 

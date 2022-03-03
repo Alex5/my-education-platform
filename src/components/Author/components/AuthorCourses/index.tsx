@@ -1,29 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import {useEffect, useState} from 'react';
+import {useLocation, useNavigate} from "react-router-dom";
 import * as Geist from "@geist-ui/core";
-import { AuthorRequests } from '../../../../api/authorRequests';
-import { useDispatch, useSelector } from "react-redux";
-import { getCourses, setCourses, setSelectedCourse } from "../../../../redux/slices/coursesSlice/coursesSlice";
-import { Button, Spacer } from "@geist-ui/core";
-import { ICourse } from "../../../../redux/slices/coursesSlice/types";
-import { getFirebaseUser, getUser } from "../../../../redux/slices/userSlice/userSlice";
-import { Select } from '@geist-ui/core';
+import {AuthorRequests} from '../../../../api/authorRequests';
+import {useDispatch, useSelector} from "react-redux";
+import {getCourses, setCourses, setSelectedCourse} from "../../../../redux/slices/coursesSlice/coursesSlice";
+import {Button, Spacer} from "@geist-ui/core";
+import {ICourse} from "../../../../redux/slices/coursesSlice/types";
+import {getFirebaseUser, getUser} from "../../../../redux/slices/userSlice/userSlice";
+import {Select} from '@geist-ui/core';
 import SnipText from "../../../shared/SnipText";
 import AuthorAccountPreview from '../AuthorAccountPreview';
-import PageLayout from '../../../Layout/PageLayout';
-import { nanoid } from 'nanoid';
+import PageLayout from '../../../Layouts/PageLayout';
+import {nanoid} from 'nanoid';
 
 const AuthorCourses = () => {
-    const courses = useSelector(getCourses);
-    const [navigate, location] = [useNavigate(), useLocation()]
     const [addCourseModal, setAddCourseModal] = useState<boolean>(false);
     const [courseName, setCourseName] = useState<string>("");
     const [courseDirection, setCourseDirection] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [addCourseLoading, setAddCourseLoading] = useState<boolean>(false);
-    const { author } = useSelector(getUser);
-    const { uid } = useSelector(getFirebaseUser);
+
+    const {author} = useSelector(getUser);
+    const firebaseUser = useSelector(getFirebaseUser);
+    const courses = useSelector(getCourses);
+
+    const [navigate, location] = [useNavigate(), useLocation()]
+
     const dispatch = useDispatch();
+
+    const uid = firebaseUser ? firebaseUser.uid : '';
 
     const handleAddCourse = async () => {
         setAddCourseLoading(true)
@@ -78,17 +83,17 @@ const AuthorCourses = () => {
         ]}>
             <Geist.Grid.Container gap={2}>
                 {loading
-                    ? <Geist.Loading style={{ height: '200px' }} />
+                    ? <Geist.Loading style={{height: '200px'}}/>
                     : courses.length > 0
                         ? courses.map(course =>
                             <Geist.Grid key={course.courseId} xs={24} sm={12} md={8}>
                                 <Geist.Card
-                                    style={{ cursor: 'pointer' }} hoverable width="100%"
+                                    style={{cursor: 'pointer'}} hoverable width="100%"
                                     onClick={handleSelectCourse(course)}
                                 >
-                                    <SnipText h4 text={course.name} />
-                                    <Geist.Divider />
-                                    <Geist.Spacer />
+                                    <SnipText h4 text={course.name}/>
+                                    <Geist.Divider/>
+                                    <Geist.Spacer/>
                                     <Geist.Description
                                         title={"Статус"}
                                         content={course.published
@@ -96,16 +101,19 @@ const AuthorCourses = () => {
                                             : <Geist.Dot>черновик</Geist.Dot>
                                         }
                                     />
-                                    <Geist.Spacer h={1} />
+                                    <Geist.Spacer h={1}/>
                                     <Geist.Description
                                         title={"Автор"}
                                         content={
-                                            <AuthorAccountPreview ownerId={course.ownerId} accountId={course.accountId} />
-                                        } />
+
+                                                <AuthorAccountPreview ownerId={course.ownerId}
+                                                                      accountId={course.accountId}/>
+
+                                        }/>
                                 </Geist.Card>
                             </Geist.Grid>)
                         : <Geist.Grid xs={24} alignItems="center" justify="center">
-                            <Geist.Text children={"Нет курсов"} />
+                            <Geist.Text children={"Нет курсов"}/>
                         </Geist.Grid>
                 }
 
@@ -118,7 +126,7 @@ const AuthorCourses = () => {
                             onChange={e => setCourseName(e.target.value)}
                             width={"100%"}
                         />
-                        <Spacer />
+                        <Spacer/>
                         <Select
                             width={"100%"}
                             placeholder="Выберите направление"
@@ -135,7 +143,8 @@ const AuthorCourses = () => {
                         </Select>
                     </Geist.Modal.Content>
                     <Geist.Modal.Action passive onClick={() => setAddCourseModal(false)}>Отменить</Geist.Modal.Action>
-                    <Geist.Modal.Action loading={addCourseLoading} onClick={handleAddCourse}>Сохранить</Geist.Modal.Action>
+                    <Geist.Modal.Action loading={addCourseLoading}
+                                        onClick={handleAddCourse}>Сохранить</Geist.Modal.Action>
                 </Geist.Modal>
             </Geist.Grid.Container>
         </PageLayout>

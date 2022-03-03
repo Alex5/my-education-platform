@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
-import { setFirebaseUser, setUser, setUserLoading } from "./redux/slices/userSlice/userSlice";
-import { getAuth } from "firebase/auth"
+import React, {Suspense, useEffect, useState} from 'react';
+import {useDispatch} from "react-redux";
+import {setFirebaseUser, setUser, setUserLoading} from "./redux/slices/userSlice/userSlice";
+import {getAuth} from "firebase/auth"
 import AppRouter from "./router/AppRouter";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { GeistProvider, CssBaseline } from '@geist-ui/core'
-import { firebaseApp } from "./fbconfig";
-import { AuthRequests } from "./api/authRequests";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {GeistProvider, CssBaseline} from '@geist-ui/core'
+import {firebaseApp} from "./fbconfig";
+import {AuthRequests} from "./api/authRequests";
 import AppLoader from './components/shared/AppLoader';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
                 displayName: user.displayName || ''
             }))
 
-            const { uid } = user;
+            const {uid} = user;
 
             dispatch(setUserLoading(true));
             const userExist = await AuthRequests.checkUserExist(uid);
@@ -38,18 +38,19 @@ function App() {
     }
 
     const [themeType, setThemeType] = useState('light')
-    const switchThemes = () =>  setThemeType(last => (last === 'dark' ? 'light' : 'dark'));
+    const switchThemes = () => setThemeType(last => (last === 'dark' ? 'light' : 'dark'));
 
     useEffect(() => {
         handleUserLoading()
     }, [user])
 
-    return loading
-        ? <AppLoader />
-        : <GeistProvider themeType={themeType}>
-            <CssBaseline />
-            <AppRouter />
-        </GeistProvider>;
+    return (
+        <GeistProvider themeType={themeType}>
+            <CssBaseline/>
+            <AppRouter/>
+        </GeistProvider>
+    )
+
 }
 
 export default App;

@@ -6,12 +6,13 @@ import { getVideos, setVideos } from "../../redux/slices/videosSlice";
 import { useNavigate } from "react-router-dom";
 import SnipText from "../shared/SnipText";
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
+import VideoCard from "./Components/shared/VideoCard";
 
 const Videos = () => {
     const dispatch = useDispatch();
     const videos = useSelector(getVideos);
 
-    const navigate = useNavigate();
+
 
     useEffect(() => {
         (async () => {
@@ -25,12 +26,7 @@ const Videos = () => {
         <Grid.Container gap={2}>
             {videos && videos.map(video => (
                 <Grid xs={24} md={8} key={video.videoId}>
-                    <Card onClick={() => navigate(`/videos/${video.videoId}`)} style={{ cursor: 'pointer' }} hoverable>
-                        <Image height={"155px"} width={"100%"} src={video.cover} />
-                        <SnipText h5 text={video.name} />
-                        <Divider />
-                        <AuthorAccountPreview ownerId={video.ownerId} accountId={video.accountId} />
-                    </Card>
+                    <VideoCard video={video}/>
                 </Grid>
             ))}
         </Grid.Container>

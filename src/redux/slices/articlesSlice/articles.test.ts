@@ -1,7 +1,7 @@
 import reducer, {setArticles} from './articles.slice'
 import {ArticlesState, IArticle} from "./articles.types";
 
-test('should add articles array to state', () => {
+test('should add articles to state', () => {
     const previousState: ArticlesState = {
         articles: []
     }

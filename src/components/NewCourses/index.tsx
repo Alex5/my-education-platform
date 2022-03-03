@@ -1,18 +1,19 @@
-import { FC, ReactNode, useEffect, useState } from 'react';
-import { ICourse } from "../../redux/slices/coursesSlice/types";
-import { PublicRequests } from "../../api/publicRequests";
+import {FC, ReactNode, Suspense, useEffect, useState} from 'react';
+import {ICourse} from "../../redux/slices/coursesSlice/types";
+import {PublicRequests} from "../../api/publicRequests";
 import styled from "styled-components";
-import { Grid, Spacer } from "@geist-ui/core";
-import { useNavigate } from "react-router-dom";
+import {Grid, Spacer} from "@geist-ui/core";
+import {useNavigate} from "react-router-dom";
 import AuthorAccountPreview from '../Author/components/AuthorAccountPreview';
 import SnipText from '../shared/SnipText';
-import ContentLoader, { IContentLoaderProps } from "react-content-loader"
+import ContentLoader, {IContentLoaderProps} from "react-content-loader"
+import AppLoader from "../shared/AppLoader";
 
 interface NewCoursesProps {
     courseLimit: number
 }
 
-const NewCourses: FC<NewCoursesProps> = ({ courseLimit }) => {
+const NewCourses: FC<NewCoursesProps> = ({courseLimit}) => {
     const [newCourses, setNewCourses] = useState<ICourse[]>([]);
     const [newCoursesLoad, setNewCoursesLoad] = useState<boolean>(false);
 
@@ -28,11 +29,11 @@ const NewCourses: FC<NewCoursesProps> = ({ courseLimit }) => {
             foregroundColor="#ffffff"
             {...props}
         >
-            <circle cx="49" cy="83" r="42" />
-            <rect x="101" y="46" rx="0" ry="0" width="184" height="20" />
-            <circle cx="121" cy="105" r="20" />
-            <rect x="155" y="86" rx="0" ry="0" width="130" height="15" />
-            <rect x="156" y="110" rx="0" ry="0" width="130" height="13" />
+            <circle cx="49" cy="83" r="42"/>
+            <rect x="101" y="46" rx="0" ry="0" width="184" height="20"/>
+            <circle cx="121" cy="105" r="20"/>
+            <rect x="155" y="86" rx="0" ry="0" width="130" height="15"/>
+            <rect x="156" y="110" rx="0" ry="0" width="130" height="13"/>
         </ContentLoader>
     )
 
@@ -49,38 +50,41 @@ const NewCourses: FC<NewCoursesProps> = ({ courseLimit }) => {
         <Grid.Container gap={1}>
             {newCoursesLoad
                 ? <>
-                    <NewCourseLoader />
-                    <NewCourseLoader />
-                    <NewCourseLoader />
+                    <NewCourseLoader/>
+                    <NewCourseLoader/>
+                    <NewCourseLoader/>
                 </>
                 : newCourses && newCourses.map(course => (
-                    <Grid md={8} xs={24} key={course.courseId}>
-                        <StyledNewCourse onClick={() => navigate(`${course.direction}/${course.courseId}`)}>
-                            {course.cover.length > 0 && (
-                                <div>
-                                    <StyledNewCourseImage>
-                                        <img src={course.cover} alt={`Обложка курса ${course.name}`} />
-                                    </StyledNewCourseImage>
-                                    <Spacer />
-                                </div>
-                            )}
-                            <Spacer />
-                            <StyledNewCourseBody>
-                                <div>
-                                    <SnipText length={15} h5 text={course.name} />
-                                </div>
-                                <div>
+                <Grid md={8} xs={24} key={course.courseId}>
+                    <StyledNewCourse onClick={() => navigate(`${course.direction}/${course.courseId}`)}>
+                        {course.cover.length > 0 && (
+                            <div>
+                                <StyledNewCourseImage>
+                                    <img src={course.cover} alt={`Обложка курса ${course.name}`}/>
+                                </StyledNewCourseImage>
+                                <Spacer/>
+                            </div>
+                        )}
+                        <Spacer/>
+                        <StyledNewCourseBody>
+                            <div>
+                                <SnipText length={15} h5 text={course.name}/>
+                            </div>
+                            <div>
+
                                     <AuthorAccountPreview
                                         snipLength={15}
                                         ownerId={course.ownerId}
                                         accountId={course.accountId}
                                         disableLink
                                     />
-                                </div>
-                            </StyledNewCourseBody>
-                        </StyledNewCourse>
-                    </Grid>
-                ))
+
+
+                            </div>
+                        </StyledNewCourseBody>
+                    </StyledNewCourse>
+                </Grid>
+            ))
             }
         </Grid.Container>
     );
@@ -102,8 +106,8 @@ const StyledNewCourse = styled.div`
 `
 
 const StyledNewCourseImage = styled.div`
-    height: 100%;
-    width: 100px;
+  height: 100%;
+  width: 100px;
 
   img {
     object-fit: cover;
@@ -114,9 +118,9 @@ const StyledNewCourseImage = styled.div`
 `
 
 const StyledNewCourseBody = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
 export default NewCourses;

@@ -23,7 +23,7 @@ import { UserRequests } from "../../../api/userRequests";
 import { AnalyticsLogs } from "../../../services/analytics";
 import styled from "styled-components";
 import { Heart, Youtube } from "@geist-ui/react-icons";
-import VideoLayout from "../../Layout/VideoLayout";
+import VideoLayout from "../../Layouts/VideoLayout";
 
 const Course = () => {
     const [load, setLoad] = useState(false);

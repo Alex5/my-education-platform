@@ -5,7 +5,7 @@ import {IVideo, IVideoState} from "./types";
 const initialState: IVideoState = {
     videos: [],
     authorVideos: [],
-    selectedVideo: {} as IVideo
+    selectedVideo: null
 }
 
 export const videosSlice = createSlice({

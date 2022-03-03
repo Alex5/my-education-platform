@@ -12,10 +12,11 @@ import { AuthorRequests } from "../../../../api/authorRequests";
 
 interface AuthorAccountsSelectProps {
     accountId?: string;
-    onChange?: () => void
+    onChange?: () => void;
+    type?: string;
 }
 
-const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChange }) => {
+const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = (props, { accountId, onChange, type }) => {
     const accounts = useSelector(getAccounts);
     const selectedAccount = useSelector(getSelectedAccount);
 
@@ -25,13 +26,11 @@ const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChan
 
     const handleSetAccount = (accountId: string | string[]) => {
         if (typeof accountId === "string") {
-            const account = accounts.find(account => account.id === accountId) || {} as IAccount;
-            dispatch(setSelectedAccount(account));
+            const account = accounts.find(account => account.id === accountId);
+            account && dispatch(setSelectedAccount(account))
             onChange && onChange();
         }
     }
-
-    const accountExist = accounts.find(account => account.id === accountId);
 
     useEffect(() => {
         (async () => {
@@ -52,9 +51,12 @@ const AuthorAccountsSelect: FC<AuthorAccountsSelectProps> = ({ accountId, onChan
                 ? <Loading />
                 : (
                     <Select
+                        {...props}
+                        type={type}
+                        width={'100%'}
                         onChange={handleSetAccount}
                         placeholder="Выберите аккаунт для привязки"
-                        value={accountExist ? accountExist.id : selectedAccount.id}
+                        value={selectedAccount ? selectedAccount.id : accountId}
                     >
                         {accounts && accounts.map(account => (
                             <Select.Option key={account.id} value={account.id}>{account.name}</Select.Option>

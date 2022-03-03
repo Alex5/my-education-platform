@@ -5,6 +5,8 @@ import telegramIcon from '../assets/social-icons/telegram.svg';
 import instagramIcon from '../assets/social-icons/instagram.svg';
 import {ISocialInfo} from '../components/Author/components/AuthorSocialMediaAccounts';
 import {nanoid} from "nanoid";
+import {useDispatch, useSelector} from "react-redux";
+import {getVideos} from "../redux/slices/videosSlice";
 
 export const snipText = (text: string, length?: number): string => {
     return text ?
@@ -36,7 +38,6 @@ export const courseDeclinations = (size: number) => {
                     ? 'курсов'
                     : ''
 }
-
 
 export const getSocialInfo = (link: string): ISocialInfo => {
     const github = link.includes('github.com');
@@ -95,4 +96,8 @@ export const getSocialInfo = (link: string): ISocialInfo => {
                 id: ''
             };
     }
+};
+
+export const injectEmbedLink = (iframe: string) => {
+
 }

@@ -1,5 +1,5 @@
 export {default as Breadcrumbs} from './Breadcrumbs';
-export {default as Layout} from './Layout';
+export {default as Layout} from './Layouts';
 export {default as Home} from './Home';
 export {default as NoMatch} from './NoMatch';
 export {default as Header} from './Header';

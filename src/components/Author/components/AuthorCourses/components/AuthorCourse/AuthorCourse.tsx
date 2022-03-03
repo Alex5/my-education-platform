@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {getSelectedCourse, setSelectedCourse} from "../../../../../../redux/slices/coursesSlice/coursesSlice";
 import {AuthorRequests} from "../../../../../../api/authorRequests";
-import PageLayout from "../../../../../Layout/PageLayout";
+import PageLayout from "../../../../../Layouts/PageLayout";
 
 
 const AuthorCourse = () => {

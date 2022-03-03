@@ -1,12 +1,12 @@
-import { collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit, setDoc } from "firebase/firestore";
-import { EStatus } from "../redux/enums";
-import { IYouTubeComment } from "../components/Testimonials/types";
-import { ICourse, ILesson } from "../redux/slices/coursesSlice/types";
-import { IUser } from "../redux/slices/userSlice/types";
-import { db } from "../fbconfig";
-import { IArticle } from "../redux/slices/articlesSlice/articles.types";
-import { Collections } from "./types";
-import { IAccount } from "../redux/slices/authorSlice/author.types";
+import {collection, getDocs, query, where, doc, getDoc, updateDoc, orderBy, limit, setDoc} from "firebase/firestore";
+import {EStatus} from "../redux/enums";
+import {IYouTubeComment} from "../components/Testimonials/types";
+import {ICourse, ILesson} from "../redux/slices/coursesSlice/types";
+import {IUser} from "../redux/slices/userSlice/types";
+import {db} from "../fbconfig";
+import {IArticle} from "../redux/slices/articlesSlice/articles.types";
+import {Collections} from "./types";
+import {IAccount} from "../redux/slices/authorSlice/author.types";
 
 export const PublicRequests = {
     async getCourse(courseId: string): Promise<ICourse> {
@@ -169,5 +169,5 @@ export const PublicRequests = {
         const docRef = doc(db, `users/${uid}/accounts`, accountId);
         const docSnap = await getDoc(docRef);
         return docSnap.data() as IAccount;
-    }
+    },
 }

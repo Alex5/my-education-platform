@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthorRequests } from "../../../../api/authorRequests";
 import { IArticle } from "../../../../redux/slices/articlesSlice/articles.types";
 import { getFirebaseUser } from "../../../../redux/slices/userSlice/userSlice";
-import PageLayout from "../../../Layout/PageLayout";
+import PageLayout from "../../../Layouts/PageLayout";
 
 
 const AuthorArticles = () => {
@@ -32,7 +32,7 @@ const AuthorArticles = () => {
             <Grid.Container gap={2}>
                 {authorArticles?.length > 0
                     ? authorArticles.map(article => (
-                        <Grid xs={24} md={8}>
+                        <Grid key={article.id} xs={24} md={8}>
                             <Card
                                 onClick={() => navigate(`/author/articles/${article.id}/edit`, { state: article })} hoverable
                                 width={'100%'}
