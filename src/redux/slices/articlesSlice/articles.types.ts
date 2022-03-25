@@ -10,7 +10,7 @@ export interface IArticle {
     id: string | null;
     accountId: string;
     ownerId: string;
-    published: boolean;
-    createdAt: number;
+    published: boolean | null;
+    createdAt: number | null;
     sketch: string;
 }

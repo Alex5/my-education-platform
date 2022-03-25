@@ -137,7 +137,7 @@ export const PublicRequests = {
             return [];
         }
     },
-    async getArticles() {
+    async getArticles(): Promise<IArticle[]> {
         const q = query(collection(db, Collections.ARTICLES), where("published", "==", true))
 
         const querySnapshot = await getDocs(q);
@@ -155,15 +155,14 @@ export const PublicRequests = {
         }
     },
     async getArticleById(articleId: string): Promise<IArticle> {
-        const articleRef = doc(db, Collections.ARTICLES, articleId);
-        const articleSnap = await getDoc(articleRef);
-
-        if (articleSnap.exists()) {
+        try {
+            const articleRef = doc(db, Collections.ARTICLES, articleId);
+            const articleSnap = await getDoc(articleRef);
             return articleSnap.data() as IArticle;
-        } else {
-            return {} as IArticle;
+        } catch (e) {
+            console.log(e)
+            return <IArticle>{};
         }
-
     },
     async getAuthorAccount(uid: string, accountId: string): Promise<IAccount> {
         const docRef = doc(db, `users/${uid}/accounts`, accountId);

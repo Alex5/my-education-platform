@@ -1,13 +1,11 @@
 import {Button, Image, Fieldset, Grid, Input, Modal, Spacer, useModal, Card} from '@geist-ui/core';
-import {Suspense, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {AuthorRequests} from "../../../../api/authorRequests";
 import {useDispatch, useSelector} from "react-redux";
 import {getAccounts, getFirebaseUser, setAccounts} from "../../../../redux/slices/userSlice/userSlice";
 import {IAccount} from "../../../../redux/slices/authorSlice/author.types";
 import {updateObjectProp} from "../../../../services/helpers";
 import AuthorAccountPreview from '../AuthorAccountPreview';
-import AppLoader from "../../../shared/AppLoader";
-
 
 const Settings = () => {
     const accounts = useSelector(getAccounts);
@@ -63,7 +61,7 @@ const Settings = () => {
                 <Fieldset.Subtitle>
                     <Grid.Container gap={1}>
                         {accounts && accounts.map(account => (
-                            <Grid xs={8}>
+                            <Grid xs={24} md={8}>
                                 <Card
                                     onClick={() => openAccountModal(account.id)}
                                     style={{cursor: "pointer"}}

@@ -9,7 +9,6 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useSelector } from "react-redux";
 import { getFirebaseUser } from "../../redux/slices/userSlice/userSlice";
 
-
 const AuthBox: FC = () => {
     const user = useSelector(getFirebaseUser);
     const userExist = user && Object.keys(user).length > 0;

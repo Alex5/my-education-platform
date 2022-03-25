@@ -1,56 +1,42 @@
-import React, {FC, useEffect, useState} from 'react';
+import {FC, Suspense} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {Grid, Spinner} from "@geist-ui/core";
-import {PublicRequests} from "../../api/publicRequests";
 import {snipText} from "../../services/helpers";
-import {Card} from "@geist-ui/core";
+import {Card, Grid, Loading} from "@geist-ui/core";
+import {useRecoilValue} from "recoil";
+import {tagsQuery} from "./selectors";
 
 interface TagsProps {
     maxTags?: number;
 }
 
 const Tags: FC<TagsProps> = ({maxTags}) => {
-    const [tags, setTags] = useState<string[]>([]);
-    const [load, setLoad] = useState<boolean>(false);
+    const TagsComponent = () => {
+        const tags = useRecoilValue(tagsQuery);
+        const uniqTags = Array.from(new Set([...tags])).slice(0, maxTags);
 
-    const [location, navigate] = [useLocation(), useNavigate()];
+        const [location, navigate] = [useLocation(), useNavigate()];
 
-    const navigateToTag = (tag: string) => {
-        const path = location.pathname.includes('tags') ? tag : `tags/${tag}`;
-        return () => navigate(path, {replace: true});
-    }
-
-    useEffect(() => {
-        try {
-            setLoad(true);
-            PublicRequests.getTags().then(tags => {
-                const uniqTags = new Set([...tags])
-
-                setTags(maxTags ? Array.from(uniqTags).slice(0, maxTags) : Array.from(uniqTags));
-                setLoad(false);
-            })
-        } catch (e) {
-            alert(e)
-            setLoad(false);
+        const navigateToTag = (tag: string) => {
+            const path = location.pathname.includes('tags') ? tag : `tags/${tag}`;
+            return () => navigate(path, {replace: true});
         }
 
-    }, [maxTags])
+        return (
+            <Grid.Container gap={1}>
+                {uniqTags?.map(tag => (
+                    <Grid key={tag}>
+                        <Card style={{cursor: 'pointer'}} hoverable onClick={navigateToTag(tag)}>
+                            <Card.Content padding={0.3}>
+                                {snipText(tag, 10)}
+                            </Card.Content>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid.Container>
+        );
+    }
 
-    return (
-        <Grid.Container gap={1}>
-            {load
-                ? <Spinner/>
-                : tags && tags.map(tag => (
-                <Grid key={tag}>
-                    <Card style={{cursor: 'pointer'}} hoverable onClick={navigateToTag(tag)}>
-                        <Card.Content padding={0.3}>
-                            {snipText(tag, 10)}
-                        </Card.Content>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid.Container>
-    );
+    return <Suspense fallback={<Loading/>} children={<TagsComponent/>}/>
 };
 
 export default Tags;

@@ -6,6 +6,7 @@
     "@geist-ui/core": "^2.3.0",
     "@geist-ui/react-icons": "^1.0.1",
     "@reduxjs/toolkit": "^1.7.1",
+    "@supabase/supabase-js": "^1.31.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

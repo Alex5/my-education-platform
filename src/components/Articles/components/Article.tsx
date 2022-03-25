@@ -1,33 +1,32 @@
-import {useLocation} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import styled from 'styled-components';
-import {IArticle} from '../../../redux/slices/articlesSlice/articles.types';
 import AuthorAccountPreview from '../../Author/components/AuthorAccountPreview';
 import MarkdownRender from '../../Author/components/shared/MarkdownRender';
 import PageLayout from '../../Layouts/PageLayout';
-import ErrorBoundary from "../../shared/ErrorBoundary";
+import {useRecoilValueLoadable} from "recoil";
+import {articleQuery} from "../selectors";
+import {Spinner} from "@geist-ui/core";
+import {NoMatch} from "../../index";
 
 const Article = () => {
-    const ArticleComponent = () => {
-        const location = useLocation();
+    const {articleId} = useParams<"articleId">();
+    const {state, contents} = useRecoilValueLoadable(articleQuery(articleId || ''));
 
-        const article = location.state as IArticle;
-
-        if (!article) {
-            throw new Error('Нет статьи')
-        }
-
-        return (
-            <PageLayout title={article.title}>
-                <StyledArticleHeader>
-                    <AuthorAccountPreview ownerId={article.ownerId} accountId={article.accountId}/>
-                </StyledArticleHeader>
-                <MarkdownRender markdownString={article.content}/>
-            </PageLayout>
-
-        )
+    switch (state) {
+        case 'hasValue':
+            return (
+                <PageLayout title={contents.title}>
+                    <StyledArticleHeader>
+                        <AuthorAccountPreview ownerId={contents.ownerId} accountId={contents.accountId || ''}/>
+                    </StyledArticleHeader>
+                    <MarkdownRender markdownString={contents.content}/>
+                </PageLayout>
+            )
+        case 'loading':
+            return <Spinner/>;
+        case 'hasError':
+            throw  <NoMatch/>;
     }
-
-    return <ErrorBoundary children={<ArticleComponent/>}/>
 };
 
 const StyledArticleHeader = styled.div`
