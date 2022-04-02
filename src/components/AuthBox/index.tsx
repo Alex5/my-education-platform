@@ -1,61 +1,20 @@
-import React, { FC } from 'react';
-import { Avatar, Button, Popover, Spacer, useMediaQuery } from "@geist-ui/core";
-import HeaderMenu from "../Header/components/HeaderMenu";
-import googleLogo from "../../assets/GoogleLogo.svg";
-import PanelButton from "../Header/components/PanelButton";
-import styled from "styled-components";
-import { getAuth } from 'firebase/auth';
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useSelector } from "react-redux";
-import { getFirebaseUser } from "../../redux/slices/userSlice/userSlice";
+import {useMetaMask} from "metamask-react";
+import {Button} from "@geist-ui/core";
 
-const AuthBox: FC = () => {
-    const user = useSelector(getFirebaseUser);
-    const userExist = user && Object.keys(user).length > 0;
+const AuthBox = () => {
+    const { status, connect, account, chainId, ethereum } = useMetaMask();
 
-    const auth = getAuth();
-    const [signInWithGoogle] = useSignInWithGoogle(auth);
+    if (status === "initializing") return <div>Synchronisation with MetaMask ongoing...</div>
 
-    const upMD = useMediaQuery('md', { match: 'up' })
+    if (status === "unavailable") return <div>MetaMask not available :(</div>
 
-    return (
-        userExist
-            ? (
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    {upMD
-                        ? <>
-                            <PanelButton />
-                            <Spacer />
-                        </>
-                        : <></>
-                    }
-                    <Popover
-                        placement={"bottomEnd"}
-                        style={{ cursor: 'pointer' }}
-                        content={<HeaderMenu />}
-                    >
-                        <Avatar scale={1.8} src={user.photoURL || ''} />
-                    </Popover>
-                </div>
-            )
-            : (
-                <StyledActions>
-                    <Button
-                        auto
-                        onClick={() => signInWithGoogle()}
-                        icon={<img
-                            height={"17px"}
-                            src={googleLogo}
-                            alt="Google Logo" />}
-                    />
-                </StyledActions>
-            )
-    );
+    if (status === "notConnected") return <Button onClick={connect}>Connect to MetaMask</Button>
+
+    if (status === "connecting") return <div>Connecting...</div>
+
+    if (status === "connected") return <div>{account}</div>
+
+    return null;
 };
-
-const StyledActions = styled.div`
-  display: flex;
-  align-items: center;
-`
 
 export default AuthBox;
