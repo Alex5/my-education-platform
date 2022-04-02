@@ -46,7 +46,7 @@ REACT_APP_YOUTUBE_API_KEY=YOUR YOUTUBE_API_KEY
 Если вы настроили свой проект firebase ознакомтесь с документацией по развёртывание проекта: [Firebase hosting quickstart](https://firebase.google.com/docs/hosting/quickstart/)
 
 ## Built With
-* [React 17](https://ru.reactjs.org/)
+* [React 18](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html)
 * [Redux Toolkit](https://redux-toolkit.js.org/) (Не используется с версии 1.1.0, вместо него [Recoil](https://recoiljs.org/))
 * [React Router 6](https://reactrouter.com/)
 * [Styled Components](https://styled-components.com/)
