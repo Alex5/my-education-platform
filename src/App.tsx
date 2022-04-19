@@ -7,12 +7,23 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {GeistProvider, CssBaseline} from '@geist-ui/core'
 import {firebaseApp} from "./fbconfig";
 import {AuthRequests} from "./api/authRequests";
-import AppLoader from './components/shared/AppLoader';
+
+import {useQuery, gql} from "@apollo/client";
+
 
 function App() {
     const dispatch = useDispatch();
     const auth = getAuth(firebaseApp);
     const [user, loading] = useAuthState(auth);
+    const {error, data} = useQuery(gql(`
+        query {
+            applications {
+                id, name, description
+            }   
+        }                                  
+    `));
+
+    console.log(data, error);
 
     const handleUserLoading = async () => {
         if (user) {
@@ -47,7 +58,7 @@ function App() {
     return (
         <GeistProvider themeType={themeType}>
             <CssBaseline/>
-            <AppRouter/>
+            <AppRouter/>,
         </GeistProvider>
     )
 

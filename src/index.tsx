@@ -6,7 +6,7 @@ import {Provider} from 'react-redux'
 import './index.css'
 
 import {RecoilRoot} from 'recoil';
-import { StrictMode } from 'react';
+import React, { StrictMode } from 'react';
 import { MetaMaskProvider } from 'metamask-react';
 
 const container = document.getElementById('root');
@@ -23,7 +23,7 @@ root.render(
             <MetaMaskProvider>
                 <Provider store={store}>
                     <RecoilRoot>
-                        <App/>
+                            <App/>
                     </RecoilRoot>
                 </Provider>
             </MetaMaskProvider>
